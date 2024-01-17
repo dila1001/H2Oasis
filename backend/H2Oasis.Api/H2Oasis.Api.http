@@ -1,0 +1,6 @@
+@H2Oasis.Api_HostAddress = http://localhost:5178
+
+GET {{H2Oasis.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
