@@ -1,12 +1,21 @@
 import { FC } from 'react';
+import { getDaysLeft, getPercentage } from '../../utils/date';
 
 type PlantCardProps = {
   name: string;
   species: string;
   imageUrl: string;
+  lastWatered: string;
+  waterFrequency: string;
 };
 
-const PlantCard: FC<PlantCardProps> = ({ name, species, imageUrl }) => {
+const PlantCard: FC<PlantCardProps> = ({
+  name,
+  species,
+  imageUrl,
+  lastWatered,
+  waterFrequency,
+}) => {
   return (
     <div className='card bg-base-100 shadow-md my-6 flex-row'>
       <div className='max-h-48 w-1/4 overflow-hidden rounded-tl-2xl rounded-bl-2xl'>
@@ -23,10 +32,15 @@ const PlantCard: FC<PlantCardProps> = ({ name, species, imageUrl }) => {
           {/* <button className='btn btn-secondary'>Buy Now</button> */}
           <div
             className='radial-progress text-success'
-            style={{ '--value': 70 }}
+            style={{
+              '--value': getPercentage(
+                getDaysLeft(lastWatered, parseInt(waterFrequency, 10)),
+                parseInt(waterFrequency, 10)
+              ),
+            }}
             role='progressbar'
           >
-            2
+            {getDaysLeft(lastWatered, parseInt(waterFrequency, 10))}
           </div>
         </div>
       </div>

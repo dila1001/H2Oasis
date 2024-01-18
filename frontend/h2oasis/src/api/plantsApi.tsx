@@ -7,6 +7,7 @@ export type Plant = {
   imageUrl: string;
   wateringFrequencyInDays: string;
   lastWatered: string;
+  waterAmount: string;
 };
 
 export type NewPlant = {
@@ -15,6 +16,7 @@ export type NewPlant = {
   imageUrl: string;
   wateringFrequencyInDays: string;
   lastWatered: string;
+  waterAmount: string;
 };
 
 const plantsApi = axios.create({

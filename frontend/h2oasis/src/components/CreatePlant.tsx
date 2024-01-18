@@ -10,6 +10,7 @@ type FormData = {
   imageUrl: string;
   wateringFrequencyInDays: string;
   lastWatered: string;
+  waterAmount: string;
 };
 
 const CreatePlant = () => {
@@ -20,7 +21,7 @@ const CreatePlant = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
     reset,
   } = useForm<FormData>();
 
@@ -29,7 +30,6 @@ const CreatePlant = () => {
       const queryValue = searchParams.get('plant');
       if (queryValue) {
         const plant = await getPlantById(parseInt(queryValue, 10));
-        console.log(plant);
         setPlant(plant);
         reset({
           name: plant!.name,
@@ -37,6 +37,7 @@ const CreatePlant = () => {
           imageUrl: plant!.imageUrl,
           wateringFrequencyInDays: plant!.wateringFrequencyInDays.toString(),
           lastWatered: plant!.lastWatered,
+          waterAmount: plant!.waterAmount,
         });
       }
     };
@@ -88,6 +89,14 @@ const CreatePlant = () => {
           className='input input-bordered input-success w-full'
           {...register('wateringFrequencyInDays', {
             required: 'Watering frequency is required',
+          })}
+        />
+        <input
+          type='number'
+          placeholder='Amount of water'
+          className='input input-bordered input-success w-full'
+          {...register('waterAmount', {
+            required: 'Water amount is required',
           })}
         />
         <input

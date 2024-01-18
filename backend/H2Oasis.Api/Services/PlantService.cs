@@ -22,7 +22,7 @@ public class PlantService : IPlantService
             .Get();
 
         var plants = response.Models.Select(plant => new PlantResponse(plant.Id, plant.Name, plant.Species,
-            plant.ImageUrl, plant.WateringFrequencyInDays, plant.LastWatered));
+            plant.ImageUrl, plant.WateringFrequencyInDays, plant.LastWatered, plant.WaterAmount));
 
         return plants;
     }
@@ -40,7 +40,7 @@ public class PlantService : IPlantService
             return null;
 
         var plantResponse = new PlantResponse(plant.Id, plant.Name, plant.Species,
-            plant.ImageUrl, plant.WateringFrequencyInDays, plant.LastWatered);
+            plant.ImageUrl, plant.WateringFrequencyInDays, plant.LastWatered, plant.WaterAmount);
 
         return plantResponse;
     }
@@ -53,7 +53,8 @@ public class PlantService : IPlantService
             Species = plantRequest.Species,
             ImageUrl = plantRequest.ImageUrl,
             WateringFrequencyInDays = plantRequest.WateringFrequencyInDays,
-            LastWatered = plantRequest.LastWatered
+            LastWatered = plantRequest.LastWatered,
+            WaterAmount = plantRequest.WaterAmount
         };
         
         var result = await _client.From<Plant>().Insert(newPlant, new QueryOptions() { Returning = QueryOptions.ReturnType.Representation });
@@ -61,7 +62,7 @@ public class PlantService : IPlantService
         var insertedRecord = result.Model;
 
         return new PlantResponse(insertedRecord.Id, insertedRecord.Name, insertedRecord.Species,
-            insertedRecord.ImageUrl, insertedRecord.WateringFrequencyInDays, insertedRecord.LastWatered);
+            insertedRecord.ImageUrl, insertedRecord.WateringFrequencyInDays, insertedRecord.LastWatered, insertedRecord.WaterAmount);
     }
 
     public async Task<PlantResponse?> UpdatePlant(int id, UpdatePlantRequest updatedPlant)
@@ -79,13 +80,14 @@ public class PlantService : IPlantService
         model.ImageUrl = updatedPlant.ImageUrl;
         model.WateringFrequencyInDays = updatedPlant.WateringFrequencyInDays;
         model.LastWatered = updatedPlant.LastWatered;
+        model.WaterAmount = updatedPlant.WaterAmount;
 
         var result = await _client.From<Plant>().Update(model);
 
         var updatedRecord = result.Model;
 
         return new PlantResponse(updatedRecord.Id, updatedRecord.Name, updatedRecord.Species,
-            updatedRecord.ImageUrl, updatedRecord.WateringFrequencyInDays, updatedRecord.LastWatered);
+            updatedRecord.ImageUrl, updatedRecord.WateringFrequencyInDays, updatedRecord.LastWatered, updatedRecord.WaterAmount);
     }
 
     // public Task<Plant> UpdatePlant(int id, Plant updatedPlant)

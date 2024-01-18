@@ -4,6 +4,7 @@ import SearchBar from './SearchBar';
 import PlantCard from './ui/PlantCard';
 import { Link } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa6';
+import { getDaysLeft } from '../utils/date';
 
 const PlantsPage = () => {
   const [plants, setPlants] = useState<Plant[]>([]);
@@ -15,17 +16,33 @@ const PlantsPage = () => {
     };
     fetchData();
   }, []);
+
+  const sortedPlants = [...plants].sort((a, b) => {
+    const daysLeftA = getDaysLeft(
+      a.lastWatered,
+      parseInt(a.wateringFrequencyInDays, 10)
+    );
+    const daysLeftB = getDaysLeft(
+      b.lastWatered,
+      parseInt(b.wateringFrequencyInDays, 10)
+    );
+
+    return daysLeftA - daysLeftB;
+  });
+
   return (
     <>
       <div className='mx-5'>
         <SearchBar />
 
-        {plants.map((plant) => (
+        {sortedPlants.map((plant) => (
           <Link to={`/plant/${plant.id}`} key={plant.id}>
             <PlantCard
               name={plant.name}
               species={plant.species}
               imageUrl={plant.imageUrl}
+              lastWatered={plant.lastWatered}
+              waterFrequency={plant.wateringFrequencyInDays}
             />
           </Link>
         ))}

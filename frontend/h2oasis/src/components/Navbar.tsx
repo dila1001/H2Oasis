@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const location = useLocation();
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -57,7 +58,11 @@ const Navbar = () => {
         </div>
       </div>
       <div className='navbar-end'>
-        <a className='btn btn-ghost text-xl'>H2Oasis</a>
+        {location.pathname !== '/' && (
+          <Link to='/'>
+            <p className='btn btn-ghost text-xl'>H2Oasis</p>
+          </Link>
+        )}
       </div>
     </div>
   );

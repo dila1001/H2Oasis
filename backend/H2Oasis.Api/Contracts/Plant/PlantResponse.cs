@@ -6,5 +6,6 @@ public record PlantResponse(
     string Species,
     string ImageUrl,
     int WateringFrequencyInDays,
-    DateTime LastWatered
+    DateTime LastWatered,
+    int WaterAmount
     );

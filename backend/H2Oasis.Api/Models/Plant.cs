@@ -20,4 +20,6 @@ public class Plant : BaseModel
     public int WateringFrequencyInDays { get; set; }
     [Column("last_watered")]
     public DateTime LastWatered { get; set; }
+    [Column("water_amount")]
+    public int WaterAmount { get; set; }
 }
