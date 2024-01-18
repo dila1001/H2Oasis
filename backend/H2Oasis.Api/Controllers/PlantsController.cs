@@ -40,7 +40,7 @@ namespace H2Oasis.Api.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreatePlantRequest plantRequest)
+        public async Task<IActionResult> PostPlant([FromBody] CreatePlantRequest plantRequest)
         {
             var plantResponse = await _plantService.CreatePlant(plantRequest);
             
@@ -50,12 +50,18 @@ namespace H2Oasis.Api.Controllers
                 plantResponse);
         }
         
-        // // PUT api/<PlantsController>/5
-        // [HttpPut("{id}")]
-        // public void Put(int id, [FromBody] string value)
-        // {
-        // }
-        //
+        [HttpPut("{id}")]
+        public  async Task<IActionResult> UpdatePlant(int id, [FromBody] UpdatePlantRequest request)
+        {
+            var plantResponse = await _plantService.UpdatePlant(id, request);
+            
+            if (plantResponse is null)
+                return NotFound($"No plant with the id: {id}");
+
+            return Ok(plantResponse);
+
+        }
+        
         // // DELETE api/<PlantsController>/5
         // [HttpDelete("{id}")]
         // public void Delete(int id)

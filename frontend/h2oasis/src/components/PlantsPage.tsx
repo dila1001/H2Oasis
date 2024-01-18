@@ -3,6 +3,7 @@ import { Plant, getPlants } from '../api/plantsApi';
 import SearchBar from './SearchBar';
 import PlantCard from './ui/PlantCard';
 import { Link } from 'react-router-dom';
+import { FaPlus } from 'react-icons/fa6';
 
 const PlantsPage = () => {
   const [plants, setPlants] = useState<Plant[]>([]);
@@ -28,6 +29,14 @@ const PlantsPage = () => {
             />
           </Link>
         ))}
+
+        <div className='my-8'>
+          <Link to='/plants/plant-edit'>
+            <button className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'>
+              <FaPlus className='text-white text-2xl' />
+            </button>
+          </Link>
+        </div>
       </div>
     </>
   );

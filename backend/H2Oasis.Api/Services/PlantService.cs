@@ -63,7 +63,31 @@ public class PlantService : IPlantService
         return new PlantResponse(insertedRecord.Id, insertedRecord.Name, insertedRecord.Species,
             insertedRecord.ImageUrl, insertedRecord.WateringFrequencyInDays, insertedRecord.LastWatered);
     }
-    
+
+    public async Task<PlantResponse?> UpdatePlant(int id, UpdatePlantRequest updatedPlant)
+    {
+        var model = await _client
+            .From<Plant>()
+            .Where(x => x.Id == id)
+            .Single();
+
+        if (model is null)
+            return null;
+
+        model.Name = updatedPlant.Name;
+        model.Species = updatedPlant.Species;
+        model.ImageUrl = updatedPlant.ImageUrl;
+        model.WateringFrequencyInDays = updatedPlant.WateringFrequencyInDays;
+        model.LastWatered = updatedPlant.LastWatered;
+
+        var result = await _client.From<Plant>().Update(model);
+
+        var updatedRecord = result.Model;
+
+        return new PlantResponse(updatedRecord.Id, updatedRecord.Name, updatedRecord.Species,
+            updatedRecord.ImageUrl, updatedRecord.WateringFrequencyInDays, updatedRecord.LastWatered);
+    }
+
     // public Task<Plant> UpdatePlant(int id, Plant updatedPlant)
     // {
     //     throw new NotImplementedException();
