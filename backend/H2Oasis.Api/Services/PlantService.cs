@@ -29,7 +29,6 @@ public class PlantService : IPlantService
 
     public async Task<PlantResponse?> GetPlantById(int id)
     {
-        //TODO: fix handling of nonexistent plant
         var response = await _client
             .From<Plant>()
             .Where(plant => plant.Id == id)

@@ -34,7 +34,7 @@ namespace H2Oasis.Api.Controllers
             var plantResponse = await _plantService.GetPlantById(id);
             
             if (plantResponse is null)
-                NotFound($"No plant with the id: {id}");
+                return NotFound($"No plant with the id: {id}");
 
             return Ok(plantResponse);
         }
