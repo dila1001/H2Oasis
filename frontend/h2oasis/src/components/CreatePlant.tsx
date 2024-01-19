@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Plant, addPlant, getPlantById, updatePlant } from '../api/plantsApi';
+import {
+  NewPlant,
+  Plant,
+  addPlant,
+  getPlantById,
+  updatePlant,
+} from '../api/plantsApi';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaSeedling } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
-
-type FormData = {
-  name: string;
-  species: string;
-  imageUrl: string;
-  wateringFrequencyInDays: string;
-  lastWatered: string;
-  waterAmount: string;
-};
 
 const CreatePlant = () => {
   const [searchParams] = useSearchParams();
@@ -24,7 +21,7 @@ const CreatePlant = () => {
     handleSubmit,
     formState: { isSubmitting },
     reset,
-  } = useForm<FormData>();
+  } = useForm<NewPlant>();
 
   useEffect(() => {
     const fetchPlant = async () => {
@@ -45,7 +42,7 @@ const CreatePlant = () => {
     fetchPlant();
   }, [searchParams]);
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  const onSubmit: SubmitHandler<NewPlant> = async (data) => {
     let response;
     if (plant) {
       response = await updatePlant(plant.id, data);
