@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Plant, addPlant, getPlantById, updatePlant } from '../api/plantsApi';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaSeedling } from 'react-icons/fa6';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 type FormData = {
   name: string;
@@ -95,7 +95,7 @@ const CreatePlant = () => {
         />
         <input
           type='number'
-          placeholder='Amount of water'
+          placeholder='Amount of water in ml'
           className='input input-bordered input-success w-full'
           {...register('waterAmount', {
             required: 'Water amount is required',

@@ -29,7 +29,6 @@ const PlantCard: FC<PlantCardProps> = ({
         </div>
 
         <div className='card-actions flex justify-end mt-2 ml-auto'>
-          {/* <button className='btn btn-secondary'>Buy Now</button> */}
           <div
             className='radial-progress text-success'
             style={{

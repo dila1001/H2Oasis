@@ -41,6 +41,7 @@ export const addPlant = async ({
   imageUrl,
   wateringFrequencyInDays,
   lastWatered,
+  waterAmount,
 }: NewPlant): Promise<Plant> => {
   const response = await plantsApi.post(plantsUrlEndpoint, {
     name,
@@ -48,6 +49,7 @@ export const addPlant = async ({
     imageUrl,
     wateringFrequencyInDays,
     lastWatered,
+    waterAmount,
   });
   return response.data;
 };
