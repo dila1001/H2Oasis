@@ -4,7 +4,7 @@ import SearchBar from './SearchBar';
 import PlantCard from './ui/PlantCard';
 import { Link } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa6';
-import { getDaysLeft } from '../utils/date';
+import { getDaysLeft } from '../utils/dateUtils';
 
 const PlantsPage = () => {
   const [plants, setPlants] = useState<Plant[]>([]);
@@ -20,14 +20,8 @@ const PlantsPage = () => {
   }, []);
 
   const sortedPlants = [...plants].sort((a, b) => {
-    const daysLeftA = getDaysLeft(
-      a.lastWatered,
-      parseInt(a.wateringFrequencyInDays, 10)
-    );
-    const daysLeftB = getDaysLeft(
-      b.lastWatered,
-      parseInt(b.wateringFrequencyInDays, 10)
-    );
+    const daysLeftA = getDaysLeft(a.lastWatered, a.wateringFrequencyInDays);
+    const daysLeftB = getDaysLeft(b.lastWatered, b.wateringFrequencyInDays);
 
     return daysLeftA - daysLeftB;
   });

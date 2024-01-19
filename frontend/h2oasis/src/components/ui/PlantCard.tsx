@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { getDaysLeft, getPercentage } from '../../utils/date';
+import { getDaysLeft, getPercentage } from '../../utils/dateUtils';
 
 type PlantCardProps = {
   name: string;
@@ -33,13 +33,13 @@ const PlantCard: FC<PlantCardProps> = ({
             className='radial-progress text-success'
             style={{
               '--value': getPercentage(
-                getDaysLeft(lastWatered, parseInt(waterFrequency, 10)),
-                parseInt(waterFrequency, 10)
+                getDaysLeft(lastWatered, waterFrequency),
+                waterFrequency
               ),
             }}
             role='progressbar'
           >
-            {getDaysLeft(lastWatered, parseInt(waterFrequency, 10))}
+            {getDaysLeft(lastWatered, waterFrequency)}
           </div>
         </div>
       </div>

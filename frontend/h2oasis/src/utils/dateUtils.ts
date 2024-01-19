@@ -2,12 +2,12 @@ import { addDays, differenceInDays, format, parseISO } from 'date-fns';
 
 export const getDaysLeft = (
   lastWateredDate: string,
-  wateringFrequency: number
+  wateringFrequency: string
 ): number => {
   const today = new Date();
   const lastWatered = parseISO(lastWateredDate);
 
-  const nextWateringDay = addDays(lastWatered, wateringFrequency);
+  const nextWateringDay = addDays(lastWatered, parseInt(wateringFrequency, 10));
 
   const daysLeft = differenceInDays(nextWateringDay, today);
 
@@ -16,9 +16,9 @@ export const getDaysLeft = (
 
 export const getPercentage = (
   daysLeft: number,
-  wateringFrequency: number
+  wateringFrequency: string
 ): number => {
-  const percentage = (daysLeft / wateringFrequency) * 100;
+  const percentage = (daysLeft / parseInt(wateringFrequency, 10)) * 100;
   return Math.ceil(percentage);
 };
 

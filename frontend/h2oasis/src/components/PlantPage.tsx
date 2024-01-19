@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { NewPlant, Plant, getPlantById, updatePlant } from '../api/plantsApi';
 import { FaCalendar, FaDroplet, FaPen } from 'react-icons/fa6';
-import { getDaysLeft, getTodaysDate } from '../utils/date';
+import { getDaysLeft, getTodaysDate } from '../utils/dateUtils';
 import toast, { Toaster } from 'react-hot-toast';
 
 const PlantPage = () => {
   const { slug } = useParams();
+  const [searchParams] = useSearchParams();
 
   const [plant, setPlant] = useState<Plant | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const query = new URLSearchParams(window.location.search);
-      const success = query.get('success');
+      const queryValue = searchParams.get('success');
       if (slug) {
         const plant = await getPlantById(parseInt(slug, 10));
         setPlant(plant);
-        if (success === 'true') {
+        if (queryValue === 'true') {
           toast.success(`${plant!.name} has been successfully saved`, {
             id: 'save',
           });
@@ -95,7 +95,7 @@ const PlantPage = () => {
                   water in{' '}
                   {getDaysLeft(
                     plant?.lastWatered,
-                    parseInt(plant?.wateringFrequencyInDays, 10)
+                    plant?.wateringFrequencyInDays
                   )}{' '}
                   days
                 </p>
