@@ -17,7 +17,7 @@ const PlantCard: FC<PlantCardProps> = ({
   waterFrequency,
 }) => {
   return (
-    <div className='card bg-base-100 shadow-md my-6 flex-row'>
+    <div className='card bg-[#f9fcf4] shadow-md my-6 flex-row'>
       <div className='max-h-48 w-1/4 overflow-hidden rounded-tl-2xl rounded-bl-2xl'>
         <img className='w-full h-full object-cover' src={imageUrl} alt={name} />
       </div>

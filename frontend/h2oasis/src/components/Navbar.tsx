@@ -50,7 +50,7 @@ const Navbar = () => {
               </li>
               <li>
                 <Link to='/plants' onClick={closeDropdown} className='text-lg'>
-                  Your Plants
+                  My Plants
                 </Link>
               </li>
             </ul>

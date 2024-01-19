@@ -30,7 +30,10 @@ const PlantsPage = () => {
     return (
       <div>
         {[1, 2, 3, 4].map((item) => (
-          <div key={item} className='skeleton w-full h-32 my-6'></div>
+          <div
+            key={item}
+            className='skeleton w-full h-32 my-6 bg-base-200'
+          ></div>
         ))}
       </div>
     );

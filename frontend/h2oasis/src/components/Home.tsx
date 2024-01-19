@@ -11,7 +11,7 @@ const Home = () => {
           className='btn btn-outline btn-secondary mb-60 w-40'
           onClick={() => navigate('/plants')}
         >
-          View Your Plants
+          View My Plants
         </button>
       </div>
 
