@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Plant, addPlant, getPlantById, updatePlant } from '../api/plantsApi';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaSeedling } from 'react-icons/fa6';
+import toast, { Toaster } from 'react-hot-toast';
 
 type FormData = {
   name: string;
@@ -52,11 +53,12 @@ const CreatePlant = () => {
       response = await addPlant(data);
     }
 
-    navigate(`/plant/${response?.id}`); //navigate to response.id
+    navigate(`/plant/${response?.id}?success=true`);
   };
 
   return (
     <div className='mx-5 my-2 flex flex-col gap-4'>
+      <Toaster position='top-center' reverseOrder={false} />
       <h2 className='card-title text-3xl mb-4'>
         {plant ? plant.name : 'Add New Plant'}
       </h2>

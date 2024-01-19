@@ -8,11 +8,13 @@ import { getDaysLeft } from '../utils/date';
 
 const PlantsPage = () => {
   const [plants, setPlants] = useState<Plant[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const plants = await getPlants();
       setPlants(plants);
+      setIsLoading(false);
     };
     fetchData();
   }, []);
@@ -30,10 +32,21 @@ const PlantsPage = () => {
     return daysLeftA - daysLeftB;
   });
 
+  const viewLoadingSkeleton = () => {
+    return (
+      <div>
+        {[1, 2, 3, 4].map((item) => (
+          <div key={item} className='skeleton w-full h-32 my-6'></div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <>
       <div className='mx-5'>
         <SearchBar />
+        {isLoading && viewLoadingSkeleton()}
 
         {sortedPlants.map((plant) => (
           <Link to={`/plant/${plant.id}`} key={plant.id}>

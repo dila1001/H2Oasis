@@ -10,11 +10,19 @@ const PlantPage = () => {
 
   const [plant, setPlant] = useState<Plant | null>(null);
 
+  const query = new URLSearchParams(window.location.search);
+  const myParam = query.get('success');
+
   useEffect(() => {
     const fetchData = async () => {
       if (slug) {
         const plant = await getPlantById(parseInt(slug, 10));
         setPlant(plant);
+        if (myParam === 'true') {
+          toast.success(`${plant!.name} has been successfully saved`, {
+            id: 'save',
+          });
+        }
       }
     };
     fetchData();
