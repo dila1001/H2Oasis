@@ -58,7 +58,15 @@ const CreatePlant = () => {
 
   return (
     <div className='mx-5 my-2 flex flex-col gap-4'>
-      <Toaster position='top-center' reverseOrder={false} />
+      <Toaster
+        position='top-center'
+        reverseOrder={false}
+        toastOptions={{
+          success: {
+            duration: 4000,
+          },
+        }}
+      />
       <h2 className='card-title text-3xl mb-4'>
         {plant ? plant.name : 'Add New Plant'}
       </h2>
