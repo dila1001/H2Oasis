@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Plant, getPlants } from '../api/plantsApi';
+import { Plant, getPlants } from '../../services/plantsService';
 import SearchBar from './SearchBar';
-import PlantCard from './ui/PlantCard';
+import PlantCard from './PlantCard';
 import { Link } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa6';
-import { getDaysLeft } from '../utils/dateUtils';
+import { getDaysLeft } from '../../utils/dateUtils';
 
 const PlantsPage = () => {
   const [plants, setPlants] = useState<Plant[]>([]);

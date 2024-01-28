@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { NewPlant, Plant, getPlantById, updatePlant } from '../api/plantsApi';
+import {
+  NewPlant,
+  Plant,
+  getPlantById,
+  updatePlant,
+} from '../../services/plantsService';
 import { FaCalendar, FaDroplet, FaPen } from 'react-icons/fa6';
-import { getDaysLeft, getTodaysDate } from '../utils/dateUtils';
+import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
 import toast, { Toaster } from 'react-hot-toast';
 
 const PlantPage = () => {
@@ -44,7 +49,7 @@ const PlantPage = () => {
   return (
     <>
       <Toaster position='top-center' reverseOrder={false} />
-      <dialog id='my_modal_1' className='modal'>
+      <dialog id='water-modal' className='modal'>
         <div className='modal-box'>
           <h3 className='font-bold text-lg'>
             Would you like to water {plant?.name}?
@@ -65,6 +70,16 @@ const PlantPage = () => {
       </dialog>
       {plant && (
         <div className='mx-5 my-2 flex-row'>
+          {/* <div className='text-sm breadcrumbs'>
+            <ul>
+              <li>
+                <a>Home</a>
+              </li>
+              <li>
+                <a>Documents</a>
+              </li>
+            </ul>
+          </div> */}
           <img
             src={plant?.imageUrl}
             alt='Image Description'
@@ -109,7 +124,7 @@ const PlantPage = () => {
           <div className='p-4 my-4'>
             <button
               className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'
-              onClick={() => document.getElementById('my_modal_1').showModal()}
+              onClick={() => document.getElementById('water-modal').showModal()}
             >
               <FaDroplet className='text-white text-2xl' />
             </button>

@@ -6,12 +6,12 @@ import {
   addPlant,
   getPlantById,
   updatePlant,
-} from '../api/plantsApi';
+} from '../../services/plantsService';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaSeedling } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
 
-const CreatePlant = () => {
+const EditPlant = () => {
   const [searchParams] = useSearchParams();
   const [plant, setPlant] = useState<Plant | null>(null);
   const navigate = useNavigate();
@@ -129,4 +129,4 @@ const CreatePlant = () => {
   );
 };
 
-export default CreatePlant;
+export default EditPlant;

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../api/api';
 
 export type Plant = {
   id: string;
@@ -19,19 +19,15 @@ export type NewPlant = {
   waterAmount: string;
 };
 
-const plantsApi = axios.create({
-  baseURL: 'https://localhost:5005/api',
-});
-
 export const plantsUrlEndpoint = '/plants';
 
 export const getPlants = async (): Promise<Plant[]> => {
-  const response = await plantsApi.get(plantsUrlEndpoint);
+  const response = await api.get(plantsUrlEndpoint);
   return response.data;
 };
 
 export const getPlantById = async (plantId: number): Promise<Plant | null> => {
-  const response = await plantsApi.get(`${plantsUrlEndpoint}/${plantId}`);
+  const response = await api.get(`${plantsUrlEndpoint}/${plantId}`);
   return response.data;
 };
 
@@ -43,7 +39,7 @@ export const addPlant = async ({
   lastWatered,
   waterAmount,
 }: NewPlant): Promise<Plant> => {
-  const response = await plantsApi.post(plantsUrlEndpoint, {
+  const response = await api.post(plantsUrlEndpoint, {
     name,
     species,
     imageUrl,
@@ -58,7 +54,7 @@ export const updatePlant = async (
   plantId: string,
   updatedPlant: NewPlant
 ): Promise<Plant | null> => {
-  const response = await plantsApi.put(
+  const response = await api.put(
     `${plantsUrlEndpoint}/${plantId}`,
     updatedPlant
   );
