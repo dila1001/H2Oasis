@@ -16,6 +16,13 @@ const PlantCard: FC<PlantCardProps> = ({
   lastWatered,
   waterFrequency,
 }) => {
+  const radialProgressStyle: Record<string, string> = {
+    '--value': `${getPercentage(
+      getDaysLeft(lastWatered, waterFrequency),
+      waterFrequency
+    )}`,
+  };
+
   return (
     <div className='card bg-[#f9fcf4] shadow-md my-6 flex-row'>
       <div className='max-h-48 w-1/4 overflow-hidden rounded-tl-2xl rounded-bl-2xl'>
@@ -31,12 +38,7 @@ const PlantCard: FC<PlantCardProps> = ({
         <div className='card-actions flex justify-end mt-2 ml-auto'>
           <div
             className='radial-progress text-success'
-            style={{
-              '--value': getPercentage(
-                getDaysLeft(lastWatered, waterFrequency),
-                waterFrequency
-              ),
-            }}
+            style={radialProgressStyle}
             role='progressbar'
           >
             {getDaysLeft(lastWatered, waterFrequency)}
