@@ -124,7 +124,13 @@ const PlantPage = () => {
           <div className='p-4 my-4'>
             <button
               className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'
-              onClick={() => document.getElementById('water-modal').showModal()}
+              onClick={() =>
+                (
+                  document.getElementById(
+                    'water-modal'
+                  ) as HTMLDialogElement | null
+                )?.showModal()
+              }
             >
               <FaDroplet className='text-white text-2xl' />
             </button>
