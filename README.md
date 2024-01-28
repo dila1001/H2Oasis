@@ -8,7 +8,7 @@ The Plant Care App is a web application designed to help users care for their pl
 
 ## Features
 
-- **Plant Database:** Access a comprehensive database of various plants with detailed information on care requirements, watering schedules, sunlight preferences, and more.
+- **Plant Care Tips:** Access a comprehensive database of various plants with detailed information on care requirements, watering schedules, sunlight preferences, and more.
 
 - **Custom Plant Profiles:** Create personalized profiles for each of your plants and receive timely care reminders.
 
