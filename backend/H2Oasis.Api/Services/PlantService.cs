@@ -1,6 +1,8 @@
 using System.Text.Json;
 using H2Oasis.Api.Contracts.Plant;
 using H2Oasis.Api.Models;
+using H2Oasis.Api.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Postgrest;
 using Client = Supabase.Client;
 
@@ -8,95 +10,60 @@ namespace H2Oasis.Api.Services;
 
 public class PlantService : IPlantService
 {
-    private readonly Supabase.Client _client;
+    private readonly PlantDbContext _dbContext;
 
-    public PlantService(Client client)
+    public PlantService(PlantDbContext dbContext)
     {
-        _client = client;
+        _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<PlantResponse>> GetPlants()
+
+    public async Task<IEnumerable<Plant>> GetPlants()
     {
-        var response = await _client
-            .From<Plant>()
-            .Get();
-
-        var plants = response.Models.Select(plant => new PlantResponse(plant.Id, plant.Name, plant.Species,
-            plant.ImageUrl, plant.WateringFrequencyInDays, plant.LastWatered, plant.WaterAmount));
-
+        var plants = await _dbContext.Plants.ToListAsync();
         return plants;
     }
 
-    public async Task<PlantResponse?> GetPlantById(int id)
+    public async Task<Plant?> GetPlantById(Guid id)
     {
-        var response = await _client
-            .From<Plant>()
-            .Where(plant => plant.Id == id)
-            .Get();
+        var plant = await _dbContext.Plants.FindAsync(id);
 
-        var plant = response.Models.FirstOrDefault();
-
-        if (plant is null)
-            return null;
-
-        var plantResponse = new PlantResponse(plant.Id, plant.Name, plant.Species,
-            plant.ImageUrl, plant.WateringFrequencyInDays, plant.LastWatered, plant.WaterAmount);
-
-        return plantResponse;
+        return plant ?? null;
     }
-    
-    public async Task<PlantResponse> CreatePlant(CreatePlantRequest plantRequest)
+
+    public async Task<Plant> CreatePlant(Plant newPlant)
     {
-        var newPlant = new Plant
+        _dbContext.Plants.Add(newPlant);
+        await _dbContext.SaveChangesAsync();
+        return newPlant;
+    }
+
+    public async Task<Plant?> UpdatePlant(Plant updatedPlant)
+    {
+        var existingPlant = await _dbContext.Plants.FindAsync(updatedPlant.Id);
+
+        if (existingPlant is null)
         {
-            Name = plantRequest.Name,
-            Species = plantRequest.Species,
-            ImageUrl = plantRequest.ImageUrl,
-            WateringFrequencyInDays = plantRequest.WateringFrequencyInDays,
-            LastWatered = plantRequest.LastWatered,
-            WaterAmount = plantRequest.WaterAmount
-        };
-        
-        var result = await _client.From<Plant>().Insert(newPlant, new QueryOptions() { Returning = QueryOptions.ReturnType.Representation });
-
-        var insertedRecord = result.Model;
-
-        return new PlantResponse(insertedRecord.Id, insertedRecord.Name, insertedRecord.Species,
-            insertedRecord.ImageUrl, insertedRecord.WateringFrequencyInDays, insertedRecord.LastWatered, insertedRecord.WaterAmount);
-    }
-
-    public async Task<PlantResponse?> UpdatePlant(int id, UpdatePlantRequest updatedPlant)
-    {
-        var model = await _client
-            .From<Plant>()
-            .Where(x => x.Id == id)
-            .Single();
-
-        if (model is null)
             return null;
+        }
+        
+        _dbContext.Entry(existingPlant).CurrentValues.SetValues(updatedPlant);
 
-        model.Name = updatedPlant.Name;
-        model.Species = updatedPlant.Species;
-        model.ImageUrl = updatedPlant.ImageUrl;
-        model.WateringFrequencyInDays = updatedPlant.WateringFrequencyInDays;
-        model.LastWatered = updatedPlant.LastWatered;
-        model.WaterAmount = updatedPlant.WaterAmount;
-
-        var result = await _client.From<Plant>().Update(model);
-
-        var updatedRecord = result.Model;
-
-        return new PlantResponse(updatedRecord.Id, updatedRecord.Name, updatedRecord.Species,
-            updatedRecord.ImageUrl, updatedRecord.WateringFrequencyInDays, updatedRecord.LastWatered, updatedRecord.WaterAmount);
+        await _dbContext.SaveChangesAsync();
+        return existingPlant;
     }
 
-    // public Task<Plant> UpdatePlant(int id, Plant updatedPlant)
-    // {
-    //     throw new NotImplementedException();
-    // }
-    //
-    // public Task<bool> DeletePlant(int id)
-    // {
-    //     throw new NotImplementedException();
-    // }
+    public async Task<bool> DeletePlant(Guid id)
+    {
+        var plant = await _dbContext.Plants.FindAsync(id);
+
+        if (plant == null)
+        {
+            return false;
+        }
+
+        _dbContext.Plants.Remove(plant);
+        await _dbContext.SaveChangesAsync();
+        return true;
+    }
 }

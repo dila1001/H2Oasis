@@ -1,4 +1,5 @@
 using System.Text.Json;
+using AutoMapper;
 using H2Oasis.Api.Contracts.Plant;
 using H2Oasis.Api.Contracts.User;
 using H2Oasis.Api.Models;
@@ -14,27 +15,35 @@ namespace H2Oasis.Api.Controllers
     public class PlantsController : ControllerBase
     {
         private readonly IPlantService _plantService;
+        private readonly IMapper _mapper;
         
-        public PlantsController(IPlantService plantService)
+        public PlantsController(IPlantService plantService, IMapper mapper)
         {
             _plantService = plantService;
+            _mapper = mapper;
         }
         
         [HttpGet]
         public async Task<IActionResult> GetPlants()
         {
-            var plantsResponse = await _plantService.GetPlants();
+            var plants = await _plantService.GetPlants();
             
-            return Ok(plantsResponse);
+            var plantResponses = _mapper.Map<IEnumerable<PlantResponse>>(plants);
+            
+            return Ok(plantResponses);
         }
         
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetPlantById(int id)
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetPlantById(Guid id)
         {
-            var plantResponse = await _plantService.GetPlantById(id);
-            
-            if (plantResponse is null)
+            var plant = await _plantService.GetPlantById(id);
+
+            if (plant is null)
+            {
                 return NotFound($"No plant with the id: {id}");
+            }
+
+            var plantResponse = _mapper.Map<PlantResponse>(plant);
 
             return Ok(plantResponse);
         }
@@ -42,7 +51,11 @@ namespace H2Oasis.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> PostPlant([FromBody] CreatePlantRequest plantRequest)
         {
-            var plantResponse = await _plantService.CreatePlant(plantRequest);
+            Plant newPlant = Plant.From(plantRequest);
+            
+            var plant = await _plantService.CreatePlant(newPlant);
+            
+            var plantResponse = _mapper.Map<PlantResponse>(plant);
             
             return CreatedAtAction(
                 nameof(GetPlantById),
@@ -50,22 +63,35 @@ namespace H2Oasis.Api.Controllers
                 plantResponse);
         }
         
-        [HttpPut("{id}")]
-        public  async Task<IActionResult> UpdatePlant(int id, [FromBody] UpdatePlantRequest request)
+        [HttpPut("{id:guid}")]
+        public  async Task<IActionResult> UpdatePlant(Guid id, [FromBody] UpdatePlantRequest request)
         {
-            var plantResponse = await _plantService.UpdatePlant(id, request);
+            Plant updatedPlant = Plant.From(id, request);
             
-            if (plantResponse is null)
+            var plant = await _plantService.UpdatePlant(updatedPlant);
+
+            if (plant is null)
+            {
                 return NotFound($"No plant with the id: {id}");
+            }
+            
+            var plantResponse = _mapper.Map<PlantResponse>(plant);
 
             return Ok(plantResponse);
 
         }
         
-        // // DELETE api/<PlantsController>/5
-        // [HttpDelete("{id}")]
-        // public void Delete(int id)
-        // {
-        // }
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var result = await _plantService.DeletePlant(id);
+
+            if (!result)
+            {
+                return NotFound($"No plant with the id: {id}");
+            }
+
+            return NoContent();
+        }
     }
 }

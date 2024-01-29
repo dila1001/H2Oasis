@@ -1,25 +1,57 @@
-using Postgrest.Attributes;
-using Postgrest.Models;
+using System.ComponentModel.DataAnnotations;
+using H2Oasis.Api.Contracts.Plant;
 
 namespace H2Oasis.Api.Models;
-
-[Table("plants")]
-public class Plant : BaseModel
+public class Plant
 {
-    [PrimaryKey("id", false)]
-    public int Id { get; set; }
-    // [Column("user_id")]
-    // public int? UserId { get; set; }
-    [Column("name")]
-    public string Name { get; set; } = string.Empty;
-    [Column("species")]
-    public string Species { get; set; } = string.Empty;
-    [Column("image_url")]
-    public string ImageUrl { get; set; } = string.Empty;
-    [Column("watering_frequency_in_days")]
+    public Guid Id { get; set; }
+    [MaxLength(255)]
+    public string Name { get; set; }
+    [MaxLength(255)]
+    public string Species { get; set; }
+    [MaxLength(255)]
+    public string ImageUrl { get; set; }
     public int WateringFrequencyInDays { get; set; }
-    [Column("last_watered")]
     public DateTime LastWatered { get; set; }
-    [Column("water_amount")]
-    public int WaterAmount { get; set; }
+    public int WaterAmountInMl { get; set; }
+    
+    public Plant()
+    {
+    }
+
+    public Plant(string name, string species, string imageUrl, int wateringFreq, DateTime lastWatered, int waterAmount, Guid? id = null)
+    {
+        Id = id ?? Guid.NewGuid();
+        Name = name;
+        Species = species;
+        ImageUrl = imageUrl;
+        WateringFrequencyInDays = wateringFreq;
+        LastWatered = lastWatered;
+        WaterAmountInMl = waterAmount;
+    }
+
+    public static Plant From(CreatePlantRequest request)
+    {
+        return new Plant(
+            request.Name,
+            request.Species,
+            request.ImageUrl,
+            request.WateringFrequencyInDays,
+            request.LastWatered,
+            request.WaterAmountInMl
+            );
+    }
+    
+    public static Plant From(Guid id, UpdatePlantRequest request)
+    {
+        return new Plant(
+            request.Name,
+            request.Species,
+            request.ImageUrl,
+            request.WateringFrequencyInDays,
+            request.LastWatered,
+            request.WaterAmountInMl,
+            id
+        );
+    }
 }
