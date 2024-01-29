@@ -27,7 +27,7 @@ const EditPlant = () => {
     const fetchPlant = async () => {
       const queryValue = searchParams.get('plant');
       if (queryValue) {
-        const plant = await getPlantById(parseInt(queryValue, 10));
+        const plant = await getPlantById(queryValue);
         setPlant(plant);
         reset({
           name: plant!.name,
@@ -35,7 +35,7 @@ const EditPlant = () => {
           imageUrl: plant!.imageUrl,
           wateringFrequencyInDays: plant!.wateringFrequencyInDays.toString(),
           lastWatered: plant!.lastWatered,
-          waterAmount: plant!.waterAmount,
+          waterAmountInMl: plant!.waterAmountInMl,
         });
       }
     };
@@ -102,7 +102,7 @@ const EditPlant = () => {
           type='number'
           placeholder='Amount of water in ml'
           className='input input-bordered input-success w-full'
-          {...register('waterAmount', {
+          {...register('waterAmountInMl', {
             required: 'Water amount is required',
           })}
         />

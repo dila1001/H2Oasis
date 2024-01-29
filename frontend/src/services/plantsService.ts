@@ -7,7 +7,7 @@ export type Plant = {
   imageUrl: string;
   wateringFrequencyInDays: string;
   lastWatered: string;
-  waterAmount: string;
+  waterAmountInMl: string;
 };
 
 export type NewPlant = {
@@ -16,7 +16,7 @@ export type NewPlant = {
   imageUrl: string;
   wateringFrequencyInDays: string;
   lastWatered: string;
-  waterAmount: string;
+  waterAmountInMl: string;
 };
 
 export const plantsUrlEndpoint = '/plants';
@@ -26,7 +26,7 @@ export const getPlants = async (): Promise<Plant[]> => {
   return response.data;
 };
 
-export const getPlantById = async (plantId: number): Promise<Plant | null> => {
+export const getPlantById = async (plantId: string): Promise<Plant | null> => {
   const response = await api.get(`${plantsUrlEndpoint}/${plantId}`);
   return response.data;
 };
@@ -37,7 +37,7 @@ export const addPlant = async ({
   imageUrl,
   wateringFrequencyInDays,
   lastWatered,
-  waterAmount,
+  waterAmountInMl,
 }: NewPlant): Promise<Plant> => {
   const response = await api.post(plantsUrlEndpoint, {
     name,
@@ -45,7 +45,7 @@ export const addPlant = async ({
     imageUrl,
     wateringFrequencyInDays,
     lastWatered,
-    waterAmount,
+    waterAmountInMl,
   });
   return response.data;
 };

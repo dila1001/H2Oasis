@@ -20,7 +20,7 @@ const PlantPage = () => {
     const fetchData = async () => {
       const queryValue = searchParams.get('success');
       if (slug) {
-        const plant = await getPlantById(parseInt(slug, 10));
+        const plant = await getPlantById(slug);
         setPlant(plant);
         if (queryValue === 'true') {
           toast.success(`${plant!.name} has been successfully saved`, {
@@ -30,7 +30,7 @@ const PlantPage = () => {
       }
     };
     fetchData();
-  }, [slug]);
+  }, [slug, searchParams]);
 
   const waterPlant = async () => {
     const updatedPlantData: NewPlant = {
@@ -39,7 +39,7 @@ const PlantPage = () => {
       imageUrl: plant!.imageUrl,
       wateringFrequencyInDays: plant!.wateringFrequencyInDays,
       lastWatered: getTodaysDate(),
-      waterAmount: plant!.waterAmount,
+      waterAmountInMl: plant!.waterAmountInMl,
     };
     const response = await updatePlant(plant!.id, updatedPlantData);
     toast.success(`${plant?.name} has been successfully watered`);
@@ -99,7 +99,9 @@ const PlantPage = () => {
             <div className='flex items-center gap-2'>
               <FaDroplet className='text-4xl text-success' />
               <div className='flex flex-col'>
-                <p className='text-success font-bold'>{plant?.waterAmount}ml</p>
+                <p className='text-success font-bold'>
+                  {plant?.waterAmountInMl}ml
+                </p>
                 <p className='text-gray-500'>amount of water</p>
               </div>
             </div>
