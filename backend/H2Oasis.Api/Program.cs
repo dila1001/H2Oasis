@@ -28,22 +28,21 @@ var configuration = builder.Configuration;
     //         googleOptions.SaveTokens = true;
     //     });
     
-    // builder.Services.AddScoped<Supabase.Client>(_ =>
-    //     new Supabase.Client(
-    //         "https://ivbbntffeagohrxodyub.supabase.co",
-    //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2YmJudGZmZWFnb2hyeG9keXViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDU0ODk4NDksImV4cCI6MjAyMTA2NTg0OX0.xnXBonjjMdG7kcyC10y7AuwlD-1IEp2nm9Zx64C_7SE",
-    //         new SupabaseOptions()
-    //         {
-    //             AutoRefreshToken = true,
-    //             AutoConnectRealtime = true
-    //         }));
-    
     builder.Services.AddControllers();
     builder.Services.AddAutoMapper(typeof(Program).Assembly);
     builder.Services.AddScoped<IPlantService, PlantService>();
     // builder.Services.AddScoped<IUserService, UserService>();
+    var connection = String.Empty;
+    if (builder.Environment.IsDevelopment())
+    {
+        connection = configuration["ConnectionStrings:AZURE_SQL_CONNECTIONSTRING"];
+    }
+    else
+    {
+        connection = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
+    }
     builder.Services.AddDbContext<PlantDbContext>(options => 
-        options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        options.UseSqlServer(connection));
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 }
