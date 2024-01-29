@@ -46,11 +46,11 @@ const EditPlant = () => {
     let response;
     if (plant) {
       response = await updatePlant(plant.id, data);
+      navigate(`/plant/${response?.id}?saved=true`);
     } else {
       response = await addPlant(data);
+      navigate(`/plant/${response?.id}?created=true`);
     }
-
-    navigate(`/plant/${response?.id}?success=true`);
   };
 
   return (

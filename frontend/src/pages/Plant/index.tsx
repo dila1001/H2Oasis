@@ -18,13 +18,19 @@ const PlantPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const queryValue = searchParams.get('success');
+      const saved = searchParams.get('saved');
+      const created = searchParams.get('created');
       if (slug) {
         const plant = await getPlantById(slug);
         setPlant(plant);
-        if (queryValue === 'true') {
+        if (saved === 'true') {
           toast.success(`${plant!.name} has been successfully saved`, {
             id: 'save',
+          });
+        }
+        if (created === 'true') {
+          toast.success(`${plant!.name} has been successfully created`, {
+            id: 'created',
           });
         }
       }
