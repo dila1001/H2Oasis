@@ -21,6 +21,7 @@ const DatePicker: FC = () => {
         <Datepicker
             value={value}
             onChange={handleValueChange}
+            asSingle={true}
         />
     );
 };
