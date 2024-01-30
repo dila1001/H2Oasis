@@ -1,20 +1,21 @@
 import { FC, SetStateAction, useState } from "react";
-import Datepicker, { DateValueType } from "react-tailwindcss-datepicker";
+import Datepicker, { DateType, DateValueType } from "react-tailwindcss-datepicker";
 
-const DatePicker: FC = () => {
+type DatePickerProps = {
+    date: SetStateAction<DateValueType>
+    // handleDateChange: () => void
+}
+
+const DatePicker: FC<DatePickerProps> = ({ date }) => {
     const [value, setValue] = useState<DateValueType>({
         startDate: new Date(),
-        // endDate: new Date().setMonth(11)
-        endDate: new Date()
+        endDate: null
     });
 
     const handleValueChange = (newValue: SetStateAction<DateValueType>) => {
         console.log("newValue:", newValue);
-        setValue(newValue);
-        // setValue((prevValue) => ({
-        //     ...prevValue,
-        //     ...newValue
-        // }));
+        // setValue(newValue);
+        setValue(date);
     }
 
     return (

@@ -1,3 +1,4 @@
+import { DateValueType } from 'react-tailwindcss-datepicker';
 import api from '../api/api';
 
 export type Plant = {
@@ -8,15 +9,17 @@ export type Plant = {
   wateringFrequencyInDays: string;
   lastWatered: string;
   waterAmountInMl: string;
+  lastWateredDatePicker: DateValueType
 };
 
 export type NewPlant = {
-  name: string;
-  species: string;
-  imageUrl: string;
-  wateringFrequencyInDays: string;
-  lastWatered: string;
-  waterAmountInMl: string;
+	name: string;
+	species: string;
+	imageUrl: string;
+	wateringFrequencyInDays: string;
+	lastWatered: string;
+	waterAmountInMl: string;
+	lastWateredDatePicker: DateValueType;
 };
 
 export const plantsUrlEndpoint = '/plants';

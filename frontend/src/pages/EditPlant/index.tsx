@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { JSXElementConstructor, ReactElement, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   NewPlant,
@@ -7,10 +7,11 @@ import {
   getPlantById,
   updatePlant,
 } from '../../services/plantsService';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, ControllerFieldState, ControllerRenderProps, FieldValues, SubmitHandler, UseFormStateReturn, useForm } from 'react-hook-form';
 import { FaSeedling } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
 import DatePicker from '../../components/UI/DatePicker';
+import Datepicker, { DateValueType } from 'react-tailwindcss-datepicker';
 
 const EditPlant = () => {
   const [searchParams] = useSearchParams();
@@ -115,8 +116,14 @@ const EditPlant = () => {
             required: 'Last watered date is required',
           })}
         />
+        <Controller render={({ field }) => <DatePicker date={ } />}
+          name={'lastWateredDatePicker'} />
 
-        <DatePicker />
+        <Datepicker
+          value={value}
+          onChange={handleValueChange}
+          asSingle={true}
+        />
 
         <div className='p-4 my-4'>
           <button
