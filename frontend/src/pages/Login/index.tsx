@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import plantImage from '../../assets/5.png';
 
-const Home = () => {
+const Login = () => {
   const navigate = useNavigate();
   return (
     <div className='max-h-screen max-w-screen flex justify-between overflow-x-hidden items-end'>
@@ -20,4 +20,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Login;

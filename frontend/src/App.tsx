@@ -1,22 +1,28 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
 import PlantsPage from './pages/Plants';
 import PlantPage from './pages/Plant';
 import EditPlant from './pages/EditPlant';
+import AuthProvider from './auth/AuthProvider';
+import { AuthGuard, LoginGuard } from './auth/Guards';
+import Login from './pages/Login';
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <Navbar />
       <Routes>
-        <Route path='/' element={<Home />}></Route>
-        <Route path='/plants' element={<PlantsPage />}></Route>
-        <Route path='/plants/plant-edit' element={<EditPlant />}></Route>
-        <Route path='/plant/:slug' element={<PlantPage />}></Route>
+        <Route element={<LoginGuard />}>
+          <Route path='/login' element={<Login />}></Route>
+        </Route>
+        <Route element={<AuthGuard />}>
+          <Route path='/' element={<PlantsPage />}></Route>
+          <Route path='/plant-edit' element={<EditPlant />}></Route>
+          <Route path='/plant/:slug' element={<PlantPage />}></Route>
+        </Route>
       </Routes>
-    </>
+    </AuthProvider>
   );
 }
 

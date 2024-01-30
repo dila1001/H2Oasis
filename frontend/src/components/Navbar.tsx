@@ -44,7 +44,7 @@ const Navbar = () => {
               className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
             >
               <li>
-                <Link to='/' onClick={closeDropdown} className='text-lg'>
+                <Link to='/login' onClick={closeDropdown} className='text-lg'>
                   Home
                 </Link>
               </li>
@@ -58,7 +58,7 @@ const Navbar = () => {
         </div>
       </div>
       <div className='navbar-end'>
-        {location.pathname !== '/' && (
+        {location.pathname !== '/login' && (
           <Link to='/'>
             <p className='btn btn-ghost text-xl'>H2Oasis</p>
           </Link>

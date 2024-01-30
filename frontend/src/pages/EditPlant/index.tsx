@@ -40,7 +40,7 @@ const EditPlant = () => {
       }
     };
     fetchPlant();
-  }, [searchParams]);
+  }, [searchParams, reset]);
 
   const onSubmit: SubmitHandler<NewPlant> = async (data) => {
     let response;
