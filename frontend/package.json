@@ -19,7 +19,9 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.0.1",
     "react-router-dom": "^6.21.2",
-    "tailwind-variants": "^0.1.20"
+    "react-tailwindcss-datepicker": "^1.6.6",
+    "tailwind-variants": "^0.1.20",
+    "dayjs": "^1.11.6"
   },
   "devDependencies": {
     "@types/node": "^20.11.9",

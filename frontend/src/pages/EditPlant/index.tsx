@@ -10,6 +10,7 @@ import {
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaSeedling } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
+import DatePicker from '../../components/UI/DatePicker';
 
 const EditPlant = () => {
   const [searchParams] = useSearchParams();
@@ -114,6 +115,8 @@ const EditPlant = () => {
             required: 'Last watered date is required',
           })}
         />
+
+        <DatePicker />
 
         <div className='p-4 my-4'>
           <button
