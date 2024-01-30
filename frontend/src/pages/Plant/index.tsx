@@ -94,7 +94,7 @@ const PlantPage = () => {
           <div className='p-4 my-4'>
             <div className='flex items-center gap-3'>
               <h2 className='card-title text-3xl mb-1'>{plant?.name}</h2>
-              <Link to={`/plants/plant-edit?plant=${plant?.id}`}>
+              <Link to={`/plant-edit?plant=${plant?.id}`}>
                 <FaPen className='text-base-300' />
               </Link>
             </div>
