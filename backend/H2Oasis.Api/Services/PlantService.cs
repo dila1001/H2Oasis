@@ -1,26 +1,30 @@
-using System.Text.Json;
-using H2Oasis.Api.Contracts.Plant;
 using H2Oasis.Api.Models;
 using H2Oasis.Api.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Postgrest;
-using Client = Supabase.Client;
 
 namespace H2Oasis.Api.Services;
 
 public class PlantService : IPlantService
 {
-    private readonly PlantDbContext _dbContext;
+    private readonly AppDbContext _dbContext;
 
-    public PlantService(PlantDbContext dbContext)
+    public PlantService(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-
-    public async Task<IEnumerable<Plant>> GetPlants()
+    public async Task<IEnumerable<Plant>?> GetPlantsForHousehold(Guid householdId)
     {
-        var plants = await _dbContext.Plants.ToListAsync();
+        var household = await _dbContext.Households
+            .Include(h => h.Plants)
+            .FirstOrDefaultAsync(h => h.Id == householdId);
+
+        if (household is null)
+        {
+            return null;
+        }
+    
+        IEnumerable<Plant> plants = household.Plants?.ToList() ?? new List<Plant>();
         return plants;
     }
 
@@ -31,8 +35,10 @@ public class PlantService : IPlantService
         return plant ?? null;
     }
 
-    public async Task<Plant> CreatePlant(Plant newPlant)
+    public async Task<Plant> CreatePlantForHousehold(Plant newPlant)
     {
+        // TODO: check if householdid is valid
+        
         _dbContext.Plants.Add(newPlant);
         await _dbContext.SaveChangesAsync();
         return newPlant;

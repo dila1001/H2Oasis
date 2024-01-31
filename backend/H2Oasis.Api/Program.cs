@@ -32,16 +32,10 @@ var configuration = builder.Configuration;
     builder.Services.AddAutoMapper(typeof(Program).Assembly);
     builder.Services.AddScoped<IPlantService, PlantService>();
     // builder.Services.AddScoped<IUserService, UserService>();
-    var connection = String.Empty;
-    if (builder.Environment.IsDevelopment())
-    {
-        connection = configuration["ConnectionStrings:AZURE_SQL_CONNECTIONSTRING"];
-    }
-    else
-    {
-        connection = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
-    }
-    builder.Services.AddDbContext<PlantDbContext>(options => 
+    var connection = builder.Environment.IsDevelopment() ? configuration["ConnectionStrings:AZURE_SQL_CONNECTIONSTRING"] : Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
+    // builder.Services.AddDbContext<PlantDbContext>(options => 
+    //     options.UseSqlServer(connection));
+    builder.Services.AddDbContext<AppDbContext>(options => 
         options.UseSqlServer(connection));
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();

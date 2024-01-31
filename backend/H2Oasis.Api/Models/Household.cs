@@ -4,7 +4,7 @@ namespace H2Oasis.Api.Models;
 
 public class Household
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
     [MaxLength(255)]
     public string Name { get; set; } = string.Empty;
 

@@ -22,16 +22,19 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<UserHousehold>()
             .HasOne(uh => uh.User)
             .WithMany(u => u.UserHouseholds)
-            .HasForeignKey(uh => uh.UserId);
+            .HasForeignKey(uh => uh.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<UserHousehold>()
             .HasOne(uh => uh.Household)
             .WithMany(h => h.UserHouseholds)
-            .HasForeignKey(uh => uh.HouseholdId);
+            .HasForeignKey(uh => uh.HouseholdId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Plant>()
             .HasOne(p => p.Household)
             .WithMany(h => h.Plants)
-            .HasForeignKey(p => p.HouseholdId);
+            .HasForeignKey(p => p.HouseholdId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

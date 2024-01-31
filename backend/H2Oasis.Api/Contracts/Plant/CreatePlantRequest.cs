@@ -6,5 +6,6 @@ public record CreatePlantRequest(
     string ImageUrl,
     int WateringFrequencyInDays,
     DateTime LastWatered,
-    int WaterAmountInMl
+    int WaterAmountInMl,
+    Guid HouseholdId
     );

@@ -1,16 +1,15 @@
-using System.Text.Json;
 using AutoMapper;
 using H2Oasis.Api.Contracts.Plant;
-using H2Oasis.Api.Contracts.User;
 using H2Oasis.Api.Models;
 using H2Oasis.Api.Services;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Supabase;
+
 
 namespace H2Oasis.Api.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class PlantsController : ControllerBase
     {
@@ -23,10 +22,15 @@ namespace H2Oasis.Api.Controllers
             _mapper = mapper;
         }
         
-        [HttpGet]
-        public async Task<IActionResult> GetPlants()
+        [HttpGet("household/{householdId:guid}")]
+        public async Task<IActionResult> GetPlantsForHousehold(Guid householdId)
         {
-            var plants = await _plantService.GetPlants();
+            var plants = await _plantService.GetPlantsForHousehold(householdId);
+
+            if (plants is null)
+            {
+                return NotFound($"No household with the id: {householdId}");
+            }
             
             var plantResponses = _mapper.Map<IEnumerable<PlantResponse>>(plants);
             
@@ -53,7 +57,7 @@ namespace H2Oasis.Api.Controllers
         {
             Plant newPlant = Plant.From(plantRequest);
             
-            var plant = await _plantService.CreatePlant(newPlant);
+            var plant = await _plantService.CreatePlantForHousehold(newPlant);
             
             var plantResponse = _mapper.Map<PlantResponse>(plant);
             

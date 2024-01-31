@@ -6,4 +6,5 @@ public record UpdatePlantRequest(
     string ImageUrl,
     int WateringFrequencyInDays,
     DateTime LastWatered,
-    int WaterAmountInMl);
+    int WaterAmountInMl,
+    Guid HouseholdId);
