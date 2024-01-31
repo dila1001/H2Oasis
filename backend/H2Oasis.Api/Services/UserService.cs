@@ -34,7 +34,8 @@ public class UserService : IUserService
         {
             Id = Int32.Parse(user.FindFirst(ClaimTypes.NameIdentifier)!.Value),
             FirstName = user.FindFirst(ClaimTypes.GivenName)!.Value,
-            LastName = user.FindFirst(ClaimTypes.Surname)!.Value
+            LastName = user.FindFirst(ClaimTypes.Surname)!.Value,
+            Email = user.FindFirst(ClaimTypes.Email)!.Value
         };
         
         _dbContext.Users.Add(newUser);
