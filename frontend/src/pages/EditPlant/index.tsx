@@ -10,6 +10,7 @@ import {
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaSeedling } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
+import { formatDate } from '../../utils/dateUtils';
 
 const EditPlant = () => {
   const [searchParams] = useSearchParams();
@@ -20,8 +21,8 @@ const EditPlant = () => {
     register,
     handleSubmit,
     formState: { isSubmitting },
-    reset,
-  } = useForm<NewPlant>();
+    reset
+    } = useForm<NewPlant>();
 
   useEffect(() => {
     const fetchPlant = async () => {
@@ -34,7 +35,7 @@ const EditPlant = () => {
           species: plant!.species,
           imageUrl: plant!.imageUrl,
           wateringFrequencyInDays: plant!.wateringFrequencyInDays.toString(),
-          lastWatered: plant!.lastWatered,
+          lastWatered: formatDate(plant!.lastWatered),
           waterAmountInMl: plant!.waterAmountInMl,
         });
       }
@@ -85,6 +86,13 @@ const EditPlant = () => {
           })}
         />
         <input
+          type="date"
+          className='input input-bordered input-success w-full'
+          {...register('lastWatered', {
+            required: 'Date is required',
+          })}
+        />
+        <input
           type='text'
           placeholder='Image URL'
           className='input input-bordered input-success w-full'
@@ -106,14 +114,8 @@ const EditPlant = () => {
             required: 'Water amount is required',
           })}
         />
-        <input
-          type='text'
-          placeholder='Last watered'
-          className='input input-bordered input-success w-full'
-          {...register('lastWatered', {
-            required: 'Last watered date is required',
-          })}
-        />
+
+        
 
         <div className='p-4 my-4'>
           <button
