@@ -52,31 +52,40 @@ const PlantPage = () => {
     setPlant(response);
   };
 
-  return (
-    <>
-      <Toaster position='top-center' reverseOrder={false} />
-      <dialog id='water-modal' className='modal'>
-        <div className='modal-box'>
-          <h3 className='font-bold text-lg'>
-            Would you like to water {plant?.name}?
-          </h3>
-          <p className='py-4'>Press yes to water or no to close</p>
-          <div className='modal-action'>
-            <form method='dialog' className='w-full flex gap-2 justify-end'>
-              <button
-                className='btn bg-accent text-white'
-                onClick={() => waterPlant()}
-              >
-                Yes
-              </button>
-              <button className='btn'>No</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
-      {plant && (
-        <div className='mx-5 my-2 flex-row'>
-          {/* <div className='text-sm breadcrumbs'>
+	return (
+		<>
+			<Toaster
+				position='top-center'
+				reverseOrder={false}
+			/>
+			<dialog
+				id='water-modal'
+				className='modal'
+			>
+				<div className='modal-box'>
+					<h3 className='font-bold text-lg'>
+						Would you like to water {plant?.name}?
+					</h3>
+					<p className='py-4'>Press yes to water or no to close</p>
+					<div className='modal-action'>
+						<form
+							method='dialog'
+							className='w-full flex gap-2 justify-end'
+						>
+							<button
+								className='btn bg-accent text-white'
+								onClick={() => waterPlant()}
+							>
+								Yes
+							</button>
+							<button className='btn'>No</button>
+						</form>
+					</div>
+				</div>
+			</dialog>
+			{plant && (
+				<div className='mx-5 my-2 flex-row'>
+					{/* <div className='text-sm breadcrumbs'>
             <ul>
               <li>
                 <a>Home</a>

@@ -44,93 +44,96 @@ const EditPlant = () => {
     fetchPlant();
   }, [searchParams, reset]);
 
-  const onSubmit: SubmitHandler<NewPlant> = async (data) => {
-    let response;
+	const onSubmit: SubmitHandler<NewPlant> = async (data) => {
+		let response;
     console.log(data)
-    if (plant) {
-      response = await updatePlant(plant.id, data);
-      navigate(`/plant/${response?.id}?saved=true`);
-    } else {
-      response = await addPlant(data);
-      navigate(`/plant/${response?.id}?created=true`);
-    }
-  };
+		if (plant) {
+			response = await updatePlant(plant.id, data);
+			navigate(`/plant/${response?.id}?saved=true`);
+		} else {
+			response = await addPlant(data);
+			navigate(`/plant/${response?.id}?created=true`);
+		}
+	};
 
-  return (
-    <div className='mx-5 my-2 flex flex-col gap-4'>
-      <Toaster
-        position='top-center'
-        reverseOrder={false}
-        toastOptions={{
-          success: {
-            duration: 4000,
-          },
-        }}
-      />
-      <h2 className='card-title text-3xl mb-4'>
-        {plant ? plant.name : 'Add New Plant'}
-      </h2>
-      <form className='flex flex-col gap-3' onSubmit={handleSubmit(onSubmit)}>
-        <input
-          type='text'
-          placeholder='Name'
-          className='input input-bordered input-success w-full'
-          {...register('name', {
-            required: 'Name is required',
-          })}
-        />
-        <input
-          type='text'
-          placeholder='Species'
-          className='input input-bordered input-success w-full'
-          {...register('species', {
-            required: 'Species is required',
-          })}
-        />
-        <input
-          type="date"
-          className='input input-bordered input-success w-full'
-          {...register('lastWatered', {
-            required: 'Date is required',
-          })}
-        />
-        {/* <input
+	return (
+		<div className='mx-5 my-2 flex flex-col gap-4'>
+			<Toaster
+				position='top-center'
+				reverseOrder={false}
+				toastOptions={{
+					success: {
+						duration: 4000,
+					},
+				}}
+			/>
+			<h2 className='card-title text-3xl mb-4'>
+				{plant ? plant.name : 'Add New Plant'}
+			</h2>
+			<form
+				className='flex flex-col gap-3'
+				onSubmit={handleSubmit(onSubmit)}
+			>
+				<input
+					type='text'
+					placeholder='Name'
+					className='input input-bordered input-success w-full'
+					{...register('name', {
+						required: 'Name is required',
+					})}
+				/>
+				<input
+					type='text'
+					placeholder='Species'
+					className='input input-bordered input-success w-full'
+					{...register('species', {
+						required: 'Species is required',
+					})}
+				/>
+				<input
+					type='date'
+					className='input input-bordered input-success w-full'
+					{...register('lastWatered', {
+						required: 'Date is required',
+					})}
+				/>
+				{/* <input
           type='text'
           placeholder='Image URL'
           className='input input-bordered input-success w-full'
           {...register('imageUrl')}
         /> */}
 
-        <input
-          type='number'
-          placeholder='Watering frequency in days'
-          className='input input-bordered input-success w-full'
-          {...register('wateringFrequencyInDays', {
-            required: 'Watering frequency is required',
-          })}
-        />
-        <input
-          type='number'
-          placeholder='Amount of water in ml'
-          className='input input-bordered input-success w-full'
-          {...register('waterAmountInMl', {
-            required: 'Water amount is required',
-          })}
-        />
-        <input
-          id='plantImage'
-          type="file"
-          // name="Plant image"
-          className='block w-full text-sm text-slate-500
+				<input
+					type='number'
+					placeholder='Watering frequency in days'
+					className='input input-bordered input-success w-full'
+					{...register('wateringFrequencyInDays', {
+						required: 'Watering frequency is required',
+					})}
+				/>
+				<input
+					type='number'
+					placeholder='Amount of water in ml'
+					className='input input-bordered input-success w-full'
+					{...register('waterAmountInMl', {
+						required: 'Water amount is required',
+					})}
+				/>
+				<input
+					id='plantImage'
+					type='file'
+					// name="Plant image"
+					className='block w-full text-sm text-slate-500
         file:mr-4 file:py-2 file:px-4 file:rounded-md
         file:border-none file:text-sm
         file:bg-warning
         file:h-12'
-          accept="image/png, image/jpeg"
-          {...register('uploadedImage', {
-            required: 'Image is required',
-          })}
-        />
+					accept='image/png, image/jpeg'
+					{...register('uploadedImage', {
+						required: 'Image is required',
+					})}
+				/>
 
         <div className='p-4 my-4'>
           <button
