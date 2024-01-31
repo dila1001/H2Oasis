@@ -1,7 +1,7 @@
 namespace H2Oasis.Api.Contracts.Plant;
 
 public record PlantResponse(
-    Guid Id,
+    Guid PlantId,
     string Name,
     string Species,
     string ImageUrl,
@@ -9,6 +9,5 @@ public record PlantResponse(
     int WateringFrequencyInDays,
     DateTime LastWatered,
     string LastWateredBy,
-    int WaterAmountInMl,
-    Guid HouseholdId
+    int WaterAmountInMl
     );

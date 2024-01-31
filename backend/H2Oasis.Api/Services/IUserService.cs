@@ -8,4 +8,5 @@ public interface IUserService
 {
     Task<User?> GetUserInfo(string id);
     Task<User> CreateUserFromClaims(ClaimsPrincipal user);
+    Task<IEnumerable<User>> GetUsersForHousehold(Guid houseHoldId);
 }

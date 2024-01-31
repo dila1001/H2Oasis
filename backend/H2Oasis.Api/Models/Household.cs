@@ -8,6 +8,6 @@ public class Household
     [MaxLength(255)]
     public string Name { get; set; } = string.Empty;
 
-    public IEnumerable<UserHousehold> UserHouseholds { get; set; } = [];
-    public IEnumerable<Plant> Plants { get; set; } = [];
+    public IEnumerable<UserHousehold> UserHouseholds { get; set; } = new List<UserHousehold>();
+    public IEnumerable<Plant> Plants { get; set; } = new List<Plant>();
 }

@@ -21,11 +21,12 @@ namespace H2Oasis.Api.Controllers
             _mapper = mapper;
         }
         
-        [HttpGet("user/{userId}")]
+        [HttpGet("users/{userId}")]
         public async Task<IActionResult> GetHouseholdsForUser(string userId)
         {
             var households = await _householdService.GetHouseholdsForUser(userId);
-            return Ok(households);
+            var householdsResponse = _mapper.Map<IEnumerable<HouseholdResponse>>(households);
+            return Ok(householdsResponse);
         }
         
         [HttpGet("{id:guid}")]
@@ -52,16 +53,8 @@ namespace H2Oasis.Api.Controllers
             };
 
             var household = await _householdService.CreateHousehold(newHousehold);
-            bool result = false;
-            try
-            {
-                result= await _householdService.AddUserToHousehold(householdRequest.userId, household.HouseholdId);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-                
+            
+            var result= await _householdService.AddUserToHousehold(householdRequest.userId, household.HouseholdId);
 
             if (!result)
             {
@@ -72,7 +65,7 @@ namespace H2Oasis.Api.Controllers
             
             return CreatedAtAction(
                 nameof(GetHouseholdById),
-                new { id = householdResponse.Id },
+                new { id = householdResponse.HouseholdId },
                 householdResponse);
 
         }
@@ -111,7 +104,7 @@ namespace H2Oasis.Api.Controllers
             return NoContent();
         }
         
-        [HttpDelete("{householdId:guid}/user/{userId}")]
+        [HttpDelete("{householdId:guid}/users/{userId}")]
         public async Task<IActionResult> DeleteUserFromHousehold(Guid householdId, string userId)
         {
             var result = await _householdService.RemoveUserFromHousehold(userId, householdId);
@@ -123,5 +116,7 @@ namespace H2Oasis.Api.Controllers
 
             return NoContent();
         }
+        
+        // TODO: add user to household endpoint
     }
 }

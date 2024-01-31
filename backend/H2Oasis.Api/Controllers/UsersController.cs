@@ -34,5 +34,14 @@ namespace H2Oasis.Api.Controllers
             return Ok(userResponse);
         }
         
+        [HttpGet("households/{householdId:guid}")]
+        public async Task<IActionResult> GetUsersForHousehold(Guid householdId)
+        {
+            var users = await _userService.GetUsersForHousehold(householdId);
+            var usersResponse = _mapper.Map<IEnumerable<UserResponse>>(users);
+            return Ok(usersResponse);
+
+        }
+        
     }
 }

@@ -2,6 +2,7 @@ using System.Security.Claims;
 using H2Oasis.Api.Contracts.User;
 using H2Oasis.Api.Models;
 using H2Oasis.Api.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Supabase;
 
 namespace H2Oasis.Api.Services;
@@ -32,7 +33,7 @@ public class UserService : IUserService
     {
         var newUser = new User
         {
-            Id = user.FindFirst(ClaimTypes.NameIdentifier)!.Value,
+            UserId = user.FindFirst(ClaimTypes.NameIdentifier)!.Value,
             FirstName = user.FindFirst(ClaimTypes.GivenName)!.Value,
             LastName = user.FindFirst(ClaimTypes.Surname)!.Value,
             Email = user.FindFirst(ClaimTypes.Email)!.Value
@@ -43,5 +44,14 @@ public class UserService : IUserService
 
         return newUser;
     }
-    
+
+    public async Task<IEnumerable<User>> GetUsersForHousehold(Guid houseHoldId)
+    {
+        var users = await _dbContext.UserHouseholds
+            .Where(uh => uh.HouseholdId == houseHoldId)
+            .Select(uh => uh.User)
+            .ToListAsync();
+
+        return users;
+    }
 }

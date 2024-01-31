@@ -41,17 +41,17 @@ public class PlantDbContext : DbContext
     {
         modelBuilder.Entity<UserHousehold>()
             .HasKey(uh => new { uh.UserId, uh.HouseholdId });
+        
+        modelBuilder.Entity<UserHousehold>()
+            .HasOne(uh => uh.Household)
+            .WithMany(h => h.UserHouseholds)
+            .HasForeignKey(uh => uh.HouseholdId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<UserHousehold>()
             .HasOne(uh => uh.User)
             .WithMany(u => u.UserHouseholds)
             .HasForeignKey(uh => uh.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<UserHousehold>()
-            .HasOne(uh => uh.Household)
-            .WithMany(h => h.UserHouseholds)
-            .HasForeignKey(uh => uh.HouseholdId)
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Plant>()

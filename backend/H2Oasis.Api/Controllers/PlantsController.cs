@@ -22,7 +22,7 @@ namespace H2Oasis.Api.Controllers
             _mapper = mapper;
         }
         
-        [HttpGet("household/{householdId:guid}")]
+        [HttpGet("households/{householdId:guid}")]
         public async Task<IActionResult> GetPlantsForHousehold(Guid householdId)
         {
             var plants = await _plantService.GetPlantsForHousehold(householdId);
@@ -63,7 +63,7 @@ namespace H2Oasis.Api.Controllers
             
             return CreatedAtAction(
                 nameof(GetPlantById),
-                new { id = plantResponse.Id },
+                new { id = plantResponse.PlantId },
                 plantResponse);
         }
         
