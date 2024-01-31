@@ -22,7 +22,7 @@ const EditPlant = () => {
     handleSubmit,
     formState: { isSubmitting },
     reset
-    } = useForm<NewPlant>();
+  } = useForm<NewPlant>();
 
   useEffect(() => {
     const fetchPlant = async () => {
@@ -99,6 +99,11 @@ const EditPlant = () => {
           {...register('imageUrl')}
         />
         <input
+          type="file"
+          name="avatar"
+          accept="image/png, image/jpeg"
+        />
+        <input
           type='number'
           placeholder='Watering frequency in days'
           className='input input-bordered input-success w-full'
@@ -115,7 +120,6 @@ const EditPlant = () => {
           })}
         />
 
-        
 
         <div className='p-4 my-4'>
           <button

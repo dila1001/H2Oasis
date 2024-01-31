@@ -14,6 +14,7 @@ export type NewPlant = {
 	name: string;
 	species: string;
 	imageUrl: string;
+	uploadedImage: File;
 	wateringFrequencyInDays: string;
 	lastWatered: string;
 	waterAmountInMl: string;
