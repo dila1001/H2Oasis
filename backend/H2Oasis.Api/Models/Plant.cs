@@ -15,6 +15,10 @@ public class Plant
     public DateTime LastWatered { get; set; }
     public int WaterAmountInMl { get; set; }
     
+    public Guid HouseholdId { get; set; }
+    
+    public Household Household { get; set; }
+    
     public Plant()
     {
     }
