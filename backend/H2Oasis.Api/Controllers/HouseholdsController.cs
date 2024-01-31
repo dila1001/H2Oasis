@@ -52,6 +52,21 @@ namespace H2Oasis.Api.Controllers
             };
 
             var household = await _householdService.CreateHousehold(newHousehold);
+            bool result = false;
+            try
+            {
+                result= await _householdService.AddUserToHousehold(householdRequest.userId, household.HouseholdId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+                
+
+            if (!result)
+            {
+                return NotFound($"No user with the id: {householdRequest.userId}");
+            }
             
             var householdResponse = _mapper.Map<HouseholdResponse>(household);
             

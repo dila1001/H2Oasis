@@ -10,4 +10,5 @@ public interface IHouseholdService
     Task<Household?> UpdateHouseHold(Household updatedHousehold);
     Task<Boolean> DeleteHousehold(Guid householdId);
     Task<Boolean> RemoveUserFromHousehold(string userId, Guid householdId);
+    Task<Boolean> AddUserToHousehold(string userId, Guid householdId);
 }
