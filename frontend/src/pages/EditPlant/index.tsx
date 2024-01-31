@@ -1,4 +1,4 @@
-import { JSXElementConstructor, ReactElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   NewPlant,
@@ -7,11 +7,11 @@ import {
   getPlantById,
   updatePlant,
 } from '../../services/plantsService';
-import { Controller, ControllerFieldState, ControllerRenderProps, FieldValues, SubmitHandler, UseFormStateReturn, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaSeedling } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
-import DatePicker from '../../components/UI/DatePicker';
-import Datepicker, { DateValueType } from 'react-tailwindcss-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'
+import { formatDate } from '../../utils/dateUtils';
 
 const EditPlant = () => {
   const [searchParams] = useSearchParams();
@@ -22,8 +22,8 @@ const EditPlant = () => {
     register,
     handleSubmit,
     formState: { isSubmitting },
-    reset,
-  } = useForm<NewPlant>();
+    reset
+    } = useForm<NewPlant>();
 
   useEffect(() => {
     const fetchPlant = async () => {
@@ -36,7 +36,7 @@ const EditPlant = () => {
           species: plant!.species,
           imageUrl: plant!.imageUrl,
           wateringFrequencyInDays: plant!.wateringFrequencyInDays.toString(),
-          lastWatered: plant!.lastWatered,
+          lastWatered: formatDate(plant!.lastWatered),
           waterAmountInMl: plant!.waterAmountInMl,
         });
       }
@@ -108,23 +108,13 @@ const EditPlant = () => {
             required: 'Water amount is required',
           })}
         />
-        <input
-          type='text'
-          placeholder='Last watered'
-          className='input input-bordered input-success w-full'
-          {...register('lastWatered', {
-            required: 'Last watered date is required',
-          })}
-        />
-        <Controller render={({ field }) => <DatePicker date={ } />}
-          name={'lastWateredDatePicker'} />
 
         <input
           type="date"
-          name="lastWateredDatePicker"
           className='input input-bordered input-success w-full'
-          value={date ? date.toISOString() : 'Insert date'}
-          onChange={(e) => handleDateChange(new Date(e.target.value))}
+          {...register('lastWatered', {
+            required: 'Date is required',
+          })}
         />
 
         <div className='p-4 my-4'>

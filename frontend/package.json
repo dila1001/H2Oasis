@@ -11,8 +11,9 @@
   },
   "dependencies": {
     "axios": "^1.6.5",
-    "date-fns": "^3.2.0",
+    "date-fns": "^3.3.1",
     "date-fns-tz": "^2.0.0",
+    "dayjs": "^1.11.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.3",
@@ -20,8 +21,7 @@
     "react-icons": "^5.0.1",
     "react-router-dom": "^6.21.2",
     "react-tailwindcss-datepicker": "^1.6.6",
-    "tailwind-variants": "^0.1.20",
-    "dayjs": "^1.11.6"
+    "tailwind-variants": "^0.1.20"
   },
   "devDependencies": {
     "@types/node": "^20.11.9",

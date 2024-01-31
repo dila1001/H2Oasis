@@ -13,7 +13,6 @@ const AuthProvider: React.FC<AuthProviderProps> = (props) => {
     // if user is null, fetch userinfo. if successfull, setIsLoggedIn to true & setUser to userinfo
     setIsLoggedIn(true);
     setUser('Adila');
-    console.log('called');
   }, []);
 
   const value = {
