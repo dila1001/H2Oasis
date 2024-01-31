@@ -119,7 +119,17 @@ const EditPlant = () => {
             required: 'Water amount is required',
           })}
         />
-
+        <input
+          id='plantImage'
+          type="file"
+          name="Plant image"
+          className='block w-full text-sm text-slate-500
+        file:mr-4 file:py-2 file:px-4 file:rounded-md
+        file:border-none file:text-sm
+        file:bg-warning
+        file:h-12'
+          accept="image/png, image/jpeg"
+        />
 
         <div className='p-4 my-4'>
           <button
