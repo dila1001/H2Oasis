@@ -7,9 +7,9 @@ namespace H2Oasis.Api.Services;
 public class HouseholdService : IHouseholdService
 {
 
-    private readonly AppDbContext _dbContext;
+    private readonly PlantDbContext _dbContext;
 
-    public HouseholdService(AppDbContext dbContext)
+    public HouseholdService(PlantDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -39,7 +39,7 @@ public class HouseholdService : IHouseholdService
 
     public async Task<Household?> UpdateHouseHold(Household updatedHousehold)
     {
-        var existingHousehold = await _dbContext.Households.FindAsync(updatedHousehold.Id);
+        var existingHousehold = await _dbContext.Households.FindAsync(updatedHousehold.HouseholdId);
 
         if (existingHousehold == null)
         {

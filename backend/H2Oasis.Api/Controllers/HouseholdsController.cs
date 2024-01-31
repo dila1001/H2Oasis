@@ -67,7 +67,7 @@ namespace H2Oasis.Api.Controllers
         {
             var updatedHousehold = new Household()
             {
-                Id = id,
+                HouseholdId = id,
                 Name = request.Name
             };
 

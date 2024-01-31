@@ -4,7 +4,7 @@ using H2Oasis.Api.Contracts.Plant;
 namespace H2Oasis.Api.Models;
 public class Plant
 {
-    public Guid Id { get; set; }
+    public Guid PlantId { get; set; }
     [MaxLength(255)]
     public string Name { get; set; }
     [MaxLength(255)]
@@ -29,7 +29,7 @@ public class Plant
 
     public Plant(string name, string species, string imageUrl, string location, int wateringFreq, DateTime lastWatered, string lastWateredBy, int waterAmount, Guid householdId, Guid? id = null)
     {
-        Id = id ?? Guid.NewGuid();
+        PlantId = id ?? Guid.NewGuid();
         Name = name;
         Species = species;
         ImageUrl = imageUrl;

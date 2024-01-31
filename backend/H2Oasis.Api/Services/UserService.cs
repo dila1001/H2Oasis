@@ -8,9 +8,9 @@ namespace H2Oasis.Api.Services;
 
 public class UserService : IUserService
 {
-    private readonly AppDbContext _dbContext;
+    private readonly PlantDbContext _dbContext;
 
-    public UserService(AppDbContext dbContext)
+    public UserService(PlantDbContext dbContext)
     {
         _dbContext = dbContext;
     }

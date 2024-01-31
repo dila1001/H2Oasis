@@ -33,9 +33,7 @@ var configuration = builder.Configuration;
     builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddScoped<IHouseholdService, HouseholdService>();
     var connection = builder.Environment.IsDevelopment() ? configuration["ConnectionStrings:AZURE_SQL_CONNECTIONSTRING"] : Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
-    // builder.Services.AddDbContext<PlantDbContext>(options => 
-    //     options.UseSqlServer(connection));
-    builder.Services.AddDbContext<AppDbContext>(options => 
+    builder.Services.AddDbContext<PlantDbContext>(options => 
         options.UseSqlServer(connection));
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();

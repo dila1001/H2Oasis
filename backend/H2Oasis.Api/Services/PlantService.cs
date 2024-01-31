@@ -6,9 +6,9 @@ namespace H2Oasis.Api.Services;
 
 public class PlantService : IPlantService
 {
-    private readonly AppDbContext _dbContext;
+    private readonly PlantDbContext _dbContext;
 
-    public PlantService(AppDbContext dbContext)
+    public PlantService(PlantDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -17,7 +17,7 @@ public class PlantService : IPlantService
     {
         var household = await _dbContext.Households
             .Include(h => h.Plants)
-            .FirstOrDefaultAsync(h => h.Id == householdId);
+            .FirstOrDefaultAsync(h => h.HouseholdId == householdId);
 
         if (household is null)
         {
@@ -46,7 +46,7 @@ public class PlantService : IPlantService
 
     public async Task<Plant?> UpdatePlant(Plant updatedPlant)
     {
-        var existingPlant = await _dbContext.Plants.FindAsync(updatedPlant.Id);
+        var existingPlant = await _dbContext.Plants.FindAsync(updatedPlant.PlantId);
 
         if (existingPlant is null)
         {
