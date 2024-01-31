@@ -87,6 +87,13 @@ const EditPlant = () => {
           })}
         />
         <input
+          type="date"
+          className='input input-bordered input-success w-full'
+          {...register('lastWatered', {
+            required: 'Date is required',
+          })}
+        />
+        <input
           type='text'
           placeholder='Image URL'
           className='input input-bordered input-success w-full'
@@ -109,13 +116,7 @@ const EditPlant = () => {
           })}
         />
 
-        <input
-          type="date"
-          className='input input-bordered input-success w-full'
-          {...register('lastWatered', {
-            required: 'Date is required',
-          })}
-        />
+        
 
         <div className='p-4 my-4'>
           <button
