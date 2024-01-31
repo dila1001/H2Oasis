@@ -10,7 +10,6 @@ import {
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaSeedling } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
-import 'react-datepicker/dist/react-datepicker.css'
 import { formatDate } from '../../utils/dateUtils';
 
 const EditPlant = () => {
