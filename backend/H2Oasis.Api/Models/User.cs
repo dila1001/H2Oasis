@@ -4,7 +4,7 @@ namespace H2Oasis.Api.Models;
 
 public class User
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     [MaxLength(255)]
     public string FirstName { get; set; } = string.Empty;
     [MaxLength(255)]

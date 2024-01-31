@@ -6,48 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace H2Oasis.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class NewModels : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Plants",
-                table: "Plants");
-
-            migrationBuilder.RenameColumn(
-                name: "Id",
-                table: "Plants",
-                newName: "HouseholdId");
-
-            migrationBuilder.AddColumn<Guid>(
-                name: "PlantId",
-                table: "Plants",
-                type: "uniqueidentifier",
-                nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
-
-            migrationBuilder.AddColumn<string>(
-                name: "LastWateredBy",
-                table: "Plants",
-                type: "nvarchar(255)",
-                maxLength: 255,
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddColumn<string>(
-                name: "Location",
-                table: "Plants",
-                type: "nvarchar(255)",
-                maxLength: 255,
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Plants",
-                table: "Plants",
-                column: "PlantId");
-
             migrationBuilder.CreateTable(
                 name: "Households",
                 columns: table => new
@@ -64,8 +27,7 @@ namespace H2Oasis.Api.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
@@ -76,10 +38,36 @@ namespace H2Oasis.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Plants",
+                columns: table => new
+                {
+                    PlantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Species = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    WateringFrequencyInDays = table.Column<int>(type: "int", nullable: false),
+                    LastWatered = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastWateredBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    WaterAmountInMl = table.Column<int>(type: "int", nullable: false),
+                    HouseholdId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Plants", x => x.PlantId);
+                    table.ForeignKey(
+                        name: "FK_Plants_Households_HouseholdId",
+                        column: x => x.HouseholdId,
+                        principalTable: "Households",
+                        principalColumn: "HouseholdId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserHouseholds",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     HouseholdId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -108,22 +96,13 @@ namespace H2Oasis.Api.Migrations
                 name: "IX_UserHouseholds_HouseholdId",
                 table: "UserHouseholds",
                 column: "HouseholdId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Plants_Households_HouseholdId",
-                table: "Plants",
-                column: "HouseholdId",
-                principalTable: "Households",
-                principalColumn: "HouseholdId",
-                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Plants_Households_HouseholdId",
-                table: "Plants");
+            migrationBuilder.DropTable(
+                name: "Plants");
 
             migrationBuilder.DropTable(
                 name: "UserHouseholds");
@@ -133,36 +112,6 @@ namespace H2Oasis.Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Plants",
-                table: "Plants");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Plants_HouseholdId",
-                table: "Plants");
-
-            migrationBuilder.DropColumn(
-                name: "PlantId",
-                table: "Plants");
-
-            migrationBuilder.DropColumn(
-                name: "LastWateredBy",
-                table: "Plants");
-
-            migrationBuilder.DropColumn(
-                name: "Location",
-                table: "Plants");
-
-            migrationBuilder.RenameColumn(
-                name: "HouseholdId",
-                table: "Plants",
-                newName: "Id");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Plants",
-                table: "Plants",
-                column: "Id");
         }
     }
 }

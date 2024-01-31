@@ -14,7 +14,7 @@ public class HouseholdService : IHouseholdService
         _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<Household>?> GetHouseholdsForUser(int userId)
+    public async Task<IEnumerable<Household>?> GetHouseholdsForUser(string userId)
     {
         var households = await _dbContext.UserHouseholds
             .Where(uh => uh.UserId == userId)
@@ -65,7 +65,7 @@ public class HouseholdService : IHouseholdService
         return true;
     }
     
-    public async Task<bool> RemoveUserFromHousehold(int userId, Guid householdId)
+    public async Task<bool> RemoveUserFromHousehold(string userId, Guid householdId)
     {
         var userHousehold = await _dbContext.UserHouseholds
             .FirstOrDefaultAsync(uh => uh.UserId == userId && uh.HouseholdId == householdId);

@@ -16,7 +16,7 @@ public class UserService : IUserService
     }
 
 
-    public async Task<User?> GetUserInfo(int id)
+    public async Task<User?> GetUserInfo(string id)
     {
         var user = await _dbContext.Users.FindAsync(id);
 
@@ -32,7 +32,7 @@ public class UserService : IUserService
     {
         var newUser = new User
         {
-            Id = Int32.Parse(user.FindFirst(ClaimTypes.NameIdentifier)!.Value),
+            Id = user.FindFirst(ClaimTypes.NameIdentifier)!.Value,
             FirstName = user.FindFirst(ClaimTypes.GivenName)!.Value,
             LastName = user.FindFirst(ClaimTypes.Surname)!.Value,
             Email = user.FindFirst(ClaimTypes.Email)!.Value

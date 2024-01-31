@@ -20,8 +20,8 @@ namespace H2Oasis.Api.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetUser(int id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUser(string id)
         {
             var user = await _userService.GetUserInfo(id);
 

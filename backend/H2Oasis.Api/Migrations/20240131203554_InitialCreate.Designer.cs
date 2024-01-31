@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace H2Oasis.Api.Migrations
 {
     [DbContext(typeof(PlantDbContext))]
-    [Migration("20240131194751_NewModels")]
-    partial class NewModels
+    [Migration("20240131203554_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,11 +93,8 @@ namespace H2Oasis.Api.Migrations
 
             modelBuilder.Entity("H2Oasis.Api.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -121,8 +118,8 @@ namespace H2Oasis.Api.Migrations
 
             modelBuilder.Entity("H2Oasis.Api.Models.UserHousehold", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("HouseholdId")
                         .HasColumnType("uniqueidentifier");

@@ -90,11 +90,8 @@ namespace H2Oasis.Api.Migrations
 
             modelBuilder.Entity("H2Oasis.Api.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -118,8 +115,8 @@ namespace H2Oasis.Api.Migrations
 
             modelBuilder.Entity("H2Oasis.Api.Models.UserHousehold", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("HouseholdId")
                         .HasColumnType("uniqueidentifier");

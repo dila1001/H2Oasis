@@ -21,8 +21,8 @@ namespace H2Oasis.Api.Controllers
             _mapper = mapper;
         }
         
-        [HttpGet("user/{userId:int}")]
-        public async Task<IActionResult> GetHouseholdsForUser(int userId)
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetHouseholdsForUser(string userId)
         {
             var households = await _householdService.GetHouseholdsForUser(userId);
             return Ok(households);
@@ -96,8 +96,8 @@ namespace H2Oasis.Api.Controllers
             return NoContent();
         }
         
-        [HttpDelete("{householdId:guid}/user/{userId:int}")]
-        public async Task<IActionResult> DeleteUserFromHousehold(Guid householdId, int userId)
+        [HttpDelete("{householdId:guid}/user/{userId}")]
+        public async Task<IActionResult> DeleteUserFromHousehold(Guid householdId, string userId)
         {
             var result = await _householdService.RemoveUserFromHousehold(userId, householdId);
             

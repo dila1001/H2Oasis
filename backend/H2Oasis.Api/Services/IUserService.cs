@@ -6,6 +6,6 @@ namespace H2Oasis.Api.Services;
 
 public interface IUserService
 {
-    Task<User?> GetUserInfo(int id);
+    Task<User?> GetUserInfo(string id);
     Task<User> CreateUserFromClaims(ClaimsPrincipal user);
 }

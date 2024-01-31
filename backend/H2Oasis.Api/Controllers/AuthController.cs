@@ -29,7 +29,7 @@ namespace H2Oasis.Api.Controllers
                 return new ChallengeResult(GoogleDefaults.AuthenticationScheme);
             }
 
-            var userInfo = await _userService.GetUserInfo(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value));
+            var userInfo = await _userService.GetUserInfo(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
             
             if (userInfo is null)
             {
