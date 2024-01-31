@@ -119,10 +119,12 @@ const EditPlant = () => {
         <Controller render={({ field }) => <DatePicker date={ } />}
           name={'lastWateredDatePicker'} />
 
-        <Datepicker
-          value={value}
-          onChange={handleValueChange}
-          asSingle={true}
+        <input
+          type="date"
+          name="lastWateredDatePicker"
+          className='input input-bordered input-success w-full'
+          value={date ? date.toISOString() : 'Insert date'}
+          onChange={(e) => handleDateChange(new Date(e.target.value))}
         />
 
         <div className='p-4 my-4'>
