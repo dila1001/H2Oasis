@@ -34,6 +34,7 @@ const EditPlant = () => {
           name: plant!.name,
           species: plant!.species,
           imageUrl: plant!.imageUrl,
+          uploadedImage: plant!.uploadedImage,
           wateringFrequencyInDays: plant!.wateringFrequencyInDays.toString(),
           lastWatered: formatDate(plant!.lastWatered),
           waterAmountInMl: plant!.waterAmountInMl,
@@ -45,6 +46,7 @@ const EditPlant = () => {
 
   const onSubmit: SubmitHandler<NewPlant> = async (data) => {
     let response;
+    console.log(data)
     if (plant) {
       response = await updatePlant(plant.id, data);
       navigate(`/plant/${response?.id}?saved=true`);
@@ -92,17 +94,13 @@ const EditPlant = () => {
             required: 'Date is required',
           })}
         />
-        <input
+        {/* <input
           type='text'
           placeholder='Image URL'
           className='input input-bordered input-success w-full'
           {...register('imageUrl')}
-        />
-        <input
-          type="file"
-          name="avatar"
-          accept="image/png, image/jpeg"
-        />
+        /> */}
+
         <input
           type='number'
           placeholder='Watering frequency in days'
@@ -122,13 +120,16 @@ const EditPlant = () => {
         <input
           id='plantImage'
           type="file"
-          name="Plant image"
+          // name="Plant image"
           className='block w-full text-sm text-slate-500
         file:mr-4 file:py-2 file:px-4 file:rounded-md
         file:border-none file:text-sm
         file:bg-warning
         file:h-12'
           accept="image/png, image/jpeg"
+          {...register('uploadedImage', {
+            required: 'Image is required',
+          })}
         />
 
         <div className='p-4 my-4'>
