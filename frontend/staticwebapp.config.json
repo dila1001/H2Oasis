@@ -1,4 +1,26 @@
 {
+	"routes": [
+		{
+			"route": "/plant/:slug",
+			"statusCode": 404,
+			"data": { "content": "/index.html" }
+		},
+		{
+			"route": "/plant-edit",
+			"statusCode": 404,
+			"data": { "content": "/index.html" }
+		},
+		{
+			"route": "/login",
+			"statusCode": 404,
+			"data": { "content": "/index.html" }
+		},
+		{
+			"route": "/:path*",
+			"statusCode": 404,
+			"data": { "content": "/index.html" }
+		}
+	],
 	"navigationFallback": {
 		"rewrite": "index.html",
 		"exclude": ["/images/*.{png,jpg,gif}", "/css/*", "/js/*"]

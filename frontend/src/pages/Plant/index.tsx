@@ -56,24 +56,15 @@ const PlantPage = () => {
 
 	return (
 		<>
-			<Toaster
-				position='top-center'
-				reverseOrder={false}
-			/>
-			<dialog
-				id='water-modal'
-				className='modal'
-			>
+			<Toaster position='top-center' reverseOrder={false} />
+			<dialog id='water-modal' className='modal'>
 				<div className='modal-box'>
 					<h3 className='font-bold text-lg'>
 						Would you like to water {plant?.name}?
 					</h3>
 					<p className='py-4'>Press yes to water or no to close</p>
 					<div className='modal-action'>
-						<form
-							method='dialog'
-							className='w-full flex gap-2 justify-end'
-						>
+						<form method='dialog' className='w-full flex gap-2 justify-end'>
 							<button
 								className='btn bg-accent text-white'
 								onClick={() => waterPlant()}
@@ -140,8 +131,8 @@ const PlantPage = () => {
 						</div>
 					</div>
 
-          <div className='p-4 my-4'>
-            {/* Previous working code */}
+					<div className='p-4 my-4'>
+						{/* Previous working code */}
 						{/* <button
 							className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'
 							onClick={() =>
@@ -155,10 +146,10 @@ const PlantPage = () => {
 							<FaDroplet className='text-white text-2xl' />
 						</button> */}
 
-            {/* TODO: verify that this button works */}
+						{/* TODO: verify that this button works */}
 						<SubmitButton
-              iconName={FaDroplet}
-              buttonType='button'
+							iconName={FaDroplet}
+							buttonType='button'
 							onClick={() =>
 								(
 									document.getElementById(

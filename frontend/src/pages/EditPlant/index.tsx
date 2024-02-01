@@ -70,10 +70,7 @@ const EditPlant = () => {
 			<h2 className='card-title text-3xl mb-4'>
 				{plant ? plant.name : 'Add New Plant'}
 			</h2>
-			<form
-				className='flex flex-col gap-3'
-				onSubmit={handleSubmit(onSubmit)}
-			>
+			<form className='flex flex-col gap-3' onSubmit={handleSubmit(onSubmit)}>
 				<input
 					type='text'
 					placeholder='Name'
