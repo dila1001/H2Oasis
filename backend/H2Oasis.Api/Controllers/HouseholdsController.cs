@@ -117,6 +117,17 @@ namespace H2Oasis.Api.Controllers
             return NoContent();
         }
         
-        // TODO: add user to household endpoint
+        [HttpPost("{householdId:guid}/users/{userId}")]
+        public async Task<IActionResult> AddUserToHousehold(Guid householdId, string userId)
+        {
+            var result = await _householdService.AddUserToHousehold(userId, householdId);
+            
+            if (!result)
+            {
+                return NotFound($"No user with id {userId} or household with id {householdId}");
+            }
+
+            return NoContent();
+        }
     }
 }
