@@ -17,10 +17,10 @@ const EditPlant = () => {
   const [plant, setPlant] = useState<Plant | null>(null);
   const navigate = useNavigate();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
+	const {
+		register,
+		handleSubmit,
+		formState: { isSubmitting },
     reset
   } = useForm<NewPlant>();
 
@@ -46,7 +46,6 @@ const EditPlant = () => {
 
 	const onSubmit: SubmitHandler<NewPlant> = async (data) => {
 		let response;
-    console.log(data)
 		if (plant) {
 			response = await updatePlant(plant.id, data);
 			navigate(`/plant/${response?.id}?saved=true`);
