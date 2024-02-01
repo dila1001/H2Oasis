@@ -4,7 +4,7 @@ export type Plant = {
 	id: string;
 	name: string;
 	species: string;
-	imageUrl: string;
+	// imageUrl: string;
 	uploadedImage: File;
 	wateringFrequencyInDays: string;
 	lastWatered: string;
@@ -14,7 +14,7 @@ export type Plant = {
 export type NewPlant = {
 	name: string;
 	species: string;
-	imageUrl: string;
+	// imageUrl: string;
 	uploadedImage: File;
 	wateringFrequencyInDays: string;
 	lastWatered: string;
@@ -36,7 +36,7 @@ export const getPlantById = async (plantId: string): Promise<Plant | null> => {
 export const addPlant = async ({
 	name,
 	species,
-	imageUrl,
+	// imageUrl,
 	uploadedImage,
 	wateringFrequencyInDays,
 	lastWatered,
@@ -45,7 +45,7 @@ export const addPlant = async ({
 	const response = await api.post(plantsUrlEndpoint, {
 		name,
 		species,
-		imageUrl,
+		// imageUrl,
 		uploadedImage,
 		wateringFrequencyInDays,
 		lastWatered,

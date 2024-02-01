@@ -43,7 +43,7 @@ const PlantPage = () => {
 		const updatedPlantData: NewPlant = {
 			name: plant!.name,
 			species: plant!.species,
-			imageUrl: plant!.imageUrl,
+			// imageUrl: plant!.imageUrl,
 			uploadedImage: plant!.uploadedImage,
 			wateringFrequencyInDays: plant!.wateringFrequencyInDays,
 			lastWatered: getTodaysDate(),
@@ -97,11 +97,11 @@ const PlantPage = () => {
               </li>
             </ul>
           </div> */}
-					<img
+					{/* <img
 						src={plant?.imageUrl}
 						alt='Image Description'
 						className='object-cover rounded-2xl w-full h-80 shadow-md'
-					/>
+					/> */}
 					<div className='p-4 my-4'>
 						<div className='flex items-center gap-3'>
 							<h2 className='card-title text-3xl mb-1'>{plant?.name}</h2>

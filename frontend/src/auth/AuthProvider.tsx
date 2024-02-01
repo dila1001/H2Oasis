@@ -10,11 +10,11 @@ const AuthProvider: React.FC<AuthProviderProps> = (props) => {
 	const [user, setUser] = useState<User | null>(null);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-	const adila = {
-		id: '114826145929737499604',
-		firstName: 'Adila',
-		lastName: 'Razmi',
-		email: 'adila93@gmail.com',
+	const silvia = {
+		id: '101141217098569731496',
+		firstName: 'Silvia',
+		lastName: 'Dominguez',
+		email: 'silvia.dominguez@appliedtechnology.se',
 	};
 
 	useEffect(() => {
@@ -35,8 +35,8 @@ const AuthProvider: React.FC<AuthProviderProps> = (props) => {
 		// }
 
 		setIsLoggedIn(true);
-		setUser(adila);
-	}, [user, isLoggedIn]);
+		setUser(silvia);
+	}, []);
 
 	const value = {
 		user,
