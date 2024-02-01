@@ -1,48 +1,49 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
-  NewPlant,
-  Plant,
-  addPlant,
-  getPlantById,
-  updatePlant,
+	NewPlant,
+	Plant,
+	addPlant,
+	getPlantById,
+	updatePlant,
 } from '../../services/plantsService';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaSeedling } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
 import { formatDate } from '../../utils/dateUtils';
+import SubmitButton from '../../components/UI/SubmitButton';
 
 const EditPlant = () => {
-  const [searchParams] = useSearchParams();
-  const [plant, setPlant] = useState<Plant | null>(null);
-  const navigate = useNavigate();
+	const [searchParams] = useSearchParams();
+	const [plant, setPlant] = useState<Plant | null>(null);
+	const navigate = useNavigate();
 
 	const {
 		register,
 		handleSubmit,
 		formState: { isSubmitting },
-    reset
-  } = useForm<NewPlant>();
+		reset,
+	} = useForm<NewPlant>();
 
-  useEffect(() => {
-    const fetchPlant = async () => {
-      const queryValue = searchParams.get('plant');
-      if (queryValue) {
-        const plant = await getPlantById(queryValue);
-        setPlant(plant);
-        reset({
-          name: plant!.name,
-          species: plant!.species,
-          imageUrl: plant!.imageUrl,
-          uploadedImage: plant!.uploadedImage,
-          wateringFrequencyInDays: plant!.wateringFrequencyInDays.toString(),
-          lastWatered: formatDate(plant!.lastWatered),
-          waterAmountInMl: plant!.waterAmountInMl,
-        });
-      }
-    };
-    fetchPlant();
-  }, [searchParams, reset]);
+	useEffect(() => {
+		const fetchPlant = async () => {
+			const queryValue = searchParams.get('plant');
+			if (queryValue) {
+				const plant = await getPlantById(queryValue);
+				setPlant(plant);
+				reset({
+					name: plant!.name,
+					species: plant!.species,
+					imageUrl: plant!.imageUrl,
+					uploadedImage: plant!.uploadedImage,
+					wateringFrequencyInDays: plant!.wateringFrequencyInDays.toString(),
+					lastWatered: formatDate(plant!.lastWatered),
+					waterAmountInMl: plant!.waterAmountInMl,
+				});
+			}
+		};
+		fetchPlant();
+	}, [searchParams, reset]);
 
 	const onSubmit: SubmitHandler<NewPlant> = async (data) => {
 		let response;
@@ -134,7 +135,8 @@ const EditPlant = () => {
 					})}
 				/>
 
-        <div className='p-4 my-4'>
+				{/* Previous working code */}
+				{/* <div className='p-4 my-4'>
           <button
             className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'
             type='submit'
@@ -142,10 +144,17 @@ const EditPlant = () => {
           >
             <FaSeedling className='text-white text-2xl' />
           </button>
-        </div>
-      </form>
-    </div>
-  );
+        </div> */}
+
+				{/* TODO: verify that this button works */}
+				<SubmitButton
+					iconName={FaSeedling}
+					formState={isSubmitting}
+					buttonType='submit'
+				/>
+			</form>
+		</div>
+	);
 };
 
 export default EditPlant;
