@@ -19,7 +19,7 @@ public class Plant
     public string LastWateredBy { get; set; }
     public int WaterAmountInMl { get; set; }
     
-    public Guid HouseholdId { get; set; }
+    public Guid? HouseholdId { get; set; }
     
     public Household Household { get; set; }
     
@@ -27,7 +27,7 @@ public class Plant
     {
     }
 
-    public Plant(string name, string species, string imageUrl, string location, int wateringFreq, DateTime lastWatered, string lastWateredBy, int waterAmount, Guid householdId, Guid? id = null)
+    public Plant(string name, string species, string imageUrl, string location, int wateringFreq, DateTime lastWatered, string lastWateredBy, int waterAmount, Guid? id = null, Guid? householdId = null)
     {
         PlantId = id ?? Guid.NewGuid();
         Name = name;
@@ -51,12 +51,11 @@ public class Plant
             request.WateringFrequencyInDays,
             request.LastWatered,
             request.LastWateredBy,
-            request.WaterAmountInMl,
-            request.HouseholdId
+            request.WaterAmountInMl
             );
     }
     
-    public static Plant From(Guid id, UpdatePlantRequest request)
+    public static Plant From(Guid plantId, Guid householdId, UpdatePlantRequest request)
     {
         return new Plant(
             request.Name,
@@ -67,8 +66,8 @@ public class Plant
             request.LastWatered,
             request.LastWateredBy,
             request.WaterAmountInMl,
-            request.HouseholdId,
-            id
+            plantId,
+            householdId
         );
     }
 }

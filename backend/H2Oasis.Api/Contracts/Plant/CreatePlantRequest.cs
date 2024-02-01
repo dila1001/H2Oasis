@@ -8,6 +8,5 @@ public record CreatePlantRequest(
     int WateringFrequencyInDays,
     DateTime LastWatered,
     string LastWateredBy,
-    int WaterAmountInMl,
-    Guid HouseholdId
+    int WaterAmountInMl
     );

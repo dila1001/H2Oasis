@@ -52,10 +52,12 @@ namespace H2Oasis.Api.Controllers
             return Ok(plantResponse);
         }
         
-        [HttpPost]
-        public async Task<IActionResult> PostPlant([FromBody] CreatePlantRequest plantRequest)
+        [HttpPost("households/{householdId:guid}")]
+        public async Task<IActionResult> PostPlant(Guid householdId, [FromBody] CreatePlantRequest plantRequest)
         {
             Plant newPlant = Plant.From(plantRequest);
+
+            newPlant.HouseholdId = householdId;
             
             var plant = await _plantService.CreatePlantForHousehold(newPlant);
             
@@ -67,16 +69,16 @@ namespace H2Oasis.Api.Controllers
                 plantResponse);
         }
         
-        [HttpPut("{id:guid}")]
-        public  async Task<IActionResult> UpdatePlant(Guid id, [FromBody] UpdatePlantRequest request)
+        [HttpPut("{plantId:guid}/households/{householdId:guid}")]
+        public  async Task<IActionResult> UpdatePlant(Guid plantId, Guid householdId, [FromBody] UpdatePlantRequest request)
         {
-            Plant updatedPlant = Plant.From(id, request);
+            Plant updatedPlant = Plant.From(plantId, householdId, request);
             
             var plant = await _plantService.UpdatePlant(updatedPlant);
 
             if (plant is null)
             {
-                return NotFound($"No plant with the id: {id}");
+                return NotFound($"No plant with the id: {plantId}");
             }
             
             var plantResponse = _mapper.Map<PlantResponse>(plant);
