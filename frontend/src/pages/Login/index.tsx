@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import plantImage from '../../assets/5.png';
 import { baseURL } from '../../api/api';
 
 const Login = () => {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	return (
 		<div className='max-h-screen max-w-screen flex justify-between overflow-x-hidden items-end'>
 			<div className='flex flex-col justify-center items-center gap-4 translate-x-[70px] z-40'>
