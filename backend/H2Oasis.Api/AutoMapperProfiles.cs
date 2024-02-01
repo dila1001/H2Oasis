@@ -10,8 +10,14 @@ public class AutoMapperProfiles : Profile
 {
     public AutoMapperProfiles()
     {
-        CreateMap<Plant, PlantResponse>();
-        CreateMap<User, UserResponse>();
-        CreateMap<Household, HouseholdResponse>();
+        CreateMap<Plant, PlantResponse>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PlantId))
+            .ForCtorParam("Id", opt => opt.MapFrom(src => src.PlantId));
+        CreateMap<User, UserResponse>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserId))
+            .ForCtorParam("Id", opt => opt.MapFrom(src => src.UserId));
+        CreateMap<Household, HouseholdResponse>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.HouseholdId))
+            .ForCtorParam("Id", opt => opt.MapFrom(src => src.HouseholdId));
     }
 }

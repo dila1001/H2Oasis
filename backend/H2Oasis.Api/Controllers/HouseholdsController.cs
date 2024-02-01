@@ -65,7 +65,7 @@ namespace H2Oasis.Api.Controllers
             
             return CreatedAtAction(
                 nameof(GetHouseholdById),
-                new { id = householdResponse.HouseholdId },
+                new { id = householdResponse.Id },
                 householdResponse);
 
         }

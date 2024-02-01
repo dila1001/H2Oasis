@@ -63,7 +63,7 @@ namespace H2Oasis.Api.Controllers
             
             return CreatedAtAction(
                 nameof(GetPlantById),
-                new { id = plantResponse.PlantId },
+                new { id = plantResponse.Id },
                 plantResponse);
         }
         

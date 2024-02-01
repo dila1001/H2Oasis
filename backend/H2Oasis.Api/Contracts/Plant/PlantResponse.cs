@@ -1,7 +1,7 @@
 namespace H2Oasis.Api.Contracts.Plant;
 
 public record PlantResponse(
-    Guid PlantId,
+    Guid Id,
     string Name,
     string Species,
     string ImageUrl,
