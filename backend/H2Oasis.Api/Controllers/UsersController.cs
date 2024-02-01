@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using AutoMapper;
 using H2Oasis.Api.Contracts.User;
 using H2Oasis.Api.Services;
@@ -20,9 +21,18 @@ namespace H2Oasis.Api.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser(string id)
+        [HttpGet]
+        public async Task<IActionResult> GetUser()
         {
+            var nameIdentifierClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+            
+            var id = nameIdentifierClaim.Value;
+            
+            if (nameIdentifierClaim is null)
+            {
+                return NotFound("Nameidentifier not found in claims");
+            }
+            
             var user = await _userService.GetUserInfo(id);
 
             if (user is null)
