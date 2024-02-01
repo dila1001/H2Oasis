@@ -1,10 +1,11 @@
 import { createContext } from 'react';
+import { User } from '../services/usersService';
 
 export interface AuthContextValue {
-  user: string | null;
-  setUser: React.Dispatch<React.SetStateAction<string | null>>;
-  isLoggedIn: boolean;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+	user: User | null;
+	setUser: React.Dispatch<React.SetStateAction<User | null>>;
+	isLoggedIn: boolean;
+	setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
