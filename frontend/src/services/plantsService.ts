@@ -5,6 +5,7 @@ export type Plant = {
 	name: string;
 	species: string;
 	imageUrl: string;
+	uploadedImage: File;
 	wateringFrequencyInDays: string;
 	lastWatered: string;
 	waterAmountInMl: string;
@@ -14,6 +15,7 @@ export type NewPlant = {
 	name: string;
 	species: string;
 	imageUrl: string;
+	uploadedImage: File;
 	wateringFrequencyInDays: string;
 	lastWatered: string;
 	waterAmountInMl: string;
@@ -35,6 +37,7 @@ export const addPlant = async ({
 	name,
 	species,
 	imageUrl,
+	uploadedImage,
 	wateringFrequencyInDays,
 	lastWatered,
 	waterAmountInMl,
@@ -43,6 +46,7 @@ export const addPlant = async ({
 		name,
 		species,
 		imageUrl,
+		uploadedImage,
 		wateringFrequencyInDays,
 		lastWatered,
 		waterAmountInMl,
