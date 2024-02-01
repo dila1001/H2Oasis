@@ -9,33 +9,28 @@ interface AuthProviderProps {
 const AuthProvider: React.FC<AuthProviderProps> = (props) => {
 	const [user, setUser] = useState<User | null>(null);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-	// const adila = {
-	// 	id: '114826145929737499604',
-	// 	firstName: 'Adila',
-	// 	lastName: 'Razmi',
-	// 	email: 'adila93@gmail.com',
-	// };
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchUser = async () => {
 			try {
 				const data = await getUserInfo();
-				setIsLoggedIn(true);
 				setUser(data);
+				setIsLoggedIn(true);
 			} catch (error) {
 				setIsLoggedIn(false);
 				setUser(null);
+			} finally {
+				setIsLoading(false);
 			}
 		};
 
 		if (!user || !isLoggedIn) {
 			fetchUser();
-			console.log('fetching user');
 		}
 
 		console.log('called');
-	}, []);
+	}, [user, isLoggedIn]);
 
 	const value = {
 		user,
@@ -43,6 +38,10 @@ const AuthProvider: React.FC<AuthProviderProps> = (props) => {
 		isLoggedIn,
 		setIsLoggedIn,
 	};
+
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
