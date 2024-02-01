@@ -36,7 +36,7 @@ namespace H2Oasis.Api.Controllers
                 await _userService.CreateUserFromClaims(User);
             }
             
-            return LocalRedirect(returnUrl);
+            return Redirect(returnUrl);
         }
         
         [HttpGet("logout")]

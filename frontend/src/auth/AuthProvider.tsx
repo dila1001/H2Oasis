@@ -24,6 +24,7 @@ const AuthProvider: React.FC<AuthProviderProps> = (props) => {
 
 		if (!user || !isLoggedIn) {
 			fetchUser();
+			console.log('fetching user');
 		}
 	}, [user, isLoggedIn]);
 
