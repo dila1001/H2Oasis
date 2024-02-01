@@ -24,7 +24,7 @@ const PlantPage = () => {
 			if (slug) {
 				const plant = await getPlantById(slug);
 				setPlant(plant);
-				if (saved === 'true') {
+				if (saved === 'true') { 
 					toast.success(`${plant!.name} has been successfully saved`, {
 						id: 'save',
 					});

@@ -2,18 +2,21 @@ import { useEffect, useState } from 'react';
 import { Plant, getPlants } from '../../services/plantsService';
 import SearchBar from './SearchBar';
 import PlantCard from './PlantCard';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa6';
 import { getDaysLeft } from '../../utils/dateUtils';
 
 const PlantsPage = () => {
 	const [plants, setPlants] = useState<Plant[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const { slug } = useParams();
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const plants = await getPlants();
-			setPlants(plants);
+			if (slug) {
+				const plants = await getPlants(slug);
+				setPlants(plants);
+			}
 			setIsLoading(false);
 		};
 		fetchData();
