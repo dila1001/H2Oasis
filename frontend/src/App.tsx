@@ -31,7 +31,7 @@ function App() {
 					></Route>
 					<Route
 						path='/:slug/plants/edit-plant'
-						element={<PlantsPage />}
+						element={<EditPlant />}
 					></Route>
 					<Route
 						path='/:slug/plants/:slug'
