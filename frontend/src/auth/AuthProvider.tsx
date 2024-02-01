@@ -10,13 +10,6 @@ const AuthProvider: React.FC<AuthProviderProps> = (props) => {
 	const [user, setUser] = useState<User | null>(null);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-	const silvia = {
-		id: '101141217098569731496',
-		firstName: 'Silvia',
-		lastName: 'Dominguez',
-		email: 'silvia.dominguez@appliedtechnology.se',
-	};
-
 	useEffect(() => {
 		const fetchUser = async () => {
 			try {
@@ -33,9 +26,6 @@ const AuthProvider: React.FC<AuthProviderProps> = (props) => {
 			fetchUser();
 			console.log('fetching user');
 		}
-
-		setIsLoggedIn(true);
-		setUser(silvia);
 	}, []);
 
 	const value = {
