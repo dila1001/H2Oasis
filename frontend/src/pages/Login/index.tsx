@@ -1,11 +1,15 @@
 import plantImage from '../../assets/5.png';
 import { baseURL } from '../../api/api';
+import { useSearchParams } from 'react-router-dom';
 
 const Login = () => {
+	const [searchParams] = useSearchParams();
+
 	const handleLoginClick = () => {
-		const returnUrl = window.location.origin;
+		const returnUrl = searchParams.get('returnUrl') || '';
+		const absoluteReturnUrl = `${window.location.origin}${returnUrl}`;
 		window.location.href = `${baseURL}/auth/google?returnUrl=${encodeURIComponent(
-			returnUrl
+			absoluteReturnUrl!
 		)}`;
 	};
 
@@ -21,11 +25,7 @@ const Login = () => {
 				</button>
 			</div>
 
-			<img
-				src={plantImage}
-				alt=''
-				className='h-screen ml-[-40px]'
-			/>
+			<img src={plantImage} alt='' className='h-screen ml-[-40px]' />
 		</div>
 	);
 };
