@@ -1,18 +1,16 @@
-using Postgrest.Attributes;
-using Postgrest.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace H2Oasis.Api.Models;
 
-[Table("users")]
-public class User : BaseModel
+public class User
 {
-    [PrimaryKey("id")]
-    public int Id { get; set; }
-    [Column("first_name")]
+    public string UserId { get; set; }
+    [MaxLength(255)]
     public string FirstName { get; set; } = string.Empty;
-    [Column("last_name")]
+    [MaxLength(255)]
     public string LastName { get; set; } = string.Empty;
-    
-    [Reference(typeof(Plant), ReferenceAttribute.JoinType.Left)]
-    public List<Plant> Plants { get; set; } = new();
+    [MaxLength(255)]
+    public string Email { get; set; } = string.Empty;
+
+    public IEnumerable<UserHousehold> UserHouseholds { get; set; } = new List<UserHousehold>();
 }

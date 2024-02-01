@@ -1,16 +1,15 @@
-using System.Text.Json;
 using AutoMapper;
 using H2Oasis.Api.Contracts.Plant;
-using H2Oasis.Api.Contracts.User;
 using H2Oasis.Api.Models;
 using H2Oasis.Api.Services;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Supabase;
+
 
 namespace H2Oasis.Api.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class PlantsController : ControllerBase
     {
@@ -23,10 +22,15 @@ namespace H2Oasis.Api.Controllers
             _mapper = mapper;
         }
         
-        [HttpGet]
-        public async Task<IActionResult> GetPlants()
+        [HttpGet("households/{householdId:guid}")]
+        public async Task<IActionResult> GetPlantsForHousehold(Guid householdId)
         {
-            var plants = await _plantService.GetPlants();
+            var plants = await _plantService.GetPlantsForHousehold(householdId);
+
+            if (plants is null)
+            {
+                return NotFound($"No household with the id: {householdId}");
+            }
             
             var plantResponses = _mapper.Map<IEnumerable<PlantResponse>>(plants);
             
@@ -48,12 +52,14 @@ namespace H2Oasis.Api.Controllers
             return Ok(plantResponse);
         }
         
-        [HttpPost]
-        public async Task<IActionResult> PostPlant([FromBody] CreatePlantRequest plantRequest)
+        [HttpPost("households/{householdId:guid}")]
+        public async Task<IActionResult> PostPlant(Guid householdId, [FromBody] CreatePlantRequest plantRequest)
         {
             Plant newPlant = Plant.From(plantRequest);
+
+            newPlant.HouseholdId = householdId;
             
-            var plant = await _plantService.CreatePlant(newPlant);
+            var plant = await _plantService.CreatePlantForHousehold(newPlant);
             
             var plantResponse = _mapper.Map<PlantResponse>(plant);
             
@@ -63,16 +69,16 @@ namespace H2Oasis.Api.Controllers
                 plantResponse);
         }
         
-        [HttpPut("{id:guid}")]
-        public  async Task<IActionResult> UpdatePlant(Guid id, [FromBody] UpdatePlantRequest request)
+        [HttpPut("{plantId:guid}/households/{householdId:guid}")]
+        public  async Task<IActionResult> UpdatePlant(Guid plantId, Guid householdId, [FromBody] UpdatePlantRequest request)
         {
-            Plant updatedPlant = Plant.From(id, request);
+            Plant updatedPlant = Plant.From(plantId, householdId, request);
             
             var plant = await _plantService.UpdatePlant(updatedPlant);
 
             if (plant is null)
             {
-                return NotFound($"No plant with the id: {id}");
+                return NotFound($"No plant with the id: {plantId}");
             }
             
             var plantResponse = _mapper.Map<PlantResponse>(plant);
