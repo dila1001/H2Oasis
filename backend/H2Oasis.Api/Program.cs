@@ -14,6 +14,9 @@ var configuration = builder.Configuration;
         .AddCookie(o =>
         {
             o.Cookie.Name = "H2Oasis";
+            o.Cookie.SameSite = SameSiteMode.None;
+            o.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            o.Cookie.HttpOnly = true;
             // o.LoginPath = "/api/auth/google";
             o.LogoutPath = "/api/auth/logout";
             o.SlidingExpiration = true;
@@ -57,9 +60,10 @@ var app = builder.Build();
     app.UseHttpsRedirection();
     app.UseCors(policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("http://localhost:5174", "https://ashy-stone-00b16bb03.4.azurestaticapps.net")
             .AllowAnyMethod()
-            .AllowAnyHeader(); 
+            .AllowAnyHeader()
+            .AllowCredentials();
     });
     app.MapControllers();
     app.Run();

@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
-import { User } from '../services/usersService';
+import { User, getUserInfo } from '../services/usersService';
 
 interface AuthProviderProps {
 	children: ReactNode;
@@ -18,21 +18,21 @@ const AuthProvider: React.FC<AuthProviderProps> = (props) => {
 	};
 
 	useEffect(() => {
-		// const fetchUser = async () => {
-		// 	try {
-		// 		const data = await getUserInfo();
-		// 		setIsLoggedIn(true);
-		// 		setUser(data);
-		// 	} catch (error) {
-		// 		setIsLoggedIn(false);
-		// 		setUser(null);
-		// 	}
-		// };
+		const fetchUser = async () => {
+			try {
+				const data = await getUserInfo();
+				setIsLoggedIn(true);
+				setUser(data);
+			} catch (error) {
+				setIsLoggedIn(false);
+				setUser(null);
+			}
+		};
 
-		// if (!user || !isLoggedIn) {
-		// 	fetchUser();
-		// 	console.log('fetching user');
-		// }
+		if (!user || !isLoggedIn) {
+			fetchUser();
+			console.log('fetching user');
+		}
 
 		setIsLoggedIn(true);
 		setUser(silvia);
