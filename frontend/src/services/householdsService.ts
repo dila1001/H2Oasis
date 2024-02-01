@@ -25,11 +25,11 @@ export const getHousehold = async (householdId: string): Promise<Household> => {
 
 export const updateHousehold = async (
 	householdId: string,
-	updatedHousehold: NewHousehold
+	newHousehold: NewHousehold
 ): Promise<Household> => {
 	const response = await api.put(
 		`${householdsUrlEndpoint}/${householdId}`,
-		updateHousehold
+		newHousehold
 	);
 	return response.data;
 };
