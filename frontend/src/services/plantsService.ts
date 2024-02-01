@@ -23,7 +23,7 @@ export type NewPlant = {
 
 export const plantsUrlEndpoint = '/plants/households';
 
-export const getPlants = async (householdId: string): Promise<Plant[]> => {
+export const getPlants = async (householdId: string): Promise<Plant[] | null> => {
 	const response = await api.get(`${plantsUrlEndpoint}/${householdId}`);
 	return response.data;
 };
