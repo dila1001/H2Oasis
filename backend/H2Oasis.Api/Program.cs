@@ -21,8 +21,17 @@ var configuration = builder.Configuration;
         })
         .AddGoogle(googleOptions =>
         {
-            googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
-            googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+            if (builder.Environment.IsDevelopment())
+            {
+                googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+            }
+            else
+            {
+                googleOptions.ClientId = Environment.GetEnvironmentVariable("Google_ClientId");
+                googleOptions.ClientSecret = Environment.GetEnvironmentVariable("Google_ClientSecret");
+            }
+            
             googleOptions.CallbackPath = "/api/auth/google/callback";
             googleOptions.SaveTokens = true;
         });
