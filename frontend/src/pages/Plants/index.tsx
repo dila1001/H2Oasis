@@ -5,6 +5,7 @@ import PlantCard from './PlantCard';
 import { Link, useParams } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa6';
 import { getDaysLeft } from '../../utils/dateUtils';
+import QRCode from 'react-qr-code';
 
 const PlantsPage = () => {
 	const [plants, setPlants] = useState<Plant[]>([]);
@@ -12,6 +13,8 @@ const PlantsPage = () => {
 	const { householdId } = useParams();
 
 	useEffect(() => {
+		// modal that shows qr code. this is triggered by "Invite user to household" btn
+
 		const fetchData = async () => {
 			if (householdId) {
 				const plants = await getPlants(householdId);
@@ -44,10 +47,40 @@ const PlantsPage = () => {
 		);
 	};
 
+	const QRCodeValue = `${window.location.origin}?inviteCode=${householdId}`;
+
 	return (
 		<>
 			<div className='mx-5'>
+				<dialog id='show-qrcode' className='modal'>
+					<div className='modal-box'>
+						<form method='dialog'>
+							<button className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2'>
+								✕
+							</button>
+						</form>
+						{/* <h3 className='font-bold text-lg text-center'>
+							Invite a user to your Household
+						</h3> */}
+						<div className='py-4 flex justify-center'>
+							<QRCode value={QRCodeValue} />
+						</div>
+						<p className='text-center'>
+							Share this QR code with your friend/family
+						</p>
+					</div>
+				</dialog>
 				<SearchBar />
+				<button
+					className='btn btn-primary'
+					onClick={() =>
+						(
+							document.getElementById('show-qrcode') as HTMLDialogElement | null
+						)?.showModal()
+					}
+				>
+					Invite user to household
+				</button>
 				{isLoading && viewLoadingSkeleton()}
 
 				{sortedPlants.map((plant) => (
