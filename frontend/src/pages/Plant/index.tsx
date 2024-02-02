@@ -149,7 +149,6 @@ const PlantPage = () => {
 							<FaDroplet className='text-white text-2xl' />
 						</button> */}
 
-						{/* TODO: verify that this button works */}
 						<SubmitButton
 							iconName={FaDroplet}
 							buttonType='button'
