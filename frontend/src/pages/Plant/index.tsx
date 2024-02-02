@@ -9,10 +9,10 @@ import {
 import { FaCalendar, FaDroplet, FaPen } from 'react-icons/fa6';
 import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
 import toast, { Toaster } from 'react-hot-toast';
-import SubmitButton from '../../components/UI/SubmitButton';
+import SubmitButton from '../../components/ui/SubmitButton';
 
 const PlantPage = () => {
-	const { slug } = useParams();
+	const { plantId } = useParams();
 	const [searchParams] = useSearchParams();
 
 	const [plant, setPlant] = useState<Plant | null>(null);
@@ -21,10 +21,10 @@ const PlantPage = () => {
 		const fetchData = async () => {
 			const saved = searchParams.get('saved');
 			const created = searchParams.get('created');
-			if (slug) {
-				const plant = await getPlantById(slug);
+			if (plantId) {
+				const plant = await getPlantById(plantId);
 				setPlant(plant);
-				if (saved === 'true') { 
+				if (saved === 'true') {
 					toast.success(`${plant!.name} has been successfully saved`, {
 						id: 'save',
 					});
@@ -37,7 +37,7 @@ const PlantPage = () => {
 			}
 		};
 		fetchData();
-	}, [slug, searchParams]);
+	}, [plantId, searchParams]);
 
 	const waterPlant = async () => {
 		const updatedPlantData: NewPlant = {
@@ -56,24 +56,15 @@ const PlantPage = () => {
 
 	return (
 		<>
-			<Toaster
-				position='top-center'
-				reverseOrder={false}
-			/>
-			<dialog
-				id='water-modal'
-				className='modal'
-			>
+			<Toaster position='top-center' reverseOrder={false} />
+			<dialog id='water-modal' className='modal'>
 				<div className='modal-box'>
 					<h3 className='font-bold text-lg'>
 						Would you like to water {plant?.name}?
 					</h3>
 					<p className='py-4'>Press yes to water or no to close</p>
 					<div className='modal-action'>
-						<form
-							method='dialog'
-							className='w-full flex gap-2 justify-end'
-						>
+						<form method='dialog' className='w-full flex gap-2 justify-end'>
 							<button
 								className='btn bg-accent text-white'
 								onClick={() => waterPlant()}
@@ -140,8 +131,8 @@ const PlantPage = () => {
 						</div>
 					</div>
 
-          <div className='p-4 my-4'>
-            {/* Previous working code */}
+					<div className='p-4 my-4'>
+						{/* Previous working code */}
 						{/* <button
 							className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'
 							onClick={() =>
@@ -155,10 +146,10 @@ const PlantPage = () => {
 							<FaDroplet className='text-white text-2xl' />
 						</button> */}
 
-            {/* TODO: verify that this button works */}
+						{/* TODO: verify that this button works */}
 						<SubmitButton
-              iconName={FaDroplet}
-              buttonType='button'
+							iconName={FaDroplet}
+							buttonType='button'
 							onClick={() =>
 								(
 									document.getElementById(

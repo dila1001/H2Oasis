@@ -13,7 +13,9 @@ const HouseholdsPage = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const households = await getHouseholdsForUser(user!.id);
-			setHouseholds(households);
+			if (households) {
+				setHouseholds(households);
+			}
 		};
 		fetchData();
 	}, []);
@@ -22,10 +24,7 @@ const HouseholdsPage = () => {
 		<div className='mx-5'>
 			<h2 className='font-bold'>Households of {user?.firstName}</h2>
 			{households.map((h) => (
-				<Link
-					to={`/${h.id}/plants`}
-					key={h.id}
-				>
+				<Link to={`/${h.id}/plants`} key={h.id}>
 					{h.name}
 				</Link>
 			))}

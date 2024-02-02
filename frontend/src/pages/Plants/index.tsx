@@ -9,13 +9,15 @@ import { getDaysLeft } from '../../utils/dateUtils';
 const PlantsPage = () => {
 	const [plants, setPlants] = useState<Plant[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const { slug } = useParams();
+	const { householdId } = useParams();
 
 	useEffect(() => {
 		const fetchData = async () => {
-			if (slug) {
-				const plants = await getPlants(slug);
-				setPlants(plants);
+			if (householdId) {
+				const plants = await getPlants(householdId);
+				if (plants) {
+					setPlants(plants);
+				}
 			}
 			setIsLoading(false);
 		};
@@ -49,10 +51,7 @@ const PlantsPage = () => {
 				{isLoading && viewLoadingSkeleton()}
 
 				{sortedPlants.map((plant) => (
-					<Link
-						to={`/plant/${plant.id}`}
-						key={plant.id}
-					>
+					<Link to={`/plant/${plant.id}`} key={plant.id}>
 						<PlantCard
 							name={plant.name}
 							species={plant.species}

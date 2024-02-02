@@ -15,31 +15,18 @@ function App() {
 			<Navbar />
 			<Routes>
 				<Route element={<LoginGuard />}>
-					<Route
-						path='/login'
-						element={<Login />}
-					></Route>
+					<Route path='/login' element={<Login />}></Route>
 				</Route>
 				<Route element={<AuthGuard />}>
+					<Route path='/' element={<HouseholdsPage />}></Route>
+					<Route path='/:householdId/plants' element={<PlantsPage />}></Route>
 					<Route
-						path='/'
-						element={<HouseholdsPage />}
-					></Route>
-					<Route
-						path='/:slug/plants'
-						element={<PlantsPage />}
-					></Route>
-					<Route
-						path='/:slug/plants/edit-plant'
+						path='/:householdId/plants/edit-plant'
 						element={<EditPlant />}
 					></Route>
 					<Route
-						path='/:slug/plants/:slug'
+						path='/:householdId/plants/:plantId'
 						element={<PlantPage />}
-					></Route>
-					<Route
-						path='/:slug/plants/edit-plant?plant=:slug'
-						element={<EditPlant />}
 					></Route>
 				</Route>
 			</Routes>
