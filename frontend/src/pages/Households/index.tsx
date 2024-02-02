@@ -55,14 +55,15 @@ const HouseholdsPage = () => {
 			setHouseholds(updatedHouseholds);
 		}
 
-		setSearchParams('');
+		closeModal('add-household');
+	};
 
-		const addHouseholdModal = document.getElementById(
-			'add-household'
-		) as HTMLDialogElement | null;
-		if (addHouseholdModal) {
-			addHouseholdModal.close();
-		}
+	const closeModal = (id: string) => {
+		(document.getElementById(id) as HTMLDialogElement | null)?.close();
+		setSearchParams('');
+		reset({
+			householdId: '',
+		});
 	};
 
 	return (
@@ -72,13 +73,7 @@ const HouseholdsPage = () => {
 				<div className='modal-box'>
 					<button
 						className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2'
-						onClick={() =>
-							(
-								document.getElementById(
-									'add-household'
-								) as HTMLDialogElement | null
-							)?.close()
-						}
+						onClick={() => closeModal('add-household')}
 					>
 						✕
 					</button>
