@@ -58,17 +58,6 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 						</div>
 					</div>
 					<div className='border-l h-[1px] bg-base-300 mb-5'></div>
-					{/* TODO: If no households, render a message */}
-					{/* {households &&
-						households.map((household) => (
-							<li key={household.id}>
-								<Link to={`/${household.id}/plants`} onClick={toggleDrawer}>
-									<FaHouse className='text-secondary' />
-									{household.name}
-								</Link>
-							</li>
-						))} */}
-
 					{!households?.length ? (
 						<li>You have no households</li>
 					) : (
@@ -81,7 +70,6 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 							</li>
 						))
 					)}
-
 					<li className='mt-auto'>
 						<a
 							href={`${baseURL}/auth/logout?returnUrl=${window.location.origin}`}

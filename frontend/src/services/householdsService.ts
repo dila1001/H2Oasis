@@ -4,11 +4,6 @@ import { User } from './usersService';
 
 const householdsUrlEndpoint = '/households';
 
-// export type Household = {
-// 	id: string;
-// 	name: string;
-// };
-
 export type Household = {
 	id: string;
 	name: string;
