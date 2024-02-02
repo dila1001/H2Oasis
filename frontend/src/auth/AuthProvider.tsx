@@ -40,7 +40,11 @@ const AuthProvider: React.FC<AuthProviderProps> = (props) => {
 	};
 
 	if (isLoading) {
-		return <div>Loading...</div>;
+		return (
+			<div className='min-h-screen flex items-center justify-center'>
+				<span className='loading loading-dots loading-lg text-secondary'></span>
+			</div>
+		);
 	}
 
 	return (
