@@ -18,7 +18,9 @@ export const getHouseholdsForUser = async (
 	return response.data;
 };
 
-export const getHousehold = async (householdId: string): Promise<Household | null> => {
+export const getHousehold = async (
+	householdId: string
+): Promise<Household | null> => {
 	const response = await api.get(`${householdsUrlEndpoint}/${householdId}`);
 	return response.data;
 };
@@ -52,3 +54,12 @@ export const createHousehold = async (
 	return response.data;
 };
 
+export const AddUserToHousehold = async (
+	householdId: string,
+	userId: string
+): Promise<Household> => {
+	const response = await api.post(
+		`${householdsUrlEndpoint}/${householdId}/users/${userId}`
+	);
+	return response.data;
+};
