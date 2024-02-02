@@ -129,7 +129,9 @@ const EditPlant = () => {
 						required: 'Water amount is required',
 					})}
 				/>
-				<input
+
+				{/* upload image */}
+				{/* <input
 					id='plantImage'
 					type='file'
 					className='block w-full text-sm text-slate-500
@@ -141,7 +143,7 @@ const EditPlant = () => {
 					{...register('uploadedImage', {
 						required: 'Image is required',
 					})}
-				/>
+				/> */}
 
 				{/* Previous working code */}
 				{/* <div className='p-4 my-4'>
@@ -154,7 +156,6 @@ const EditPlant = () => {
           </button>
         </div> */}
 
-				{/* TODO: verify that this button works */}
 				<SubmitButton
 					iconName={FaSeedling}
 					formState={isSubmitting}

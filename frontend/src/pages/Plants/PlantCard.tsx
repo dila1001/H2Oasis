@@ -4,7 +4,7 @@ import { getDaysLeft, getPercentage } from '../../utils/dateUtils';
 type PlantCardProps = {
   name: string;
   species: string;
-  // imageUrl: string;
+  imageUrl: string;
   // uploadedImage: File;
   lastWatered: string;
   waterFrequency: string;
@@ -13,7 +13,7 @@ type PlantCardProps = {
 const PlantCard: FC<PlantCardProps> = ({
   name,
   species,
-  // imageUrl,
+  imageUrl,
   // uploadedImage,
   lastWatered,
   waterFrequency,
@@ -28,8 +28,7 @@ const PlantCard: FC<PlantCardProps> = ({
   return (
     <div className='card bg-[#f9fcf4] shadow-md my-6 flex-row'>
       <div className='max-h-48 w-1/4 overflow-hidden rounded-tl-2xl rounded-bl-2xl'>
-        {/* <img className='w-full h-full object-cover' src={imageUrl} alt={name} /> */}
-        {/* TODO: add plant image */}
+        <img className='w-full h-full object-cover' src={imageUrl} alt={name} />
       </div>
       <div className='card-body p-4 flex-1 flex-row'>
         <div>
