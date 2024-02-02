@@ -1,5 +1,6 @@
-import { ReactNode, createContext, useState } from 'react';
-import { Household } from '../services/householdsService';
+import { ReactNode, createContext, useEffect, useState } from 'react';
+import { Household, getHouseholdsForUser } from '../services/householdsService';
+import { useAuth } from '../auth/useAuth';
 
 export interface HouseholdsContextValue {
 	households: Household[] | null;
@@ -13,11 +14,22 @@ const HouseholdsContext = createContext<HouseholdsContextValue>({
 
 function HouseholdsProvider({ children }: { children: ReactNode }) {
 	const [households, setHouseholds] = useState<Household[] | null>([]);
+	const { user } = useAuth();
 
 	const value = {
 		households,
 		setHouseholds,
 	};
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const households = await getHouseholdsForUser(user!.id);
+			if (households) {
+				setHouseholds(households);
+			}
+		};
+		fetchData();
+	}, []);
 
 	return (
 		<HouseholdsContext.Provider value={value}>

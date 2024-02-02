@@ -9,7 +9,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHouseholds } from '../../hooks/useHouseholds';
 
 const HouseholdsPage = () => {
-	// const [households, setHouseholds] = useState<Household[]>([]);
 	const { households, setHouseholds } = useHouseholds();
 	const { user } = useAuth();
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -36,14 +35,6 @@ const HouseholdsPage = () => {
 				householdId: inviteCode,
 			});
 		}
-
-		const fetchData = async () => {
-			const households = await getHouseholdsForUser(user!.id);
-			if (households) {
-				setHouseholds(households);
-			}
-		};
-		fetchData();
 	}, []);
 
 	const onAddHouseholdSubmit: SubmitHandler<{

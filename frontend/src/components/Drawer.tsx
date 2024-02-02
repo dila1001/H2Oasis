@@ -3,8 +3,9 @@ import { FaSignOutAlt } from 'react-icons/fa';
 import { FaHouse } from 'react-icons/fa6';
 import { baseURL } from '../api/api';
 import { useAuth } from '../auth/useAuth';
-import { generateInitials } from '../utils/account';
+import { generateInitials } from '../utils/avatarUtils';
 import { useHouseholds } from '../hooks/useHouseholds';
+import { Link } from 'react-router-dom';
 
 type DrawerProps = {
 	children: ReactNode;
@@ -46,13 +47,14 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 						</div>
 					</div>
 					<div className='border-l h-[1px] bg-base-300 mb-5'></div>
+					{/* TODO: If no households, render a message */}
 					{households &&
 						households.map((household) => (
 							<li key={household.id}>
-								<a>
+								<Link to={`/${household.id}/plants`}>
 									<FaHouse className='text-secondary' />
 									{household.name}
-								</a>
+								</Link>
 							</li>
 						))}
 					<li className='mt-auto'>
