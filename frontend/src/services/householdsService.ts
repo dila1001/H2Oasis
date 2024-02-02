@@ -59,7 +59,7 @@ export const AddUserToHousehold = async (
 	userId: string
 ): Promise<Household> => {
 	const response = await api.post(
-		`${householdsUrlEndpoint}/${householdId}/${userId}`
+		`${householdsUrlEndpoint}/${householdId}/users/${userId}`
 	);
 	return response.data;
 };
