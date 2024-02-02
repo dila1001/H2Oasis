@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useState } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { FaHouse } from 'react-icons/fa6';
 import { baseURL } from '../api/api';
@@ -14,10 +14,21 @@ type DrawerProps = {
 const Drawer: FC<DrawerProps> = ({ children }) => {
 	const { user } = useAuth();
 	const { households } = useHouseholds();
+	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+	const toggleDrawer = () => {
+		setIsDrawerOpen(!isDrawerOpen);
+	};
 
 	return (
 		<div className='drawer'>
-			<input id='my-drawer' type='checkbox' className='drawer-toggle' />
+			<input
+				id='my-drawer'
+				type='checkbox'
+				className='drawer-toggle'
+				checked={isDrawerOpen}
+				onChange={toggleDrawer}
+			/>
 			<div className='drawer-content'>{children}</div>
 			<div className='drawer-side'>
 				<label
@@ -51,7 +62,7 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 					{households &&
 						households.map((household) => (
 							<li key={household.id}>
-								<Link to={`/${household.id}/plants`}>
+								<Link to={`/${household.id}/plants`} onClick={toggleDrawer}>
 									<FaHouse className='text-secondary' />
 									{household.name}
 								</Link>
