@@ -6,7 +6,13 @@ import {
 	getPlantById,
 	updatePlant,
 } from '../../services/plantsService';
-import { FaCalendar, FaDroplet, FaHandHoldingDroplet, FaLocationDot, FaPen } from 'react-icons/fa6';
+import {
+	FaCalendar,
+	FaDroplet,
+	FaHandHoldingDroplet,
+	FaLocationDot,
+	FaPen,
+} from 'react-icons/fa6';
 import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
 import toast, { Toaster } from 'react-hot-toast';
 import SubmitButton from '../../components/UI/SubmitButton';
@@ -14,8 +20,8 @@ import SubmitButton from '../../components/UI/SubmitButton';
 const PlantPage = () => {
 	const { householdId, plantId } = useParams();
 	const [searchParams] = useSearchParams();
-
 	const [plant, setPlant] = useState<Plant | null>(null);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -35,6 +41,7 @@ const PlantPage = () => {
 					});
 				}
 			}
+			setIsLoading(false);
 		};
 		fetchData();
 	}, [plantId, searchParams]);
@@ -60,6 +67,18 @@ const PlantPage = () => {
 		setPlant(response);
 	};
 
+	const viewLoadingSkeleton = () => {
+		return (
+			<div className='flex flex-col pl-8 gap-4 w-full'>
+				<div className='skeleton h-80 w-80 pl-12'></div>
+				<div className='skeleton h-16 w-44 pl-12'></div>
+				{[1, 2, 3, 4].map((item) => (
+					<div key={item} className='skeleton w-44 h-8 bg-base-200'></div>
+				))}
+			</div>
+		);
+	};
+
 	return (
 		<>
 			<Toaster position='top-center' reverseOrder={false} />
@@ -82,6 +101,9 @@ const PlantPage = () => {
 					</div>
 				</div>
 			</dialog>
+
+			{isLoading && viewLoadingSkeleton()}
+
 			{plant && (
 				<div className='mx-5 my-2 flex-row'>
 					{/* <div className='text-sm breadcrumbs'>
