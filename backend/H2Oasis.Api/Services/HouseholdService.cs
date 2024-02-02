@@ -16,13 +16,6 @@ public class HouseholdService : IHouseholdService
 
     public async Task<IEnumerable<Household>?> GetHouseholdsForUser(string userId)
     {
-        // var households = await _dbContext.UserHouseholds
-        //     .Where(uh => uh.User.UserId == userId)
-        //     .Select(uh => uh.Household)
-        //     .ToListAsync();
-        //
-        // return households;
-        
         var households = await _dbContext.UserHouseholds
             .Where(uh => uh.UserId == userId)
             .Include(uh => uh.Household)
@@ -36,15 +29,34 @@ public class HouseholdService : IHouseholdService
 
     public async Task<Household?> GetHouseholdById(Guid householdId)
     {
-        var household = await _dbContext.Households.FindAsync(householdId);
-        return household ?? null;
+        var household = await _dbContext.Households
+            .Where(h => h.HouseholdId == householdId)
+            .Include(h => h.UserHouseholds)
+            .ThenInclude(uh => uh.User)
+            .Include(h => h.Plants)
+            .FirstOrDefaultAsync();
+
+        if (household == null)
+        {
+            return null;
+        }
+        
+        return household;
     }
 
     public async Task<Household> CreateHousehold(Household newHousehold)
     {
         _dbContext.Households.Add(newHousehold);
         await _dbContext.SaveChangesAsync();
-        return newHousehold;
+        
+        var createdHousehold = await _dbContext.Households
+            .Where(h => h.HouseholdId == newHousehold.HouseholdId)
+            .Include(h => h.UserHouseholds)
+            .ThenInclude(uh => uh.User)
+            .Include(h => h.Plants)
+            .FirstOrDefaultAsync();
+
+        return createdHousehold;
     }
 
     public async Task<Household?> UpdateHouseHold(Household updatedHousehold)

@@ -18,10 +18,7 @@ public class AutoMapperProfiles : Profile
             .ForCtorParam("Id", opt => opt.MapFrom(src => src.UserId));
         CreateMap<Household, HouseholdResponse>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.HouseholdId))
-            .ForCtorParam("Id", opt => opt.MapFrom(src => src.HouseholdId));
-        // CreateMap<Household, HouseholdResponse>()
-        //     .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.HouseholdId))
-        //     .ForMember(dest => dest.Plants, opt => opt.MapFrom(src => src.Plants))
-        //     .ForMember(dest => dest.Users, opt => opt.MapFrom(src => src.UserHouseholds.Select(uh => uh.User)));
+            .ForMember(dest => dest.Users, opt => opt.MapFrom(src => src.UserHouseholds.Select(uh => uh.User)))
+            .ConstructUsing(src => new HouseholdResponse(src.HouseholdId, src.Name, null, null));
     }
 }
