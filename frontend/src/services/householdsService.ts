@@ -1,10 +1,19 @@
 import api from '../api/api';
+import { Plant } from './plantsService';
+import { User } from './usersService';
 
 const householdsUrlEndpoint = '/households';
+
+// export type Household = {
+// 	id: string;
+// 	name: string;
+// };
 
 export type Household = {
 	id: string;
 	name: string;
+	plants: Plant[];
+	users: User[];
 };
 
 export type NewHousehold = {

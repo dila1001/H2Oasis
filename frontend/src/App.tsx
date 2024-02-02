@@ -9,6 +9,7 @@ import { AuthGuard, LoginGuard } from './auth/Guards';
 import Login from './pages/Login';
 import HouseholdsPage from './pages/Households';
 import Drawer from './components/Drawer';
+import { HouseholdsProvider } from './context/HouseholdsContext';
 
 function App() {
 	const location = useLocation();
@@ -17,26 +18,31 @@ function App() {
 
 	return (
 		<AuthProvider>
-			<Drawer>
-				{!isLoginPage && <Navbar />}
-				<Routes>
-					<Route element={<LoginGuard />}>
-						<Route path='/login' element={<Login />}></Route>
-					</Route>
-					<Route element={<AuthGuard />}>
-						<Route path='/' element={<HouseholdsPage />}></Route>
-						<Route path='/:householdId/plants' element={<PlantsPage />}></Route>
-						<Route
-							path='/:householdId/plants/edit-plant'
-							element={<EditPlant />}
-						></Route>
-						<Route
-							path='/:householdId/plants/:plantId'
-							element={<PlantPage />}
-						></Route>
-					</Route>
-				</Routes>
-			</Drawer>
+			<HouseholdsProvider>
+				<Drawer>
+					{!isLoginPage && <Navbar />}
+					<Routes>
+						<Route element={<LoginGuard />}>
+							<Route path='/login' element={<Login />}></Route>
+						</Route>
+						<Route element={<AuthGuard />}>
+							<Route path='/' element={<HouseholdsPage />}></Route>
+							<Route
+								path='/:householdId/plants'
+								element={<PlantsPage />}
+							></Route>
+							<Route
+								path='/:householdId/plants/edit-plant'
+								element={<EditPlant />}
+							></Route>
+							<Route
+								path='/:householdId/plants/:plantId'
+								element={<PlantPage />}
+							></Route>
+						</Route>
+					</Routes>
+				</Drawer>
+			</HouseholdsProvider>
 		</AuthProvider>
 	);
 }

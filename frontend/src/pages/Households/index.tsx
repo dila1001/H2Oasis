@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
 	AddUserToHousehold,
-	Household,
 	getHouseholdsForUser,
 } from '../../services/householdsService';
 import { useAuth } from '../../auth/useAuth';
 import { Link, useSearchParams } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useHouseholds } from '../../hooks/useHouseholds';
 
 const HouseholdsPage = () => {
-	const [households, setHouseholds] = useState<Household[]>([]);
+	// const [households, setHouseholds] = useState<Household[]>([]);
+	const { households, setHouseholds } = useHouseholds();
 	const { user } = useAuth();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const {
@@ -110,7 +111,7 @@ const HouseholdsPage = () => {
 				Add household
 			</button>
 			<h2 className='font-bold'>Households of {user?.firstName}</h2>
-			{households.map((h) => (
+			{households?.map((h) => (
 				<Link to={`/${h.id}/plants`} key={h.id}>
 					{h.name}
 				</Link>

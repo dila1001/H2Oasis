@@ -4,6 +4,7 @@ import { FaHouse } from 'react-icons/fa6';
 import { baseURL } from '../api/api';
 import { useAuth } from '../auth/useAuth';
 import { generateInitials } from '../utils/account';
+import { useHouseholds } from '../hooks/useHouseholds';
 
 type DrawerProps = {
 	children: ReactNode;
@@ -11,6 +12,7 @@ type DrawerProps = {
 
 const Drawer: FC<DrawerProps> = ({ children }) => {
 	const { user } = useAuth();
+	const { households } = useHouseholds();
 
 	return (
 		<div className='drawer'>
@@ -44,19 +46,16 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 						</div>
 					</div>
 					<div className='border-l h-[1px] bg-base-300 mb-5'></div>
-					<li>
-						<a>
-							<FaHouse className='text-secondary' />
-							Households
-						</a>
-					</li>
-					{/* <li>
-						<a>
-							<FaUser className='text-secondary' />
-							Account Info
-						</a>
-					</li> */}
-					<li>
+					{households &&
+						households.map((household) => (
+							<li key={household.id}>
+								<a>
+									<FaHouse className='text-secondary' />
+									{household.name}
+								</a>
+							</li>
+						))}
+					<li className='mt-auto'>
 						<a
 							href={`${baseURL}/auth/logout?returnUrl=${window.location.origin}`}
 						>
