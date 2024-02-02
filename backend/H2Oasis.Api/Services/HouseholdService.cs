@@ -16,12 +16,22 @@ public class HouseholdService : IHouseholdService
 
     public async Task<IEnumerable<Household>?> GetHouseholdsForUser(string userId)
     {
+        // var households = await _dbContext.UserHouseholds
+        //     .Where(uh => uh.User.UserId == userId)
+        //     .Select(uh => uh.Household)
+        //     .ToListAsync();
+        //
+        // return households;
+        
         var households = await _dbContext.UserHouseholds
-            .Where(uh => uh.User.UserId == userId)
-            .Select(uh => uh.Household)
+            .Where(uh => uh.UserId == userId)
+            .Include(uh => uh.Household)
+            .ThenInclude(h => h.UserHouseholds)
+            .ThenInclude(uh => uh.User) 
+            .Include(uh => uh.Household.Plants)
             .ToListAsync();
-
-        return households;
+        
+        return households.Select(uh => uh.Household);
     }
 
     public async Task<Household?> GetHouseholdById(Guid householdId)
