@@ -40,12 +40,12 @@ namespace H2Oasis.Api.Controllers
         }
         
         [HttpGet("logout")]
-        public IActionResult Logout()
+        public IActionResult Logout(string returnUrl)
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext.SignOutAsync(GoogleDefaults.AuthenticationScheme);
             
-            return Ok();
+            return Redirect(returnUrl);
         }
     }
 }

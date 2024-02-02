@@ -25,7 +25,7 @@ const PlantsPage = () => {
 			setIsLoading(false);
 		};
 		fetchData();
-	}, []);
+	}, [householdId]);
 
 	const sortedPlants = [...plants].sort((a, b) => {
 		const daysLeftA = getDaysLeft(a.lastWatered, a.wateringFrequencyInDays);
