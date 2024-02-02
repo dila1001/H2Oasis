@@ -6,7 +6,7 @@ import {
 	getPlantById,
 	updatePlant,
 } from '../../services/plantsService';
-import { FaCalendar, FaDroplet, FaPen } from 'react-icons/fa6';
+import { FaCalendar, FaDroplet, FaHandHoldingDroplet, FaLocationDot, FaPen } from 'react-icons/fa6';
 import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
 import toast, { Toaster } from 'react-hot-toast';
 import SubmitButton from '../../components/UI/SubmitButton';
@@ -43,16 +43,19 @@ const PlantPage = () => {
 		const updatedPlantData: NewPlant = {
 			name: plant!.name,
 			species: plant!.species,
-			// imageUrl: plant!.imageUrl,
-			uploadedImage: plant!.uploadedImage,
+			imageUrl: plant!.imageUrl,
+			// uploadedImage: plant!.uploadedImage,
 			wateringFrequencyInDays: plant!.wateringFrequencyInDays,
 			lastWatered: getTodaysDate(),
 			waterAmountInMl: plant!.waterAmountInMl,
-			imageUrl: plant!.imageUrl,
 			location: plant!.location,
-			lastWateredBy: plant!.lastWateredBy
+			lastWateredBy: plant!.lastWateredBy,
 		};
-		const response = await updatePlant(plant!.id, householdId!, updatedPlantData);
+		const response = await updatePlant(
+			plant!.id,
+			householdId!,
+			updatedPlantData
+		);
 		toast.success(`${plant?.name} has been successfully watered`);
 		setPlant(response);
 	};
@@ -91,11 +94,11 @@ const PlantPage = () => {
               </li>
             </ul>
           </div> */}
-					{/* <img
+					<img
 						src={plant?.imageUrl}
 						alt='Image Description'
 						className='object-cover rounded-2xl w-full h-80 shadow-md'
-					/> */}
+					/>
 					<div className='p-4 my-4'>
 						<div className='flex items-center gap-3'>
 							<h2 className='card-title text-3xl mb-1'>{plant?.name}</h2>
@@ -130,6 +133,20 @@ const PlantPage = () => {
 								<p className='text-gray-500'>
 									remind every {plant?.wateringFrequencyInDays} days
 								</p>
+							</div>
+						</div>
+						<div className='flex items-center gap-2'>
+							<FaLocationDot className='text-4xl text-success' />
+							<div className='flex flex-col'>
+								<p className='text-success font-bold'>{plant?.location}</p>
+								<p className='text-gray-500'>location</p>
+							</div>
+						</div>
+						<div className='flex items-center gap-2'>
+							<FaHandHoldingDroplet className='text-4xl text-success' />
+							<div className='flex flex-col'>
+								<p className='text-success font-bold'>{plant?.lastWateredBy}</p>
+								<p className='text-gray-500'>last watered by</p>
 							</div>
 						</div>
 					</div>
