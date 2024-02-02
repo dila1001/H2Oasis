@@ -6,10 +6,12 @@ import { Link, useParams } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa6';
 import { getDaysLeft } from '../../utils/dateUtils';
 import QRCode from 'react-qr-code';
+import { getHousehold } from '../../services/householdsService';
 
 const PlantsPage = () => {
 	const [plants, setPlants] = useState<Plant[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [householdName, setHouseholdName] = useState<string>('');
 	const { householdId } = useParams();
 
 	useEffect(() => {
@@ -18,6 +20,9 @@ const PlantsPage = () => {
 		const fetchData = async () => {
 			if (householdId) {
 				const plants = await getPlants(householdId);
+				await getHousehold(householdId).then((name) => {
+					setHouseholdName(name!.name);
+				});
 				if (plants) {
 					setPlants(plants);
 				}
@@ -52,6 +57,7 @@ const PlantsPage = () => {
 	return (
 		<>
 			<div className='mx-5'>
+				<h3 className='font-bold text-lg'>{householdName} plants</h3>
 				<dialog id='show-qrcode' className='modal'>
 					<div className='modal-box'>
 						<form method='dialog'>
@@ -88,7 +94,7 @@ const PlantsPage = () => {
 						<PlantCard
 							name={plant.name}
 							species={plant.species}
-							// imageUrl={plant.imageUrl}
+							imageUrl={plant.imageUrl}
 							lastWatered={plant.lastWatered}
 							waterFrequency={plant.wateringFrequencyInDays}
 							// uploadedImage={undefined}

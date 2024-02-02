@@ -109,7 +109,7 @@ const HouseholdsPage = () => {
 			>
 				Add household
 			</button>
-			<h2 className='font-bold'>Households of {user?.firstName}</h2>
+			<h3 className='font-bold'>Households of {user?.firstName}</h3>
 			{households.map((h) => (
 				<Link to={`/${h.id}/plants`} key={h.id}>
 					{h.name}
