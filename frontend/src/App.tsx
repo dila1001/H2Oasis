@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
 import PlantsPage from './pages/Plants';
@@ -10,9 +10,13 @@ import Login from './pages/Login';
 import HouseholdsPage from './pages/Households';
 
 function App() {
+	const location = useLocation();
+
+	const isLoginPage = location.pathname === '/login';
+
 	return (
 		<AuthProvider>
-			<Navbar />
+			{!isLoginPage && <Navbar />}
 			<Routes>
 				<Route element={<LoginGuard />}>
 					<Route path='/login' element={<Login />}></Route>
