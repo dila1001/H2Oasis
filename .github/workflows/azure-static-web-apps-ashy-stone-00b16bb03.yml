@@ -19,12 +19,6 @@ jobs:
         with:
           submodules: true
           lfs: false
-
-      - name: Clear npm cache
-        run: npm cache clean --force
-
-      - name: Clear TypeScript cache
-        run: rm -rf node_modules/.cache
       - name: Build Frontend
         run: |
           cd frontend

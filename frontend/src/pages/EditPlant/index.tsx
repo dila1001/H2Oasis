@@ -11,7 +11,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaSeedling } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
 import { formatDate } from '../../utils/dateUtils';
-import SubmitButton from '../../components/ui/SubmitButton';
+import SubmitButton from '../../components/UI/SubmitButton';
 
 const EditPlant = () => {
 	const [searchParams] = useSearchParams();

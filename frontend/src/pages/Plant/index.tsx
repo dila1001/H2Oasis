@@ -9,7 +9,7 @@ import {
 import { FaCalendar, FaDroplet, FaPen } from 'react-icons/fa6';
 import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
 import toast, { Toaster } from 'react-hot-toast';
-import SubmitButton from '../../components/ui/SubmitButton';
+import SubmitButton from '../../components/UI/SubmitButton';
 
 const PlantPage = () => {
 	const { plantId } = useParams();
