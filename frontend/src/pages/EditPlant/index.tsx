@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
 	NewPlant,
 	Plant,
@@ -12,11 +12,14 @@ import { FaSeedling } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
 import { formatDate } from '../../utils/dateUtils';
 import SubmitButton from '../../components/UI/SubmitButton';
+import { useAuth } from '../../auth/useAuth';
 
 const EditPlant = () => {
 	const [searchParams] = useSearchParams();
+	const { householdId } = useParams();
 	const [plant, setPlant] = useState<Plant | null>(null);
 	const navigate = useNavigate();
+	const { user } = useAuth();
 
 	const {
 		register,
@@ -34,10 +37,12 @@ const EditPlant = () => {
 				reset({
 					name: plant!.name,
 					species: plant!.species,
-					// imageUrl: plant!.imageUrl,
-					uploadedImage: plant!.uploadedImage,
+					imageUrl: plant!.imageUrl,
+					location: plant?.location,
+					// uploadedImage: plant?.uploadedImage,
 					wateringFrequencyInDays: plant!.wateringFrequencyInDays.toString(),
 					lastWatered: formatDate(plant!.lastWatered),
+					lastWateredBy: user?.firstName,
 					waterAmountInMl: plant!.waterAmountInMl,
 				});
 			}
@@ -48,11 +53,11 @@ const EditPlant = () => {
 	const onSubmit: SubmitHandler<NewPlant> = async (data) => {
 		let response;
 		if (plant) {
-			response = await updatePlant(plant.id, data);
-			navigate(`/plant/${response?.id}?saved=true`);
+			response = await updatePlant(plant.id, householdId!, data);
+			navigate(`/${householdId}/plants/${response?.id}?saved=true`);
 		} else {
-			response = await addPlant(data);
-			navigate(`/plant/${response?.id}?created=true`);
+			response = await addPlant(householdId!, data);
+			navigate(`/${householdId}/plants/${response?.id}?created=true`);
 		}
 	};
 
@@ -94,12 +99,18 @@ const EditPlant = () => {
 						required: 'Date is required',
 					})}
 				/>
-				{/* <input
-          type='text'
-          placeholder='Image URL'
-          className='input input-bordered input-success w-full'
-          {...register('imageUrl')}
-        /> */}
+				<input
+					type='text'
+					placeholder='Image URL'
+					className='input input-bordered input-success w-full'
+					{...register('imageUrl')}
+				/>
+				<input
+					type='text'
+					placeholder='Location'
+					className='input input-bordered input-success w-full'
+					{...register('location')}
+				/>
 
 				<input
 					type='number'
@@ -109,6 +120,7 @@ const EditPlant = () => {
 						required: 'Watering frequency is required',
 					})}
 				/>
+
 				<input
 					type='number'
 					placeholder='Amount of water in ml'
@@ -120,7 +132,6 @@ const EditPlant = () => {
 				<input
 					id='plantImage'
 					type='file'
-					// name="Plant image"
 					className='block w-full text-sm text-slate-500
         file:mr-4 file:py-2 file:px-4 file:rounded-md
         file:border-none file:text-sm

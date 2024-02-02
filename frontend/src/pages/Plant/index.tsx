@@ -48,8 +48,11 @@ const PlantPage = () => {
 			wateringFrequencyInDays: plant!.wateringFrequencyInDays,
 			lastWatered: getTodaysDate(),
 			waterAmountInMl: plant!.waterAmountInMl,
+			imageUrl: plant!.imageUrl,
+			location: plant!.location,
+			lastWateredBy: plant!.lastWateredBy
 		};
-		const response = await updatePlant(plant!.id, updatedPlantData);
+		const response = await updatePlant(plant!.id, householdId!, updatedPlantData);
 		toast.success(`${plant?.name} has been successfully watered`);
 		setPlant(response);
 	};

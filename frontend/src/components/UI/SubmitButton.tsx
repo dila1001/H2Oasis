@@ -8,7 +8,7 @@ type SubmitButtonProps = {
 };
 
 const handleClick = () => {
-
+	console.log('button')
 }
 
 const SubmitButton: FC<SubmitButtonProps> = (props: {
