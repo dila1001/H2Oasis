@@ -51,7 +51,7 @@ const PlantsPage = () => {
 				{isLoading && viewLoadingSkeleton()}
 
 				{sortedPlants.map((plant) => (
-					<Link to={`/plant/${plant.id}`} key={plant.id}>
+					<Link to={`/${householdId}/plants/${plant.id}`} key={plant.id}>
 						<PlantCard
 							name={plant.name}
 							species={plant.species}
