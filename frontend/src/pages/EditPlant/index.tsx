@@ -34,7 +34,7 @@ const EditPlant = () => {
 				reset({
 					name: plant!.name,
 					species: plant!.species,
-					imageUrl: plant!.imageUrl,
+					// imageUrl: plant!.imageUrl,
 					uploadedImage: plant!.uploadedImage,
 					wateringFrequencyInDays: plant!.wateringFrequencyInDays.toString(),
 					lastWatered: formatDate(plant!.lastWatered),

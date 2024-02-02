@@ -8,4 +8,9 @@ export interface AuthContextValue {
 	setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const AuthContext = createContext<AuthContextValue | null>(null);
+export const AuthContext = createContext<AuthContextValue>({
+	user: null,
+	setUser: () => {},
+	isLoggedIn: false,
+	setIsLoggedIn: () => {},
+});

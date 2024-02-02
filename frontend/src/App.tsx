@@ -7,6 +7,7 @@ import EditPlant from './pages/EditPlant';
 import AuthProvider from './auth/AuthProvider';
 import { AuthGuard, LoginGuard } from './auth/Guards';
 import Login from './pages/Login';
+import HouseholdsPage from './pages/Households';
 
 function App() {
 	const location = useLocation();
@@ -21,9 +22,16 @@ function App() {
 					<Route path='/login' element={<Login />}></Route>
 				</Route>
 				<Route element={<AuthGuard />}>
-					<Route path='/' element={<PlantsPage />}></Route>
-					<Route path='/plant-edit' element={<EditPlant />}></Route>
-					<Route path='/plant/:slug' element={<PlantPage />}></Route>
+					<Route path='/' element={<HouseholdsPage />}></Route>
+					<Route path='/:householdId/plants' element={<PlantsPage />}></Route>
+					<Route
+						path='/:householdId/plants/edit-plant'
+						element={<EditPlant />}
+					></Route>
+					<Route
+						path='/:householdId/plants/:plantId'
+						element={<PlantPage />}
+					></Route>
 				</Route>
 			</Routes>
 		</AuthProvider>
