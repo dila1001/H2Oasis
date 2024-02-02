@@ -11,7 +11,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 const HouseholdsPage = () => {
 	const [households, setHouseholds] = useState<Household[]>([]);
 	const { user } = useAuth();
-	const [searchParams] = useSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 	const {
 		register,
 		handleSubmit,
@@ -50,11 +50,13 @@ const HouseholdsPage = () => {
 		householdId: string;
 	}> = async (data) => {
 		await AddUserToHousehold(data.householdId, user!.id);
+		// TODO: check if successfull. if successfull, set households. otherwise, show error
 		const updatedHouseholds = await getHouseholdsForUser(user!.id);
 		if (updatedHouseholds) {
 			setHouseholds(updatedHouseholds);
 		}
-		// TODO: check if successfull. if successfull, set households. otherwise, show error
+
+		setSearchParams('');
 
 		const addHouseholdModal = document.getElementById(
 			'add-household'
