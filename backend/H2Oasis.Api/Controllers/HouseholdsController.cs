@@ -1,5 +1,6 @@
 using AutoMapper;
 using H2Oasis.Api.Contracts.Household;
+using H2Oasis.Api.Contracts.Plant;
 using H2Oasis.Api.Models;
 using H2Oasis.Api.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +26,9 @@ namespace H2Oasis.Api.Controllers
         public async Task<IActionResult> GetHouseholdsForUser(string userId)
         {
             var households = await _householdService.GetHouseholdsForUser(userId);
+            
             var householdsResponse = _mapper.Map<IEnumerable<HouseholdResponse>>(households);
+            
             return Ok(householdsResponse);
         }
         
