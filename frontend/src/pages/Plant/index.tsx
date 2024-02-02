@@ -12,7 +12,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import SubmitButton from '../../components/UI/SubmitButton';
 
 const PlantPage = () => {
-	const { plantId } = useParams();
+	const { householdId, plantId } = useParams();
 	const [searchParams] = useSearchParams();
 
 	const [plant, setPlant] = useState<Plant | null>(null);
@@ -96,7 +96,7 @@ const PlantPage = () => {
 					<div className='p-4 my-4'>
 						<div className='flex items-center gap-3'>
 							<h2 className='card-title text-3xl mb-1'>{plant?.name}</h2>
-							<Link to={`/plant-edit?plant=${plant?.id}`}>
+							<Link to={`/${householdId}/plants/edit-plant?plant=${plant?.id}`}>
 								<FaPen className='text-base-300' />
 							</Link>
 						</div>
