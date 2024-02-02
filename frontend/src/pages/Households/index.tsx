@@ -85,7 +85,7 @@ const HouseholdsPage = () => {
 					<h3 className='font-bold text-lg py-4'>Add Household</h3>
 					<form
 						method='dialog'
-						className='modal-backdrop flex flex-col gap-3'
+						className='flex flex-col gap-3'
 						onSubmit={handleSubmit(onAddHouseholdSubmit)}
 					>
 						<input
