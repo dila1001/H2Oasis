@@ -7,7 +7,9 @@ export const AuthGuard = () => {
 	return isLoggedIn ? (
 		<Outlet />
 	) : (
-		<Navigate to={`/login?returnUrl=${window.location.pathname}`} />
+		<Navigate
+			to={`/login?returnUrl=${window.location.pathname}${window.location.search}`}
+		/>
 	);
 };
 

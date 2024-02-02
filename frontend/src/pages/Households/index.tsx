@@ -31,7 +31,6 @@ const HouseholdsPage = () => {
 			if (addHouseholdModal) {
 				addHouseholdModal.showModal();
 			}
-			// prefill with invite code
 			reset({
 				householdId: inviteCode,
 			});
