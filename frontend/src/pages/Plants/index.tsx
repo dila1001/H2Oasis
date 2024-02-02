@@ -84,7 +84,7 @@ const PlantsPage = () => {
 				{isLoading && viewLoadingSkeleton()}
 
 				{sortedPlants.map((plant) => (
-					<Link to={`/plant/${plant.id}`} key={plant.id}>
+					<Link to={`/${householdId}/plants/${plant.id}`} key={plant.id}>
 						<PlantCard
 							name={plant.name}
 							species={plant.species}
@@ -97,7 +97,7 @@ const PlantsPage = () => {
 				))}
 
 				<div className='my-8'>
-					<Link to='/plant-edit'>
+					<Link to={`/${householdId}/plants/edit-plant`}>
 						<button className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'>
 							<FaPlus className='text-white text-2xl' />
 						</button>

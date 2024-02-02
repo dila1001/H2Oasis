@@ -4,27 +4,35 @@ export type Plant = {
 	id: string;
 	name: string;
 	species: string;
-	// imageUrl: string;
-	uploadedImage: File;
+	imageUrl: string;
+	location: string;
+	uploadedImage?: File;
 	wateringFrequencyInDays: string;
 	lastWatered: string;
+	lastWateredBy: string;
 	waterAmountInMl: string;
 };
 
 export type NewPlant = {
 	name: string;
 	species: string;
-	// imageUrl: string;
-	uploadedImage: File;
+	imageUrl: string;
+	location: string;
+	uploadedImage?: File;
 	wateringFrequencyInDays: string;
 	lastWatered: string;
+	lastWateredBy: string;
 	waterAmountInMl: string;
 };
 
-export const plantsUrlEndpoint = '/plants/households';
+export const plantsUrlEndpoint = '/plants';
 
-export const getPlants = async (householdId: string): Promise<Plant[] | null> => {
-	const response = await api.get(`${plantsUrlEndpoint}/${householdId}`);
+export const getPlants = async (
+	householdId: string
+): Promise<Plant[] | null> => {
+	const response = await api.get(
+		`${plantsUrlEndpoint}/households/${householdId}`
+	);
 	return response.data;
 };
 
@@ -33,33 +41,44 @@ export const getPlantById = async (plantId: string): Promise<Plant | null> => {
 	return response.data;
 };
 
-export const addPlant = async ({
-	name,
-	species,
-	// imageUrl,
-	uploadedImage,
-	wateringFrequencyInDays,
-	lastWatered,
-	waterAmountInMl,
-}: NewPlant): Promise<Plant> => {
-	const response = await api.post(plantsUrlEndpoint, {
+export const addPlant = async (
+	householdId: string,
+	{
 		name,
 		species,
-		// imageUrl,
+		imageUrl,
+		location,
 		uploadedImage,
 		wateringFrequencyInDays,
 		lastWatered,
+		lastWateredBy,
 		waterAmountInMl,
-	});
+	}: NewPlant
+): Promise<Plant> => {
+	const response = await api.post(
+		`${plantsUrlEndpoint}/households/${householdId}`,
+		{
+			name,
+			species,
+			imageUrl,
+			location,
+			uploadedImage,
+			wateringFrequencyInDays,
+			lastWatered,
+			lastWateredBy,
+			waterAmountInMl,
+		}
+	);
 	return response.data;
 };
 
 export const updatePlant = async (
 	plantId: string,
+	householdId: string,
 	updatedPlant: NewPlant
 ): Promise<Plant | null> => {
 	const response = await api.put(
-		`${plantsUrlEndpoint}/${plantId}`,
+		`${plantsUrlEndpoint}/${plantId}/households/${householdId}`,
 		updatedPlant
 	);
 	return response.data;
