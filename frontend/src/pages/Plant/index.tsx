@@ -16,12 +16,14 @@ import {
 import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
 import toast, { Toaster } from 'react-hot-toast';
 import SubmitButton from '../../components/UI/SubmitButton';
+import { useAuth } from '../../auth/useAuth';
 
 const PlantPage = () => {
 	const { householdId, plantId } = useParams();
 	const [searchParams] = useSearchParams();
 	const [plant, setPlant] = useState<Plant | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
+	const { user } = useAuth();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -56,7 +58,7 @@ const PlantPage = () => {
 			lastWatered: getTodaysDate(),
 			waterAmountInMl: plant!.waterAmountInMl,
 			location: plant!.location,
-			lastWateredBy: plant!.lastWateredBy,
+			lastWateredBy: user!.firstName,
 		};
 		const response = await updatePlant(
 			plant!.id,
