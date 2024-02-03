@@ -7,6 +7,7 @@ import { useAuth } from '../../auth/useAuth';
 import { Link, useSearchParams } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHouseholds } from '../../hooks/useHouseholds';
+import AvatarGroup from '../../components/UI/AvatarGroup';
 
 const HouseholdsPage = () => {
 	const { households, setHouseholds } = useHouseholds();
@@ -35,7 +36,7 @@ const HouseholdsPage = () => {
 				householdId: inviteCode,
 			});
 		}
-	}, []);
+	}, [searchParams, reset]);
 
 	const onAddHouseholdSubmit: SubmitHandler<{
 		householdId: string;
@@ -101,11 +102,13 @@ const HouseholdsPage = () => {
 			>
 				Add household
 			</button>
+
 			<h2 className='font-bold'>Households of {user?.firstName}</h2>
 			{households?.map((h) => (
-				<Link to={`/${h.id}/plants`} key={h.id}>
-					{h.name}
-				</Link>
+				<div key={h.id}>
+					<Link to={`/${h.id}/plants`}>{h.name}</Link>
+					<AvatarGroup users={h.users} />
+				</div>
 			))}
 		</div>
 	);

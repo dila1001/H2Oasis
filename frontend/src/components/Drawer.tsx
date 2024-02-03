@@ -3,9 +3,9 @@ import { FaSignOutAlt } from 'react-icons/fa';
 import { FaHouse } from 'react-icons/fa6';
 import { baseURL } from '../api/api';
 import { useAuth } from '../auth/useAuth';
-import { generateInitials } from '../utils/avatarUtils';
 import { useHouseholds } from '../hooks/useHouseholds';
 import { Link } from 'react-router-dom';
+import Avatar from './UI/Avatar';
 
 type DrawerProps = {
 	children: ReactNode;
@@ -37,26 +37,22 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 					className='drawer-overlay'
 				></label>
 				<ul className='menu p-4 w-80 min-h-full bg-base-200 text-base-content'>
-					<div className='flex gap-4 py-5'>
-						{user && (
-							<div className='avatar placeholder'>
-								<div className='bg-neutral text-neutral-content rounded-full w-16'>
-									<span className='text-xl'>{generateInitials(user)}</span>
-								</div>
-							</div>
-						)}
+					<Link to='/' onClick={toggleDrawer}>
+						<div className='flex gap-4 py-5'>
+							{user && <Avatar user={user} size='xl' />}
 
-						<div className='flex flex-col justify-center'>
-							{user && (
-								<>
-									<p className='card-title'>
-										{user.firstName} {user.lastName}
-									</p>
-									<p>{user.email}</p>
-								</>
-							)}
+							<div className='flex flex-col justify-center'>
+								{user && (
+									<>
+										<p className='card-title'>
+											{user.firstName} {user.lastName}
+										</p>
+										<p>{user.email}</p>
+									</>
+								)}
+							</div>
 						</div>
-					</div>
+					</Link>
 					<div className='border-l h-[1px] bg-base-300 mb-5'></div>
 					{!households?.length ? (
 						<li>You have no households</li>
@@ -64,7 +60,7 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 						households.map((household) => (
 							<li key={household.id}>
 								<Link to={`/${household.id}/plants`} onClick={toggleDrawer}>
-									<FaHouse className='text-secondary' />
+									<FaHouse className='text-xl text-secondary mr-3' />
 									{household.name}
 								</Link>
 							</li>
@@ -74,7 +70,7 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 						<a
 							href={`${baseURL}/auth/logout?returnUrl=${window.location.origin}`}
 						>
-							<FaSignOutAlt className='text-secondary' />
+							<FaSignOutAlt className='text-xl text-secondary mr-3' />
 							Logout
 						</a>
 					</li>

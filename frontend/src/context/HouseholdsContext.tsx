@@ -29,7 +29,7 @@ function HouseholdsProvider({ children }: { children: ReactNode }) {
 			}
 		};
 		fetchData();
-	}, []);
+	}, [user]);
 
 	return (
 		<HouseholdsContext.Provider value={value}>
