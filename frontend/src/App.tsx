@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import HouseholdsPage from './pages/Households';
 import Drawer from './components/Drawer';
 import { HouseholdsProvider } from './context/HouseholdsContext';
+import NotFound from './pages/404';
 
 function App() {
 	const location = useLocation();
@@ -39,6 +40,7 @@ function App() {
 								path='/:householdId/plants/:plantId'
 								element={<PlantPage />}
 							></Route>
+							<Route path='*' element={<NotFound />} />
 						</Route>
 					</Routes>
 				</Drawer>
