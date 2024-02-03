@@ -42,7 +42,7 @@ export const updateHousehold = async (
 
 export const deleteHousehold = async (
 	householdId: string
-): Promise<Household | null> => {
+): Promise<void> => {
 	const response = await api.delete(`${householdsUrlEndpoint}/${householdId}`);
 	return response.data;
 };

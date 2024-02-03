@@ -6,11 +6,15 @@ import { Link, useParams } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa6';
 import { getDaysLeft } from '../../utils/dateUtils';
 import QRCode from 'react-qr-code';
+import { useHouseholds } from '../../hooks/useHouseholds';
 
 const PlantsPage = () => {
 	const [plants, setPlants] = useState<Plant[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [householdName, setHouseholdName] = useState<string>('');
+	const { households } = useHouseholds();
 	const { householdId } = useParams();
+	// let householdName: string;
 
 	useEffect(() => {
 		// modal that shows qr code. this is triggered by "Invite user to household" btn
@@ -18,6 +22,9 @@ const PlantsPage = () => {
 		const fetchData = async () => {
 			if (householdId) {
 				const plants = await getPlants(householdId);
+				const name = households?.find((h) => h.id === householdId)?.name || '';
+				setHouseholdName(name);
+				
 				if (plants) {
 					setPlants(plants);
 				}
@@ -52,6 +59,7 @@ const PlantsPage = () => {
 	return (
 		<>
 			<div className='mx-5'>
+				<h3 className='font-bold text-lg'>{householdName} plants</h3>
 				<dialog id='show-qrcode' className='modal'>
 					<div className='modal-box'>
 						<form method='dialog'>
@@ -88,7 +96,7 @@ const PlantsPage = () => {
 						<PlantCard
 							name={plant.name}
 							species={plant.species}
-							// imageUrl={plant.imageUrl}
+							imageUrl={plant.imageUrl}
 							lastWatered={plant.lastWatered}
 							waterFrequency={plant.wateringFrequencyInDays}
 							// uploadedImage={undefined}
