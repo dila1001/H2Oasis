@@ -9,7 +9,13 @@ type AvatarProps = {
 };
 
 const Avatar: FC<AvatarProps> = ({ user, size }) => {
-	const bgColour = ['primary', 'secondary', 'base-300', 'warning', 'neutral'];
+	const bgColour = [
+		'bg-primary',
+		'bg-secondary',
+		'bg-base-300',
+		'bg-warning',
+		'bg-neutral',
+	];
 
 	const avatarBg = () => {
 		const hash = stringHash(user.id);
@@ -20,8 +26,8 @@ const Avatar: FC<AvatarProps> = ({ user, size }) => {
 	return (
 		<div className='avatar placeholder'>
 			<div
-				className={`bg-${avatarBg()} text-neutral-content rounded-full w-${
-					size === 'xl' ? '16' : '8'
+				className={`${avatarBg()} text-neutral-content rounded-full ${
+					size === 'xl' ? 'w-16' : 'w-8'
 				}`}
 			>
 				<span className={`text-${size}`}>{generateInitials(user)}</span>
