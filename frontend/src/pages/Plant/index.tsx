@@ -71,10 +71,10 @@ const PlantPage = () => {
 
 	const viewLoadingSkeleton = () => {
 		return (
-			<div className='flex flex-col pl-8 gap-4 w-full bg-base-200'>
-				<div className='skeleton h-80 w-80 pl-12 bg-base-200'></div>
+			<div className='flex-col mx-5 my-2 space-y-4'>
+				<div className='skeleton h-80 w-full pl-12 bg-base-200'></div>
 				<div className='skeleton h-16 w-44 pl-12 bg-base-200'></div>
-				{[1, 2, 3, 4].map((item) => (
+				{[1, 2, 3].map((item) => (
 					<div key={item} className='skeleton w-60 h-8 bg-base-200'></div>
 				))}
 			</div>
@@ -108,16 +108,6 @@ const PlantPage = () => {
 
 			{plant && (
 				<div className='mx-5 my-2 flex-row'>
-					{/* <div className='text-sm breadcrumbs'>
-            <ul>
-              <li>
-                <a>Home</a>
-              </li>
-              <li>
-                <a>Documents</a>
-              </li>
-            </ul>
-          </div> */}
 					<img
 						src={plant?.imageUrl}
 						alt='Image Description'
