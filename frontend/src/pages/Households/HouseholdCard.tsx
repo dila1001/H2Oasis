@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { User } from '../../services/usersService';
 import { Plant } from '../../services/plantsService';
-import { DateValues } from 'date-fns';
+import AvatarGroup from '../../components/UI/AvatarGroup';
 
 type HouseholdCardProps = {
 	householdName: string;
@@ -15,12 +15,9 @@ const HouseholdCard: FC<HouseholdCardProps> = ({
 	plants,
 	users,
 }) => {
-    const pendingWatering = plants.map((p) => p.lastWatered as DateValues);
-    const today = new Date();
-    const amountToWater = pendingWatering.filter((d) => (d as Date) <= today)
-    console.log(amountToWater, 'dates')
-    // console.log(today.toISOString().split('T')[0], 'today')
-    console.log(today, 'today')
+    // const pendingWatering = plants.map((p) => p.lastWatered as DateValues);
+    // const today = new Date();
+    // const amountToWater = pendingWatering.filter((d) => (d as Date) <= today)
 
 	return (
 		<div className='card bg-[#f9fcf4] shadow-md my-6 flex-row'>
@@ -31,12 +28,7 @@ const HouseholdCard: FC<HouseholdCardProps> = ({
 					</h2>
 					<h2 key={plants.length}>{plants.length} plants</h2>
 					{/* <h2 key={needWatering}>{needWatering} need water!</h2> */}
-					{users.map((u) => (
-						<h2 key={u.id}>
-							{u.firstName[0]}
-							{u.lastName[0]}
-						</h2>
-					))}
+					<AvatarGroup users={users} />
 				</div>
 			</div>
 		</div>

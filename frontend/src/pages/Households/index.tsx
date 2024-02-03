@@ -8,7 +8,6 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHouseholds } from '../../hooks/useHouseholds';
 import HouseholdCard from './HouseholdCard';
-import AvatarGroup from '../../components/UI/AvatarGroup';
 
 const HouseholdsPage = () => {
 	const { households, setHouseholds } = useHouseholds();
@@ -107,10 +106,13 @@ const HouseholdsPage = () => {
 			<h2 className='font-bold'>Households of {user?.firstName}</h2>
 
 			{households?.map((h) => (
-				<div key={h.id}>
-					<Link to={`/${h.id}/plants`}>{h.name}</Link>
-					<AvatarGroup users={h.users} />
-				</div>
+				<Link to={`/${h.id}/plants`} key={h.id}>
+					<HouseholdCard
+						householdName={h.name}
+						plants={h.plants}
+						users={h.users}
+					/>
+				</Link>
 			))}
 		</div>
 	);
