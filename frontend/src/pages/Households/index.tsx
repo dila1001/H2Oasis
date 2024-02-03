@@ -7,6 +7,7 @@ import { useAuth } from '../../auth/useAuth';
 import { Link, useSearchParams } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHouseholds } from '../../hooks/useHouseholds';
+import HouseholdCard from './HouseholdCard';
 import AvatarGroup from '../../components/UI/AvatarGroup';
 
 const HouseholdsPage = () => {
@@ -104,6 +105,7 @@ const HouseholdsPage = () => {
 			</button>
 
 			<h2 className='font-bold'>Households of {user?.firstName}</h2>
+
 			{households?.map((h) => (
 				<div key={h.id}>
 					<Link to={`/${h.id}/plants`}>{h.name}</Link>
