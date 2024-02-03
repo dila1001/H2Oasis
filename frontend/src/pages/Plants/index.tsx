@@ -6,13 +6,15 @@ import { Link, useParams } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa6';
 import { getDaysLeft } from '../../utils/dateUtils';
 import QRCode from 'react-qr-code';
-import { getHousehold } from '../../services/householdsService';
+import { useHouseholds } from '../../hooks/useHouseholds';
 
 const PlantsPage = () => {
 	const [plants, setPlants] = useState<Plant[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [householdName, setHouseholdName] = useState<string>('');
+	const { households } = useHouseholds();
 	const { householdId } = useParams();
+	// let householdName: string;
 
 	useEffect(() => {
 		// modal that shows qr code. this is triggered by "Invite user to household" btn
@@ -20,9 +22,9 @@ const PlantsPage = () => {
 		const fetchData = async () => {
 			if (householdId) {
 				const plants = await getPlants(householdId);
-				await getHousehold(householdId).then((name) => {
-					setHouseholdName(name!.name);
-				});
+				const name = households?.find((h) => h.id === householdId)?.name || '';
+				setHouseholdName(name);
+				
 				if (plants) {
 					setPlants(plants);
 				}
