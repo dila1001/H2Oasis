@@ -22,7 +22,6 @@ const HouseholdsPage = () => {
 
 	useEffect(() => {
 		const inviteCode = searchParams.get('inviteCode');
-		console.log(households);
 
 		//TODO: need modal, button and form for create household
 
@@ -37,7 +36,7 @@ const HouseholdsPage = () => {
 				householdId: inviteCode,
 			});
 		}
-	}, []);
+	}, [searchParams, reset]);
 
 	const onAddHouseholdSubmit: SubmitHandler<{
 		householdId: string;
@@ -106,10 +105,8 @@ const HouseholdsPage = () => {
 
 			<h2 className='font-bold'>Households of {user?.firstName}</h2>
 			{households?.map((h) => (
-				<div>
-					<Link to={`/${h.id}/plants`} key={h.id}>
-						{h.name}
-					</Link>
+				<div key={h.id}>
+					<Link to={`/${h.id}/plants`}>{h.name}</Link>
 					<AvatarGroup users={h.users} />
 				</div>
 			))}

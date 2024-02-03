@@ -14,7 +14,6 @@ const Avatar: FC<AvatarProps> = ({ user, size }) => {
 	const avatarBg = () => {
 		const hash = stringHash(user.id);
 		const colorIndex = Math.abs(hash) % bgColour.length;
-		console.log(bgColour[colorIndex]);
 		return bgColour[colorIndex];
 	};
 
