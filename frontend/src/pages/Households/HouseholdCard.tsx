@@ -61,7 +61,9 @@ const HouseholdCard: FC<HouseholdCardProps> = ({
 						</div>
 					</div>
 				)}
-				<AvatarGroup users={users} styles='justify-self-center' />
+				<div className='justify-self-center'>
+					<AvatarGroup users={users} />
+				</div>
 			</div>
 		</div>
 	);

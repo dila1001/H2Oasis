@@ -4,12 +4,11 @@ import Avatar from './Avatar';
 
 type AvatarGroupProps = {
 	users: User[];
-	styles?: string;
 };
 
-const AvatarGroup: FC<AvatarGroupProps> = ({ users, styles }) => {
+const AvatarGroup: FC<AvatarGroupProps> = ({ users }) => {
 	return (
-		<div className={`avatar-group -space-x-5 rtl:space-x-reverse ${styles}`}>
+		<div className='avatar-group -space-x-5 rtl:space-x-reverse'>
 			{users.map((user) => (
 				<Avatar key={user.id} user={user} size='xs' />
 			))}
