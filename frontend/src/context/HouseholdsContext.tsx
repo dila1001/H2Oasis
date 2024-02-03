@@ -23,9 +23,11 @@ function HouseholdsProvider({ children }: { children: ReactNode }) {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const households = await getHouseholdsForUser(user!.id);
-			if (households) {
-				setHouseholds(households);
+			if (user) {
+				const households = await getHouseholdsForUser(user.id);
+				if (households) {
+					setHouseholds(households);
+				}
 			}
 		};
 		fetchData();
