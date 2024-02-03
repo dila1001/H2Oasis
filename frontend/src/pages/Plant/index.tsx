@@ -69,9 +69,9 @@ const PlantPage = () => {
 
 	const viewLoadingSkeleton = () => {
 		return (
-			<div className='flex flex-col pl-8 gap-4 w-full'>
-				<div className='skeleton h-80 w-80 pl-12'></div>
-				<div className='skeleton h-16 w-44 pl-12'></div>
+			<div className='flex flex-col pl-8 gap-4 w-full bg-base-200'>
+				<div className='skeleton h-80 w-60 pl-12 bg-base-200'></div>
+				<div className='skeleton h-16 w-44 pl-12 bg-base-200'></div>
 				{[1, 2, 3, 4].map((item) => (
 					<div key={item} className='skeleton w-44 h-8 bg-base-200'></div>
 				))}
