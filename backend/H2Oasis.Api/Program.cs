@@ -58,6 +58,7 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseHttpsRedirection();
+    app.UseStaticFiles();
     app.UseCors(policy =>
     {
         policy.WithOrigins("http://localhost:5174", "https://ashy-stone-00b16bb03.4.azurestaticapps.net")
@@ -66,6 +67,7 @@ var app = builder.Build();
             .AllowCredentials();
     });
     app.MapControllers();
+    app.MapFallbackToFile("index.html");
     app.Run();
 }
 
