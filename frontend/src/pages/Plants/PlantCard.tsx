@@ -42,7 +42,7 @@ const PlantCard: FC<PlantCardProps> = ({
 			<div className='card-body p-4 flex-1 flex-row'>
 				<div>
 					{' '}
-					<h2 className='card-title'>{name}</h2>
+					<h3 className='card-title'>{name}</h3>
 					<p className='text-gray-500'>{species}</p>
 				</div>
 
