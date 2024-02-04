@@ -6,7 +6,6 @@ type PlantCardProps = {
 	name: string;
 	species: string;
 	imageUrl: string;
-	// uploadedImage: File;
 	lastWatered: string;
 	waterFrequency: string;
 	onClick?: () => void;
@@ -16,7 +15,6 @@ const PlantCard: FC<PlantCardProps> = ({
 	name,
 	species,
 	imageUrl,
-	// uploadedImage,
 	lastWatered,
 	waterFrequency,
 	onClick,

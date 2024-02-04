@@ -210,7 +210,7 @@ const PlantsPage = () => {
 				)}
 
 				{/* Check for empty state */}
-				{plants.length === 0 && !isLoading && (
+				{plants.length === 0 && !isLoading && !error && (
 					<div className='flex flex-col items-center justify-center h-[calc(100vh-220px)] gap-6'>
 						<FaPlantWilt className='text-warning text-[120px]' />
 						<h1 className='card-title text-neutral mb-12 text-center'>

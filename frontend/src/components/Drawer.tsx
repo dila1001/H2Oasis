@@ -38,7 +38,7 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 				></label>
 				<ul className='menu p-4 w-80 min-h-full bg-base-200 text-base-content rounded-tr-3xl'>
 					<Link to='/' onClick={toggleDrawer}>
-						<div className='flex gap-4 py-5 '>
+						<div className='flex gap-4 py-5'>
 							{user && <Avatar user={user} size='xl' />}
 
 							<div className='flex flex-col justify-center'>
