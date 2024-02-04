@@ -171,20 +171,33 @@ const PlantsPage = () => {
 					</div>
 				</dialog>
 				<div className='flex items-center'>
-					<h3 className='card-title my-6 text-center w-full'>
+					<h2 className='card-title my-6 text-center w-full'>
 						{householdName}
-					</h3>
-					{households && (
-						<div
-							onClick={() =>
-								(
-									document.getElementById(
-										'show-qrcode'
-									) as HTMLDialogElement | null
-								)?.showModal()
-							}
-						>
-							{users && <AvatarGroup users={users} />}
+					</h2>
+					{households && users && (
+						<div className='dropdown dropdown-end dropdown-hover'>
+							<div tabIndex={0} role='button'>
+								<AvatarGroup users={users} />
+							</div>
+							<ul
+								tabIndex={0}
+								className='dropdown-content z-[1] menu p-2 shadow bg-[#f9fcf4] rounded-box w-40'
+							>
+								<li
+									onClick={() =>
+										(
+											document.getElementById(
+												'show-qrcode'
+											) as HTMLDialogElement | null
+										)?.showModal()
+									}
+								>
+									<a>Invite user</a>
+								</li>
+								<li>
+									<a>Leave household</a>
+								</li>
+							</ul>
 						</div>
 					)}
 				</div>
@@ -213,9 +226,9 @@ const PlantsPage = () => {
 				{plants.length === 0 && !isLoading && !error && (
 					<div className='flex flex-col items-center justify-center h-[calc(100vh-220px)] gap-6'>
 						<FaPlantWilt className='text-warning text-[120px]' />
-						<h1 className='card-title text-neutral mb-12 text-center'>
+						<h2 className='card-title text-neutral mb-12 text-center'>
 							This household has no plants.
-						</h1>
+						</h2>
 						<Link to={`/${householdId}/plants/edit-plant`}>
 							<button className='btn btn-neutral'>Add a plant</button>
 						</Link>
