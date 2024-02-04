@@ -15,6 +15,7 @@ import { useHouseholds } from '../../hooks/useHouseholds';
 import AvatarGroup from '../../components/UI/AvatarGroup';
 import { useAuth } from '../../auth/useAuth';
 import toast, { Toaster } from 'react-hot-toast';
+import { FaHeartBroken } from 'react-icons/fa';
 
 const PlantsPage = () => {
 	const [plants, setPlants] = useState<Plant[]>([]);
@@ -22,6 +23,7 @@ const PlantsPage = () => {
 	const [selectedPlant, setSelectedPlant] = useState<Plant | undefined>(
 		undefined
 	);
+	const [error, setError] = useState(false);
 	const { households } = useHouseholds();
 	const { user } = useAuth();
 	const { householdId } = useParams();
@@ -31,13 +33,16 @@ const PlantsPage = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			if (householdId) {
-				const plants = await getPlants(householdId);
-				if (plants) {
-					setPlants(plants);
+			try {
+				if (householdId) {
+					const fetchedPlants = await getPlants(householdId);
+					setPlants(fetchedPlants || []);
 				}
+			} catch (error) {
+				setError(true);
+			} finally {
+				setIsLoading(false);
 			}
-			setIsLoading(false);
 		};
 		fetchData();
 	}, [householdId, households]);
@@ -122,6 +127,7 @@ const PlantsPage = () => {
 		<>
 			<div className='mx-5'>
 				<Toaster position='top-center' reverseOrder={false} />
+
 				{/* QR code modal */}
 				<dialog id='show-qrcode' className='modal'>
 					<div className='modal-box h-[500px] flex flex-col items-center justify-center'>
@@ -143,6 +149,7 @@ const PlantsPage = () => {
 						</div>
 					</div>
 				</dialog>
+
 				{/* Water plant modal */}
 				<dialog id='water-modal' className='modal'>
 					<div className='modal-box'>
@@ -186,8 +193,23 @@ const PlantsPage = () => {
 					<SearchBar />
 				</div>
 
+				{/* Check for loading state */}
 				{isLoading && viewLoadingSkeleton()}
 
+				{/* Check for error state */}
+				{error && (
+					<div className='flex flex-col items-center justify-center h-[calc(100vh-220px)] gap-6'>
+						<FaHeartBroken className='text-warning text-[120px]' />
+						<h1 className='card-title text-neutral mb-12 text-center'>
+							An error occured while fetching plants
+						</h1>
+						<Link to={`/`}>
+							<button className='btn btn-neutral'>Go home</button>
+						</Link>
+					</div>
+				)}
+
+				{/* Check for empty state */}
 				{plants.length === 0 && !isLoading && (
 					<div className='flex flex-col items-center justify-center h-[calc(100vh-220px)] gap-6'>
 						<FaPlantWilt className='text-warning text-[120px]' />
@@ -200,6 +222,7 @@ const PlantsPage = () => {
 					</div>
 				)}
 
+				{/* Render plants */}
 				{plants.length > 0 && (
 					<div>
 						{/* Overdue Plants */}
