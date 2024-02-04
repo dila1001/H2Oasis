@@ -13,6 +13,7 @@ import { useHouseholds } from '../../hooks/useHouseholds';
 import HouseholdCard from './HouseholdCard';
 import toast, { Toaster } from 'react-hot-toast';
 import { FaHeartBroken, FaHome } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa6';
 
 const HouseholdsPage = () => {
 	const { households, setHouseholds, isLoading, error } = useHouseholds();
@@ -152,19 +153,6 @@ const HouseholdsPage = () => {
 				</div>
 			</dialog>
 
-			{/* <button
-				className='btn btn-primary'
-				onClick={() =>
-					(
-						document.getElementById(
-							'create-household'
-						) as HTMLDialogElement | null
-					)?.showModal()
-				}
-			>
-				Create household
-			</button> */}
-
 			<h2 className='card-title my-6'>My Households</h2>
 
 			{/* Check for loading state */}
@@ -219,6 +207,20 @@ const HouseholdsPage = () => {
 						/>
 					</Link>
 				))}
+			<div className='my-12'>
+				<button
+					className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'
+					onClick={() =>
+						(
+							document.getElementById(
+								'create-household'
+							) as HTMLDialogElement | null
+						)?.showModal()
+					}
+				>
+					<FaPlus className='text-white text-2xl' />
+				</button>
+			</div>
 		</div>
 	);
 };
