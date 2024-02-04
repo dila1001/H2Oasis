@@ -112,7 +112,7 @@ const HouseholdsPage = () => {
 					>
 						<input
 							type='text'
-							placeholder='Household Name'
+							placeholder='Name'
 							className='input input-bordered input-success w-full'
 							{...register('householdName', {
 								required: 'Household name is required',

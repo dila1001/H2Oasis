@@ -26,7 +26,7 @@ const HouseholdCard: FC<HouseholdCardProps> = ({
 
 	return (
 		<div className='card bg-[#f9fcf4] shadow-md mb-6 h-32 flex flex-col p-4'>
-			<h2 className='card-title'>{householdName}</h2>
+			<h3 className='card-title'>{householdName}</h3>
 			<div className='flex flex-row grow'>
 				<div className='flex flex-col mt-auto gap-2'>
 					<div className='badge badge-ghost text-xs'>
