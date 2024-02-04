@@ -44,6 +44,13 @@ const HouseholdsPage = () => {
 
 	useEffect(() => {
 		const inviteCode = searchParams.get('inviteCode');
+		const deletedHousehold = searchParams.get('deletedHousehold');
+
+		if (deletedHousehold) {
+			toast.success(`You have successfully left ${deletedHousehold}`, {
+				id: 'delete-household',
+			});
+		}
 
 		//TODO: need modal, button and form for create household
 		const fetchData = async () => {

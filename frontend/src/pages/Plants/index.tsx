@@ -7,7 +7,7 @@ import {
 } from '../../services/plantsService';
 import SearchBar from './SearchBar';
 import PlantCard from './PlantCard';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FaPlantWilt, FaPlus } from 'react-icons/fa6';
 import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
 import QRCode from 'react-qr-code';
@@ -16,6 +16,10 @@ import AvatarGroup from '../../components/UI/AvatarGroup';
 import { useAuth } from '../../auth/useAuth';
 import toast, { Toaster } from 'react-hot-toast';
 import { FaHeartBroken } from 'react-icons/fa';
+import {
+	DeleteUserFromHousehold,
+	getHouseholdsForUser,
+} from '../../services/householdsService';
 
 const PlantsPage = () => {
 	const [plants, setPlants] = useState<Plant[]>([]);
@@ -24,9 +28,10 @@ const PlantsPage = () => {
 		undefined
 	);
 	const [error, setError] = useState(false);
-	const { households } = useHouseholds();
+	const { households, setHouseholds } = useHouseholds();
 	const { user } = useAuth();
 	const { householdId } = useParams();
+	const navigate = useNavigate();
 
 	const users = households?.find((h) => h.id === householdId)?.users;
 	const householdName = households?.find((h) => h.id === householdId)?.name;
@@ -123,6 +128,15 @@ const PlantsPage = () => {
 		toast.success(`${selectedPlant?.name} has been successfully watered`);
 	};
 
+	const leaveHousehold = async () => {
+		if (householdId && user) {
+			await DeleteUserFromHousehold(householdId, user.id);
+			const response = await getHouseholdsForUser(user.id);
+			setHouseholds(response);
+			navigate(`/?deletedHousehold=${householdName}`);
+		}
+	};
+
 	return (
 		<>
 			<div className='mx-5'>
@@ -146,6 +160,38 @@ const PlantsPage = () => {
 						</p>
 						<div className='py-4 flex justify-center'>
 							<QRCode value={QRCodeValue} bgColor='#F8FDEF' fgColor='#343300' />
+						</div>
+					</div>
+				</dialog>
+
+				{/* Modal for leave household */}
+				<dialog id='leave-household' className='modal'>
+					<div className='modal-box'>
+						<h3 className='font-bold text-lg'>
+							Are you sure you want to leave {householdName}?
+						</h3>
+						<p className='py-4'>Click yes to leave and no to abort.</p>
+						<div className='modal-action'>
+							<form method='dialog' className='w-full flex gap-2 justify-end'>
+								<button
+									className='btn bg-accent text-white'
+									onClick={() => leaveHousehold()}
+								>
+									Yes
+								</button>
+								<button
+									onClick={() =>
+										(
+											document.getElementById(
+												'leave-household'
+											) as HTMLDialogElement | null
+										)?.close()
+									}
+									className='btn'
+								>
+									No
+								</button>
+							</form>
 						</div>
 					</div>
 				</dialog>
@@ -194,7 +240,15 @@ const PlantsPage = () => {
 								>
 									<a>Invite user</a>
 								</li>
-								<li>
+								<li
+									onClick={() =>
+										(
+											document.getElementById(
+												'leave-household'
+											) as HTMLDialogElement | null
+										)?.showModal()
+									}
+								>
 									<a>Leave household</a>
 								</li>
 							</ul>
