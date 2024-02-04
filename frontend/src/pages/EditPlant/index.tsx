@@ -138,7 +138,7 @@ const EditPlant = () => {
 				<input
 					type='number'
 					placeholder='Amount of water in ml'
-					className='input input-bordered input-success w-full'
+					className='input input-bordered input-success w-full mb-8'
 					{...register('waterAmountInMl', {
 						required: 'Water amount is required',
 					})}
