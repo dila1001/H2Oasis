@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	AddUserToHousehold,
+	Household,
+	getHousehold,
 	getHouseholdsForUser,
 } from '../../services/householdsService';
 import { useAuth } from '../../auth/useAuth';
@@ -8,6 +10,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHouseholds } from '../../hooks/useHouseholds';
 import HouseholdCard from './HouseholdCard';
+import toast, { Toaster } from 'react-hot-toast';
 
 const HouseholdsPage = () => {
 	const { households, setHouseholds } = useHouseholds();
@@ -19,23 +22,28 @@ const HouseholdsPage = () => {
 		formState: { isSubmitting },
 		reset,
 	} = useForm<{ householdId: string }>();
+	const [inviteHousehold, setInviteHousehold] = useState<Household | null>(
+		null
+	);
 
 	useEffect(() => {
 		const inviteCode = searchParams.get('inviteCode');
 
 		//TODO: need modal, button and form for create household
-
-		if (inviteCode) {
-			const addHouseholdModal = document.getElementById(
-				'add-household'
-			) as HTMLDialogElement | null;
-			if (addHouseholdModal) {
-				addHouseholdModal.showModal();
+		const fetchData = async () => {
+			if (inviteCode) {
+				const response = await getHousehold(inviteCode);
+				setInviteHousehold(response);
+				const joinHouseholdModal = document.getElementById(
+					'join-household'
+				) as HTMLDialogElement | null;
+				if (joinHouseholdModal) {
+					joinHouseholdModal.showModal();
+				}
 			}
-			reset({
-				householdId: inviteCode,
-			});
-		}
+		};
+
+		fetchData();
 	}, [searchParams, reset]);
 
 	const onAddHouseholdSubmit: SubmitHandler<{
@@ -59,8 +67,19 @@ const HouseholdsPage = () => {
 		});
 	};
 
+	const joinHousehold = async () => {
+		if (inviteHousehold && user) {
+			await AddUserToHousehold(inviteHousehold.id, user.id);
+			toast.success(`You have successfully joined ${inviteHousehold.name}`);
+			const response = await getHouseholdsForUser(user.id);
+			setHouseholds(response);
+			setSearchParams('');
+		}
+	};
+
 	return (
 		<div className='mx-5'>
+			<Toaster position='top-center' reverseOrder={false} />
 			{/* Modal for add household */}
 			<dialog id='add-household' className='modal'>
 				<div className='modal-box'>
@@ -92,6 +111,33 @@ const HouseholdsPage = () => {
 					</form>
 				</div>
 			</dialog>
+
+			{/* Modal for join household */}
+			<dialog id='join-household' className='modal'>
+				<div className='modal-box'>
+					<h3 className='font-bold text-lg'>
+						You have been invited to join {inviteHousehold?.name}?
+					</h3>
+					<p className='py-4'>Would you like to join this household?</p>
+					<div className='modal-action'>
+						<form method='dialog' className='w-full flex gap-2 justify-end'>
+							<button
+								className='btn bg-accent text-white'
+								onClick={() => joinHousehold()}
+							>
+								Yes
+							</button>
+							<button
+								onClick={() => closeModal('join-household')}
+								className='btn'
+							>
+								No
+							</button>
+						</form>
+					</div>
+				</div>
+			</dialog>
+
 			<button
 				className='btn btn-primary'
 				onClick={() =>
