@@ -13,6 +13,8 @@ import { Toaster } from 'react-hot-toast';
 import { formatDate } from '../../utils/dateUtils';
 import SubmitButton from '../../components/UI/SubmitButton';
 import { useAuth } from '../../auth/useAuth';
+import { getHouseholdsForUser } from '../../services/householdsService';
+import { useHouseholds } from '../../hooks/useHouseholds';
 
 const EditPlant = () => {
 	const [searchParams] = useSearchParams();
@@ -20,6 +22,7 @@ const EditPlant = () => {
 	const [plant, setPlant] = useState<Plant | null>(null);
 	const navigate = useNavigate();
 	const { user } = useAuth();
+	const { setHouseholds } = useHouseholds();
 
 	const {
 		register,
@@ -34,21 +37,27 @@ const EditPlant = () => {
 			if (queryValue) {
 				const plant = await getPlantById(queryValue);
 				setPlant(plant);
+				if (plant) {
+					reset({
+						name: plant.name,
+						species: plant.species,
+						imageUrl: plant.imageUrl,
+						location: plant.location,
+						// uploadedImage: plant?.uploadedImage,
+						wateringFrequencyInDays: plant.wateringFrequencyInDays.toString(),
+						lastWatered: formatDate(plant.lastWatered),
+						waterAmountInMl: plant.waterAmountInMl,
+					});
+				}
+			}
+			if (user) {
 				reset({
-					name: plant!.name,
-					species: plant!.species,
-					imageUrl: plant!.imageUrl,
-					location: plant?.location,
-					// uploadedImage: plant?.uploadedImage,
-					wateringFrequencyInDays: plant!.wateringFrequencyInDays.toString(),
-					lastWatered: formatDate(plant!.lastWatered),
-					lastWateredBy: user?.firstName,
-					waterAmountInMl: plant!.waterAmountInMl,
+					lastWateredBy: user.firstName,
 				});
 			}
 		};
 		fetchPlant();
-	}, [searchParams, reset]);
+	}, [searchParams, reset, user]);
 
 	const onSubmit: SubmitHandler<NewPlant> = async (data) => {
 		let response;
@@ -58,6 +67,11 @@ const EditPlant = () => {
 		} else {
 			response = await addPlant(householdId!, data);
 			navigate(`/${householdId}/plants/${response?.id}?created=true`);
+		}
+
+		if (user) {
+			const households = await getHouseholdsForUser(user.id);
+			setHouseholds(households);
 		}
 	};
 
