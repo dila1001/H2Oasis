@@ -161,7 +161,7 @@ const HouseholdsPage = () => {
 				</div>
 			</dialog>
 
-			<h2 className='card-title my-6'>My Households</h2>
+			{/* <h2 className='card-title my-6'>My Households</h2> */}
 
 			<div className='mb-6'>
 				<SearchBar />
@@ -219,20 +219,22 @@ const HouseholdsPage = () => {
 						/>
 					</Link>
 				))}
-			<div className='my-12'>
-				<button
-					className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'
-					onClick={() =>
-						(
-							document.getElementById(
-								'create-household'
-							) as HTMLDialogElement | null
-						)?.showModal()
-					}
-				>
-					<FaPlus className='text-white text-2xl' />
-				</button>
-			</div>
+			{households && !isLoading && !error && households.length !== 0 && (
+				<div className='my-12'>
+					<button
+						className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'
+						onClick={() =>
+							(
+								document.getElementById(
+									'create-household'
+								) as HTMLDialogElement | null
+							)?.showModal()
+						}
+					>
+						<FaPlus className='text-white text-2xl' />
+					</button>
+				</div>
+			)}
 		</div>
 	);
 };
