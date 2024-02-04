@@ -251,7 +251,7 @@ const PlantsPage = () => {
 
 				{/* Upcoming Plants */}
 				{upcomingPlants.length > 0 && (
-					<>
+					<div className='mb-8'>
 						<h4 className='font-bold text-sm text-neutral mb-3'>Upcoming</h4>
 						{upcomingPlants.map((plant) => (
 							<Link to={`/${householdId}/plants/${plant.id}`} key={plant.id}>
@@ -264,10 +264,10 @@ const PlantsPage = () => {
 								/>
 							</Link>
 						))}
-					</>
+					</div>
 				)}
 
-				<div className='my-8'>
+				<div className='my-12'>
 					<Link to={`/${householdId}/plants/edit-plant`}>
 						<button className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'>
 							<FaPlus className='text-white text-2xl' />
