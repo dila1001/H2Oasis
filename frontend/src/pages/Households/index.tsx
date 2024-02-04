@@ -12,9 +12,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHouseholds } from '../../hooks/useHouseholds';
 import HouseholdCard from './HouseholdCard';
 import toast, { Toaster } from 'react-hot-toast';
+import { FaHeartBroken, FaHome } from 'react-icons/fa';
 
 const HouseholdsPage = () => {
-	const { households, setHouseholds } = useHouseholds();
+	const { households, setHouseholds, isLoading, error } = useHouseholds();
 	const { user } = useAuth();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const {
@@ -26,6 +27,19 @@ const HouseholdsPage = () => {
 	const [inviteHousehold, setInviteHousehold] = useState<Household | null>(
 		null
 	);
+
+	const viewLoadingSkeleton = () => {
+		return (
+			<div>
+				{[1, 2, 3, 4].map((item) => (
+					<div
+						key={item}
+						className='skeleton w-full h-32 my-6 bg-base-200'
+					></div>
+				))}
+			</div>
+		);
+	};
 
 	useEffect(() => {
 		const inviteCode = searchParams.get('inviteCode');
@@ -138,7 +152,7 @@ const HouseholdsPage = () => {
 				</div>
 			</dialog>
 
-			<button
+			{/* <button
 				className='btn btn-primary'
 				onClick={() =>
 					(
@@ -149,19 +163,62 @@ const HouseholdsPage = () => {
 				}
 			>
 				Create household
-			</button>
+			</button> */}
 
-			<h2 className='font-bold'>Households of {user?.firstName}</h2>
+			<h2 className='card-title my-6'>My Households</h2>
 
-			{households?.map((h) => (
-				<Link to={`/${h.id}/plants`} key={h.id}>
-					<HouseholdCard
-						householdName={h.name}
-						plants={h.plants}
-						users={h.users}
-					/>
-				</Link>
-			))}
+			{/* Check for loading state */}
+			{isLoading && viewLoadingSkeleton()}
+
+			{/* Check for error state */}
+			{error && (
+				<div className='flex flex-col items-center justify-center h-[calc(100vh-220px)] gap-6'>
+					<FaHeartBroken className='text-warning text-[120px]' />
+					<h1 className='card-title text-neutral mb-12 text-center'>
+						An error occured while fetching households.
+						<br />
+					</h1>
+					{/* <Link to={`/`}>
+						<button className='btn btn-neutral'>Try again later</button>
+					</Link> */}
+				</div>
+			)}
+
+			{/* Check for empty state */}
+			{households && households.length === 0 && !isLoading && !error && (
+				<div className='flex flex-col items-center justify-center h-[calc(100vh-220px)] gap-6'>
+					<FaHome className='text-warning text-[120px]' />
+					<h1 className='card-title text-neutral mb-12 text-center'>
+						You are not a part of any households.
+					</h1>
+					<button
+						className='btn btn-neutral'
+						onClick={() =>
+							(
+								document.getElementById(
+									'create-household'
+								) as HTMLDialogElement | null
+							)?.showModal()
+						}
+					>
+						Create a household
+					</button>
+				</div>
+			)}
+
+			{/* Render households */}
+			{households &&
+				!isLoading &&
+				!error &&
+				households.map((h) => (
+					<Link to={`/${h.id}/plants`} key={h.id}>
+						<HouseholdCard
+							householdName={h.name}
+							plants={h.plants}
+							users={h.users}
+						/>
+					</Link>
+				))}
 		</div>
 	);
 };
