@@ -7,14 +7,11 @@ export const getDaysLeft = (
 	const today = new Date();
 	const lastWatered = parseISO(lastWateredDate);
 
-	const nextWateringDay = addDays(
-		lastWatered,
-		parseInt(wateringFrequency, 10)
-	);
+	const nextWateringDay = addDays(lastWatered, parseInt(wateringFrequency, 10));
 
-	const daysLeft = differenceInDays(nextWateringDay, today);
+	const daysLeft = differenceInDays(nextWateringDay, today) + 1;
 
-	return daysLeft >= 0 ? daysLeft : 0;
+	return daysLeft;
 };
 
 export const getPercentage = (
