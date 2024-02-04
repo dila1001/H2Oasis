@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {
 	AddUserToHousehold,
 	Household,
+	createHousehold,
 	getHousehold,
 	getHouseholdsForUser,
 } from '../../services/householdsService';
@@ -21,7 +22,7 @@ const HouseholdsPage = () => {
 		handleSubmit,
 		formState: { isSubmitting },
 		reset,
-	} = useForm<{ householdId: string }>();
+	} = useForm<{ householdName: string }>();
 	const [inviteHousehold, setInviteHousehold] = useState<Household | null>(
 		null
 	);
@@ -46,24 +47,23 @@ const HouseholdsPage = () => {
 		fetchData();
 	}, [searchParams, reset]);
 
-	const onAddHouseholdSubmit: SubmitHandler<{
-		householdId: string;
+	const onCreateHouseholdSubmit: SubmitHandler<{
+		householdName: string;
 	}> = async (data) => {
-		await AddUserToHousehold(data.householdId, user!.id);
-		// TODO: check if successfull. if successfull, set households. otherwise, show error
-		const updatedHouseholds = await getHouseholdsForUser(user!.id);
-		if (updatedHouseholds) {
-			setHouseholds(updatedHouseholds);
+		if (user) {
+			const response = await createHousehold(data.householdName, user.id);
+			// TODO: check if successfull. if successfull, set households. otherwise, show error
+			setHouseholds((prev) => [...(prev || []), response]);
 		}
-
-		closeModal('add-household');
+		closeModal('create-household');
+		toast.success(`${data.householdName} has been successfully created`);
 	};
 
 	const closeModal = (id: string) => {
 		(document.getElementById(id) as HTMLDialogElement | null)?.close();
 		setSearchParams('');
 		reset({
-			householdId: '',
+			householdName: '',
 		});
 	};
 
@@ -81,31 +81,31 @@ const HouseholdsPage = () => {
 		<div className='mx-5'>
 			<Toaster position='top-center' reverseOrder={false} />
 			{/* Modal for add household */}
-			<dialog id='add-household' className='modal'>
+			<dialog id='create-household' className='modal'>
 				<div className='modal-box'>
 					<button
 						className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2'
-						onClick={() => closeModal('add-household')}
+						onClick={() => closeModal('create-household')}
 					>
 						✕
 					</button>
-					<h3 className='font-bold text-lg py-4'>Add Household</h3>
+					<h3 className='font-bold text-lg py-4'>Create Household</h3>
 					<form
 						method='dialog'
 						className='flex flex-col gap-3'
-						onSubmit={handleSubmit(onAddHouseholdSubmit)}
+						onSubmit={handleSubmit(onCreateHouseholdSubmit)}
 					>
 						<input
 							type='text'
-							placeholder='Household ID'
+							placeholder='Household Name'
 							className='input input-bordered input-success w-full'
-							{...register('householdId', {
-								required: 'Household ID is required',
+							{...register('householdName', {
+								required: 'Household name is required',
 							})}
 						/>
 						<div className='modal-action'>
 							<button className='btn' disabled={isSubmitting}>
-								Add
+								Create
 							</button>
 						</div>
 					</form>
@@ -142,11 +142,13 @@ const HouseholdsPage = () => {
 				className='btn btn-primary'
 				onClick={() =>
 					(
-						document.getElementById('add-household') as HTMLDialogElement | null
+						document.getElementById(
+							'create-household'
+						) as HTMLDialogElement | null
 					)?.showModal()
 				}
 			>
-				Add household
+				Create household
 			</button>
 
 			<h2 className='font-bold'>Households of {user?.firstName}</h2>
