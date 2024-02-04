@@ -130,7 +130,7 @@ const HouseholdsPage = () => {
 			<dialog id='join-household' className='modal'>
 				<div className='modal-box'>
 					<h3 className='font-bold text-lg'>
-						You have been invited to join {inviteHousehold?.name}?
+						You have been invited to join {inviteHousehold?.name}
 					</h3>
 					<p className='py-4'>Would you like to join this household?</p>
 					<div className='modal-action'>

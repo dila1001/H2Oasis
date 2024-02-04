@@ -25,43 +25,34 @@ const HouseholdCard: FC<HouseholdCardProps> = ({
 	});
 
 	return (
-		<div className='card bg-[#6E7E62] shadow-md my-6 text-white'>
-			<div className='p-4 grid grid-cols-1 gap-2'>
-				<h2 key={householdName} className='card-title justify-self-center'>
-					{householdName}
-				</h2>
-
-				{plants.length > 0 ? (
-					<div className='flex justify-around col-span-2'>
-						<div className='flex gap-2 items-center'>
-							<FaLeaf />
-							<h2 key={plants.length}>{plants.length} plants</h2>
-						</div>
-
-						<div className='flex gap-2 items-center'>
-							<FaDroplet />
-							{amountToWater.length > 0 && (
-								<h2>{amountToWater.length} need water!</h2>
-							)}
-							{amountToWater.length === 0 && (
-								<h2>All plants have been watered</h2>
-							)}
-						</div>
+		<div className='card bg-[#f9fcf4] shadow-md mb-6 h-32 flex flex-col p-4'>
+			<h2 className='card-title'>{householdName}</h2>
+			<div className='flex flex-row grow'>
+				<div className='flex flex-col mt-auto gap-2'>
+					<div className='badge badge-ghost text-xs'>
+						<FaLeaf className='mr-2' />
+						<p>
+							{plants.length} plant
+							{plants.length === 0 || (plants.length > 1 && 's')}
+						</p>
 					</div>
-				) : (
-					<div className='flex justify-around'>
-						<div className='flex gap-2 items-center'>
-							<FaLeaf />
-							<h2>No plants...yet</h2>
-						</div>
 
-						<div className='flex gap-2 items-center'>
-							<FaDroplet />
-							<h2>Add first plant</h2>
-						</div>
+					<div className='badge text-xs'>
+						<FaDroplet className='mr-2' />
+						{plants.length === 0 ? (
+							<p>Add a plant</p>
+						) : amountToWater.length === 0 ? (
+							<p>All watered</p>
+						) : (
+							<p>
+								{amountToWater.length} need
+								{amountToWater.length === 1 && 's'} water
+							</p>
+						)}
 					</div>
-				)}
-				<div className='justify-self-center'>
+				</div>
+
+				<div className='ml-auto mt-auto'>
 					<AvatarGroup users={users} />
 				</div>
 			</div>
