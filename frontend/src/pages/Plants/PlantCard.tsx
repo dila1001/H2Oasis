@@ -37,7 +37,7 @@ const PlantCard: FC<PlantCardProps> = ({
 	};
 
 	return (
-		<div className='card bg-[#f9fcf4] shadow-md mb-6 flex-row'>
+		<div className='card bg-[#f9fcf4] shadow-md mb-6 flex-row h-32'>
 			<div className='max-h-48 w-1/4 overflow-hidden rounded-tl-2xl rounded-bl-2xl'>
 				<img className='w-full h-full object-cover' src={imageUrl} alt={name} />
 			</div>
@@ -48,7 +48,7 @@ const PlantCard: FC<PlantCardProps> = ({
 					<p className='text-gray-500'>{species}</p>
 				</div>
 
-				<div className='card-actions flex justify-end mt-2 ml-auto'>
+				<div className='card-actions flex justify-end ml-auto items-center'>
 					{getDaysLeft(lastWatered, waterFrequency) === 0 ||
 					getDaysLeft(lastWatered, waterFrequency) <= 0 ? (
 						<div

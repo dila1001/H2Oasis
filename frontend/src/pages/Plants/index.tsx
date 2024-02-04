@@ -232,7 +232,7 @@ const PlantsPage = () => {
 
 				{/* Today Plants */}
 				{todayPlants.length > 0 && (
-					<>
+					<div className='mb-8'>
 						<h4 className='font-bold text-sm text-neutral mb-3'>Today</h4>
 						{todayPlants.map((plant) => (
 							<Link to={`/${householdId}/plants/${plant.id}`} key={plant.id}>
@@ -242,10 +242,11 @@ const PlantsPage = () => {
 									imageUrl={plant.imageUrl}
 									lastWatered={plant.lastWatered}
 									waterFrequency={plant.wateringFrequencyInDays}
+									onClick={() => openWaterModal(plant.id)}
 								/>
 							</Link>
 						))}
-					</>
+					</div>
 				)}
 
 				{/* Upcoming Plants */}
