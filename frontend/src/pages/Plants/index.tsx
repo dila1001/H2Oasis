@@ -8,7 +8,7 @@ import {
 import SearchBar from './SearchBar';
 import PlantCard from './PlantCard';
 import { Link, useParams } from 'react-router-dom';
-import { FaPlus } from 'react-icons/fa6';
+import { FaPlantWilt, FaPlus } from 'react-icons/fa6';
 import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
 import QRCode from 'react-qr-code';
 import { useHouseholds } from '../../hooks/useHouseholds';
@@ -186,94 +186,97 @@ const PlantsPage = () => {
 					<SearchBar />
 				</div>
 
-				{/* <button
-					className='btn btn-primary mb-6'
-					onClick={() =>
-						(
-							document.getElementById('show-qrcode') as HTMLDialogElement | null
-						)?.showModal()
-					}
-				>
-					Invite user to household
-				</button> */}
 				{isLoading && viewLoadingSkeleton()}
 
-				{/* {sortedPlants.map((plant) => (
-					<Link to={`/${householdId}/plants/${plant.id}`} key={plant.id}>
-						<PlantCard
-							name={plant.name}
-							species={plant.species}
-							imageUrl={plant.imageUrl}
-							lastWatered={plant.lastWatered}
-							waterFrequency={plant.wateringFrequencyInDays}
-							// uploadedImage={undefined}
-						/>
-					</Link>
-				))} */}
-
-				{/* Overdue Plants */}
-				{overduePlants.length > 0 && (
-					<div className='mb-8'>
-						<h4 className='font-bold text-sm text-neutral mb-3'>Overdue</h4>
-						{overduePlants.map((plant) => (
-							<Link to={`/${householdId}/plants/${plant.id}`} key={plant.id}>
-								<PlantCard
-									name={plant.name}
-									species={plant.species}
-									imageUrl={plant.imageUrl}
-									lastWatered={plant.lastWatered}
-									waterFrequency={plant.wateringFrequencyInDays}
-									onClick={() => openWaterModal(plant.id)}
-								/>
-							</Link>
-						))}
+				{plants.length === 0 && !isLoading && (
+					<div className='flex flex-col items-center justify-center h-[calc(100vh-220px)] gap-6'>
+						<FaPlantWilt className='text-warning text-[120px]' />
+						<h1 className='card-title text-neutral mb-12 text-center'>
+							This household has no plants.
+						</h1>
+						<Link to={`/${householdId}/plants/edit-plant`}>
+							<button className='btn btn-neutral'>Add a plant</button>
+						</Link>
 					</div>
 				)}
 
-				{/* Today Plants */}
-				{todayPlants.length > 0 && (
-					<div className='mb-8'>
-						<h4 className='font-bold text-sm text-neutral mb-3'>Today</h4>
-						{todayPlants.map((plant) => (
-							<Link to={`/${householdId}/plants/${plant.id}`} key={plant.id}>
-								<PlantCard
-									name={plant.name}
-									species={plant.species}
-									imageUrl={plant.imageUrl}
-									lastWatered={plant.lastWatered}
-									waterFrequency={plant.wateringFrequencyInDays}
-									onClick={() => openWaterModal(plant.id)}
-								/>
+				{plants.length > 0 && (
+					<div>
+						{/* Overdue Plants */}
+						{overduePlants.length > 0 && (
+							<div className='mb-8'>
+								<h4 className='font-bold text-sm text-neutral mb-3'>Overdue</h4>
+								{overduePlants.map((plant) => (
+									<Link
+										to={`/${householdId}/plants/${plant.id}`}
+										key={plant.id}
+									>
+										<PlantCard
+											name={plant.name}
+											species={plant.species}
+											imageUrl={plant.imageUrl}
+											lastWatered={plant.lastWatered}
+											waterFrequency={plant.wateringFrequencyInDays}
+											onClick={() => openWaterModal(plant.id)}
+										/>
+									</Link>
+								))}
+							</div>
+						)}
+
+						{/* Today Plants */}
+						{todayPlants.length > 0 && (
+							<div className='mb-8'>
+								<h4 className='font-bold text-sm text-neutral mb-3'>Today</h4>
+								{todayPlants.map((plant) => (
+									<Link
+										to={`/${householdId}/plants/${plant.id}`}
+										key={plant.id}
+									>
+										<PlantCard
+											name={plant.name}
+											species={plant.species}
+											imageUrl={plant.imageUrl}
+											lastWatered={plant.lastWatered}
+											waterFrequency={plant.wateringFrequencyInDays}
+											onClick={() => openWaterModal(plant.id)}
+										/>
+									</Link>
+								))}
+							</div>
+						)}
+
+						{/* Upcoming Plants */}
+						{upcomingPlants.length > 0 && (
+							<div className='mb-8'>
+								<h4 className='font-bold text-sm text-neutral mb-3'>
+									Upcoming
+								</h4>
+								{upcomingPlants.map((plant) => (
+									<Link
+										to={`/${householdId}/plants/${plant.id}`}
+										key={plant.id}
+									>
+										<PlantCard
+											name={plant.name}
+											species={plant.species}
+											imageUrl={plant.imageUrl}
+											lastWatered={plant.lastWatered}
+											waterFrequency={plant.wateringFrequencyInDays}
+										/>
+									</Link>
+								))}
+							</div>
+						)}
+						<div className='my-12'>
+							<Link to={`/${householdId}/plants/edit-plant`}>
+								<button className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'>
+									<FaPlus className='text-white text-2xl' />
+								</button>
 							</Link>
-						))}
+						</div>
 					</div>
 				)}
-
-				{/* Upcoming Plants */}
-				{upcomingPlants.length > 0 && (
-					<div className='mb-8'>
-						<h4 className='font-bold text-sm text-neutral mb-3'>Upcoming</h4>
-						{upcomingPlants.map((plant) => (
-							<Link to={`/${householdId}/plants/${plant.id}`} key={plant.id}>
-								<PlantCard
-									name={plant.name}
-									species={plant.species}
-									imageUrl={plant.imageUrl}
-									lastWatered={plant.lastWatered}
-									waterFrequency={plant.wateringFrequencyInDays}
-								/>
-							</Link>
-						))}
-					</div>
-				)}
-
-				<div className='my-12'>
-					<Link to={`/${householdId}/plants/edit-plant`}>
-						<button className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'>
-							<FaPlus className='text-white text-2xl' />
-						</button>
-					</Link>
-				</div>
 			</div>
 		</>
 	);
