@@ -14,6 +14,7 @@ import HouseholdCard from './HouseholdCard';
 import toast, { Toaster } from 'react-hot-toast';
 import { FaHeartBroken, FaHome } from 'react-icons/fa';
 import { FaPlus } from 'react-icons/fa6';
+import SearchBar from '../Plants/SearchBar';
 
 const HouseholdsPage = () => {
 	const { households, setHouseholds, isLoading, error } = useHouseholds();
@@ -161,6 +162,10 @@ const HouseholdsPage = () => {
 			</dialog>
 
 			<h2 className='card-title my-6'>My Households</h2>
+
+			<div className='mb-6'>
+				<SearchBar />
+			</div>
 
 			{/* Check for loading state */}
 			{isLoading && viewLoadingSkeleton()}
