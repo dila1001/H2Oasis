@@ -36,7 +36,7 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 					aria-label='close sidebar'
 					className='drawer-overlay'
 				></label>
-				<ul className='menu p-4 w-80 min-h-full bg-base-200 text-base-content'>
+				<ul className='menu p-4 w-80 min-h-full bg-base-200 text-base-content rounded-tr-3xl'>
 					<Link to='/' onClick={toggleDrawer}>
 						<div className='flex gap-4 py-5'>
 							{user && <Avatar user={user} size='xl' />}
@@ -44,10 +44,19 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 							<div className='flex flex-col justify-center'>
 								{user && (
 									<>
-										<p className='card-title'>
+										<p className='card-title text-lg'>
 											{user.firstName} {user.lastName}
 										</p>
-										<p>{user.email}</p>
+										<p className='max-w-52 break-words text-xs'>
+											{user.email.length > 25 ? (
+												<>
+													{user.email.substring(0, user.email.indexOf('@'))}
+													<br />@{user.email.split('@')[1]}
+												</>
+											) : (
+												user.email
+											)}
+										</p>
 									</>
 								)}
 							</div>
