@@ -100,7 +100,7 @@ const EditPlant = () => {
 			<dialog id='delete-plant' className='modal'>
 				<div className='modal-box'>
 					<h3 className='font-bold text-lg py-4'>
-						Would you like to delete {plant?.name}?
+						Are you sure you want to delete {plant?.name}?
 					</h3>
 					<form method='dialog' className='w-full flex gap-2 justify-end'>
 						<button
@@ -116,12 +116,10 @@ const EditPlant = () => {
 				</div>
 			</dialog>
 
-			<div className='flex align-start justify-between'>
+			<div className='flex items-center gap-3 mb-4'>
 				{plant ? (
-					<h2 className='card-title text-3xl mb-4'>{plant.name}</h2>
-				) : (
 					<>
-						<h2 className='card-title text-3xl mb-4'>Add New Plant</h2>
+						<h2 className='card-title text-3xl'>{plant.name}</h2>
 						<button
 							onClick={() =>
 								(
@@ -130,11 +128,12 @@ const EditPlant = () => {
 									) as HTMLDialogElement | null
 								)?.showModal()
 							}
-							className='mb-3 pl-4 text-base-300'
 						>
-							<FaTrash />
+							<FaTrash className='text-base-300' />
 						</button>
 					</>
+				) : (
+					<h2 className='card-title text-3xl mb-4'>Add New Plant</h2>
 				)}
 			</div>
 
