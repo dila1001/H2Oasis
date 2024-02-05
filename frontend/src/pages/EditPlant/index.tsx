@@ -96,6 +96,7 @@ const EditPlant = () => {
 				}}
 			/>
 
+			{/* Delete plant modal */}
 			<dialog id='delete-plant' className='modal'>
 				<div className='modal-box'>
 					<h3 className='font-bold text-lg py-4'>
