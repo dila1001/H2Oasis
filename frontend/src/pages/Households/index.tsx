@@ -163,16 +163,18 @@ const HouseholdsPage = () => {
 
 			{/* <h2 className='card-title my-6'>My Households</h2> */}
 
-			<div className='mb-6'>
-				<SearchBar />
-			</div>
+			{!error && (
+				<div className='mb-6'>
+					<SearchBar />
+				</div>
+			)}
 
 			{/* Check for loading state */}
 			{isLoading && viewLoadingSkeleton()}
 
 			{/* Check for error state */}
 			{error && (
-				<div className='flex flex-col items-center justify-center h-[calc(100vh-220px)] gap-6'>
+				<div className='flex flex-col items-center justify-center h-[calc(100vh-64px)] gap-6'>
 					<FaHeartBroken className='text-warning text-[120px]' />
 					<h1 className='card-title text-neutral mb-12 text-center'>
 						An error occured while fetching households.
