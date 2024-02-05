@@ -19,12 +19,13 @@ import { useHouseholds } from '../../hooks/useHouseholds';
 
 const EditPlant = () => {
 	const [searchParams] = useSearchParams();
-	const { householdId, plantId } = useParams();
+	const { householdId } = useParams();
 	const [plant, setPlant] = useState<Plant | null>(null);
 	const navigate = useNavigate();
 	const { user } = useAuth();
 	const { setHouseholds } = useHouseholds();
 
+	const plantBeingEdited = searchParams.get('plant');
 	const {
 		register,
 		handleSubmit,
@@ -34,7 +35,7 @@ const EditPlant = () => {
 
 	useEffect(() => {
 		const fetchPlant = async () => {
-			const plantBeingEdited = searchParams.get('plant');
+
 			if (plantBeingEdited) {
 				const plant = await getPlantById(plantBeingEdited);
 				setPlant(plant);
@@ -74,13 +75,13 @@ const EditPlant = () => {
 		}
 	};
 
-	// const deletePlant = async
-	const deletePlantById = async () => {
-		if (plantId) {
-			await deletePlant(plantId);
-			const response = await getHouseholdsForUser(user.id);
-			setHouseholds(response);
-			navigate(`/?deletedHousehold=${householdName}`);
+	//wip
+
+	const handleClick = async () => {
+		if (plantBeingEdited && user) {
+			await deletePlant(plantBeingEdited);
+			navigate(`/${householdId}/plants/?deleted=true`);
+			console.log('deleted', plantBeingEdited)
 		}
 	};
 
@@ -100,12 +101,13 @@ const EditPlant = () => {
 					{plant ? plant.name : 'Add New Plant'}
 				</h2>
 
+				{/* delete button */}
 				{/* {plant && (
 					<button>
 						<FaTrash />
 					</button>
 				)} */}
-				<button className='mb-3 pl-4 text-base-300'>
+				<button onClick={handleClick} className='mb-3 pl-4 text-base-300'>
 					<FaTrash />
 				</button>
 			</div>
