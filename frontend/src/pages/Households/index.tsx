@@ -45,11 +45,11 @@ const HouseholdsPage = () => {
 
 	useEffect(() => {
 		const inviteCode = searchParams.get('inviteCode');
-		const deletedHousehold = searchParams.get('deletedHousehold');
+		const leftHousehold = searchParams.get('leftHousehold');
 
-		if (deletedHousehold) {
-			toast.success(`You have successfully left ${deletedHousehold}`, {
-				id: 'delete-household',
+		if (leftHousehold) {
+			toast.success(`You have successfully left ${leftHousehold}`, {
+				id: 'leave-household',
 			});
 		}
 

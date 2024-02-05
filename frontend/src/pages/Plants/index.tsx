@@ -133,7 +133,7 @@ const PlantsPage = () => {
 			await DeleteUserFromHousehold(householdId, user.id);
 			const response = await getHouseholdsForUser(user.id);
 			setHouseholds(response);
-			navigate(`/?deletedHousehold=${householdName}`);
+			navigate(`/?leftHousehold=${householdName}`);
 		}
 	};
 
