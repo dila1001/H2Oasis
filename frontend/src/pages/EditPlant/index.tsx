@@ -35,7 +35,6 @@ const EditPlant = () => {
 
 	useEffect(() => {
 		const fetchPlant = async () => {
-
 			if (plantBeingEdited) {
 				const plant = await getPlantById(plantBeingEdited);
 				setPlant(plant);
@@ -74,11 +73,15 @@ const EditPlant = () => {
 		}
 	};
 
-	const handleClick = async () => {
+	const deletePlantFromHousehold = async () => {
 		if (plantBeingEdited && user) {
 			await deletePlant(plantBeingEdited);
 			navigate(`/${householdId}/plants/?deletedPlant=${plant?.name}`);
 		}
+	};
+
+	const closeModal = (id: string) => {
+		(document.getElementById(id) as HTMLDialogElement | null)?.close();
 	};
 
 	return (
@@ -92,12 +95,41 @@ const EditPlant = () => {
 					},
 				}}
 			/>
+
+			<dialog id='delete-plant' className='modal'>
+				<div className='modal-box'>
+					<h3 className='font-bold text-lg py-4'>
+						Would you like to delete {plant?.name}?
+					</h3>
+					<form method='dialog' className='w-full flex gap-2 justify-end'>
+						<button
+							className='btn bg-accent text-white'
+							onClick={() => deletePlantFromHousehold()}
+						>
+							Yes
+						</button>
+						<button className='btn' onClick={() => closeModal('delete-plant')}>
+							No
+						</button>
+					</form>
+				</div>
+			</dialog>
+
 			<div className='flex align-start'>
 				<h2 className='card-title text-3xl mb-4'>
 					{plant ? plant.name : 'Add New Plant'}
 				</h2>
 
-				<button onClick={handleClick} className='mb-3 pl-4 text-base-300'>
+				<button
+					onClick={() =>
+						(
+							document.getElementById(
+								'delete-plant'
+							) as HTMLDialogElement | null
+						)?.showModal()
+					}
+					className='mb-3 pl-4 text-base-300'
+				>
 					<FaTrash />
 				</button>
 			</div>
