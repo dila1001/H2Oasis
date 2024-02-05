@@ -83,3 +83,8 @@ export const updatePlant = async (
 	);
 	return response.data;
 };
+
+export const deletePlant = async (plantId: string): Promise<void> => {
+	const response = await api.delete(`${plantsUrlEndpoint}/${plantId}`);
+	return response.data;
+};

@@ -7,7 +7,12 @@ import {
 } from '../../services/plantsService';
 import SearchBar from './SearchBar';
 import PlantCard from './PlantCard';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import {
+	Link,
+	useNavigate,
+	useParams,
+	useSearchParams,
+} from 'react-router-dom';
 import { FaPlantWilt, FaPlus } from 'react-icons/fa6';
 import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
 import QRCode from 'react-qr-code';
@@ -31,12 +36,21 @@ const PlantsPage = () => {
 	const { households, setHouseholds } = useHouseholds();
 	const { user } = useAuth();
 	const { householdId } = useParams();
+	const [searchParams] = useSearchParams();
+
 	const navigate = useNavigate();
 
 	const users = households?.find((h) => h.id === householdId)?.users;
 	const householdName = households?.find((h) => h.id === householdId)?.name;
 
 	useEffect(() => {
+		const deletedPlant = searchParams.get('deletedPlant');
+		if (deletedPlant) {
+			toast.success(`${deletedPlant} has been successfully deleted`, {
+				id: 'delete-plant',
+			});
+		}
+
 		const fetchData = async () => {
 			try {
 				if (householdId) {
@@ -139,7 +153,7 @@ const PlantsPage = () => {
 			await DeleteUserFromHousehold(householdId, user.id);
 			const response = await getHouseholdsForUser(user.id);
 			setHouseholds(response);
-			navigate(`/?deletedHousehold=${householdName}`);
+			navigate(`/?leftHousehold=${householdName}`);
 		}
 	};
 
