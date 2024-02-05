@@ -36,7 +36,11 @@ const HouseholdCard: FC<HouseholdCardProps> = ({
 						</p>
 					</div>
 
-					<div className='badge text-xs'>
+					<div
+						className={`badge text-xs ${
+							amountToWater.length > 0 && 'badge badge-secondary'
+						}`}
+					>
 						<FaDroplet className='mr-2' />
 						{plants.length === 0 ? (
 							<p>Add a plant</p>
