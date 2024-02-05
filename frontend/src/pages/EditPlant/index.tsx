@@ -74,7 +74,7 @@ const EditPlant = () => {
 	};
 
 	const deletePlantFromHousehold = async () => {
-		if (plantBeingEdited && user) {
+		if (plantBeingEdited) {
 			await deletePlant(plantBeingEdited);
 			navigate(`/${householdId}/plants/?deletedPlant=${plant?.name}`);
 		}
