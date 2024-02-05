@@ -81,6 +81,15 @@ const PlantPage = () => {
 		);
 	};
 
+	const wateringInfo = (lastWatered: string, waterFreq: string) => {
+		const daysLeft = getDaysLeft(lastWatered, waterFreq);
+		return daysLeft < 0
+			? `late by ${Math.abs(daysLeft)} day${Math.abs(daysLeft) > 1 && 's'}`
+			: daysLeft === 0
+			? `water today`
+			: `in ${daysLeft} day${daysLeft > 1 && 's'}`;
+	};
+
 	return (
 		<>
 			<Toaster position='top-center' reverseOrder={false} />
@@ -137,15 +146,13 @@ const PlantPage = () => {
 							<FaCalendar className='text-4xl text-success' />
 							<div className='flex flex-col'>
 								<p className='text-success font-bold'>
-									water in{' '}
-									{getDaysLeft(
-										plant?.lastWatered,
-										plant?.wateringFrequencyInDays
-									)}{' '}
-									days
+									{wateringInfo(
+										plant.lastWatered,
+										plant.wateringFrequencyInDays
+									)}
 								</p>
 								<p className='text-gray-500'>
-									remind every {plant?.wateringFrequencyInDays} days
+									water every {plant?.wateringFrequencyInDays} days
 								</p>
 							</div>
 						</div>

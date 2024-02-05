@@ -37,7 +37,7 @@ const EditPlant = () => {
 			if (queryValue) {
 				const plant = await getPlantById(queryValue);
 				setPlant(plant);
-				if (plant) {
+				if (plant && user) {
 					reset({
 						name: plant.name,
 						species: plant.species,
@@ -47,17 +47,15 @@ const EditPlant = () => {
 						wateringFrequencyInDays: plant.wateringFrequencyInDays.toString(),
 						lastWatered: formatDate(plant.lastWatered),
 						waterAmountInMl: plant.waterAmountInMl,
+						lastWateredBy: user.firstName,
 					});
 				}
 			}
-			if (user) {
-				reset({
-					lastWateredBy: user.firstName,
-				});
-			}
 		};
-		fetchPlant();
-	}, [searchParams, reset, user]);
+		if (!searchParams.get('plant')) {
+			fetchPlant();
+		}
+	}, [reset, user]);
 
 	const onSubmit: SubmitHandler<NewPlant> = async (data) => {
 		let response;
