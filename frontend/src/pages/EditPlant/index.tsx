@@ -33,11 +33,11 @@ const EditPlant = () => {
 
 	useEffect(() => {
 		const fetchPlant = async () => {
-			const queryValue = searchParams.get('plant');
-			if (queryValue) {
-				const plant = await getPlantById(queryValue);
+			const plantBeingEdited = searchParams.get('plant');
+			if (plantBeingEdited) {
+				const plant = await getPlantById(plantBeingEdited);
 				setPlant(plant);
-				if (plant && user) {
+				if (plant) {
 					reset({
 						name: plant.name,
 						species: plant.species,
@@ -47,27 +47,27 @@ const EditPlant = () => {
 						wateringFrequencyInDays: plant.wateringFrequencyInDays.toString(),
 						lastWatered: formatDate(plant.lastWatered),
 						waterAmountInMl: plant.waterAmountInMl,
-						lastWateredBy: user.firstName,
 					});
 				}
 			}
 		};
-		if (!searchParams.get('plant')) {
-			fetchPlant();
-		}
-	}, [reset, user]);
+
+		fetchPlant();
+	}, [reset, user, searchParams]);
 
 	const onSubmit: SubmitHandler<NewPlant> = async (data) => {
-		let response;
-		if (plant) {
-			response = await updatePlant(plant.id, householdId!, data);
-			navigate(`/${householdId}/plants/${response?.id}?saved=true`);
-		} else {
-			response = await addPlant(householdId!, data);
-			navigate(`/${householdId}/plants/${response?.id}?created=true`);
-		}
-
 		if (user) {
+			let response;
+			const updatedData = { ...data, lastWateredBy: user.firstName };
+			console.log(updatedData);
+			if (plant) {
+				response = await updatePlant(plant.id, householdId!, updatedData);
+				navigate(`/${householdId}/plants/${response?.id}?saved=true`);
+			} else {
+				response = await addPlant(householdId!, updatedData);
+				navigate(`/${householdId}/plants/${response?.id}?created=true`);
+			}
+
 			const households = await getHouseholdsForUser(user.id);
 			setHouseholds(households);
 		}
@@ -109,6 +109,7 @@ const EditPlant = () => {
 					className='input input-bordered input-success w-full'
 					{...register('lastWatered', {
 						required: 'Date is required',
+						max: new Date().toISOString().split('T')[0],
 					})}
 				/>
 				<input
