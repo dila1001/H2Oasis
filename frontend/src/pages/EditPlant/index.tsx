@@ -133,7 +133,7 @@ const EditPlant = () => {
 						</button>
 					</>
 				) : (
-					<h2 className='card-title text-3xl mb-4'>Add New Plant</h2>
+					<h2 className='card-title text-3xl'>Add New Plant</h2>
 				)}
 			</div>
 
@@ -205,7 +205,7 @@ const EditPlant = () => {
 				<input
 					type='number'
 					placeholder='Amount of water in ml'
-					className={`input input-bordered input-success w-full ${
+					className={`input input-bordered input-success w-full mb-8 ${
 						errors.waterAmountInMl && 'input-error'
 					}`}
 					{...register('waterAmountInMl', {
