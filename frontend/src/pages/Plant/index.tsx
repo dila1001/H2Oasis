@@ -84,10 +84,10 @@ const PlantPage = () => {
 	const wateringInfo = (lastWatered: string, waterFreq: string) => {
 		const daysLeft = getDaysLeft(lastWatered, waterFreq);
 		return daysLeft < 0
-			? `late by ${Math.abs(daysLeft)} day${Math.abs(daysLeft) > 1 && 's'}`
+			? `late by ${Math.abs(daysLeft)} day${Math.abs(daysLeft) > 1 ? 's' : ''}`
 			: daysLeft === 0
 			? `water today`
-			: `in ${daysLeft} day${daysLeft > 1 && 's'}`;
+			: `in ${daysLeft} day${daysLeft > 1 ? 's' : ''}`;
 	};
 
 	return (
