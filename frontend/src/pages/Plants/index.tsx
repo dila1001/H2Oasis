@@ -7,7 +7,7 @@ import {
 } from '../../services/plantsService';
 import SearchBar from './SearchBar';
 import PlantCard from './PlantCard';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FaPlantWilt, FaPlus } from 'react-icons/fa6';
 import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
 import QRCode from 'react-qr-code';
@@ -16,6 +16,10 @@ import AvatarGroup from '../../components/UI/AvatarGroup';
 import { useAuth } from '../../auth/useAuth';
 import toast, { Toaster } from 'react-hot-toast';
 import { FaHeartBroken } from 'react-icons/fa';
+import {
+	DeleteUserFromHousehold,
+	getHouseholdsForUser,
+} from '../../services/householdsService';
 
 const PlantsPage = () => {
 	const [plants, setPlants] = useState<Plant[]>([]);
@@ -24,9 +28,10 @@ const PlantsPage = () => {
 		undefined
 	);
 	const [error, setError] = useState(false);
-	const { households } = useHouseholds();
+	const { households, setHouseholds } = useHouseholds();
 	const { user } = useAuth();
 	const { householdId } = useParams();
+	const navigate = useNavigate();
 
 	const users = households?.find((h) => h.id === householdId)?.users;
 	const householdName = households?.find((h) => h.id === householdId)?.name;
@@ -123,6 +128,15 @@ const PlantsPage = () => {
 		toast.success(`${selectedPlant?.name} has been successfully watered`);
 	};
 
+	const leaveHousehold = async () => {
+		if (householdId && user) {
+			await DeleteUserFromHousehold(householdId, user.id);
+			const response = await getHouseholdsForUser(user.id);
+			setHouseholds(response);
+			navigate(`/?deletedHousehold=${householdName}`);
+		}
+	};
+
 	return (
 		<>
 			<div className='mx-5'>
@@ -150,6 +164,38 @@ const PlantsPage = () => {
 					</div>
 				</dialog>
 
+				{/* Modal for leave household */}
+				<dialog id='leave-household' className='modal'>
+					<div className='modal-box'>
+						<h3 className='font-bold text-lg'>
+							Are you sure you want to leave {householdName}?
+						</h3>
+						<p className='py-4'>Click yes to leave and no to abort.</p>
+						<div className='modal-action'>
+							<form method='dialog' className='w-full flex gap-2 justify-end'>
+								<button
+									className='btn bg-accent text-white'
+									onClick={() => leaveHousehold()}
+								>
+									Yes
+								</button>
+								<button
+									onClick={() =>
+										(
+											document.getElementById(
+												'leave-household'
+											) as HTMLDialogElement | null
+										)?.close()
+									}
+									className='btn'
+								>
+									No
+								</button>
+							</form>
+						</div>
+					</div>
+				</dialog>
+
 				{/* Water plant modal */}
 				<dialog id='water-modal' className='modal'>
 					<div className='modal-box'>
@@ -171,20 +217,41 @@ const PlantsPage = () => {
 					</div>
 				</dialog>
 				<div className='flex items-center'>
-					<h3 className='card-title my-6 text-center w-full'>
+					<h2 className='card-title my-6 text-center w-full'>
 						{householdName}
-					</h3>
-					{households && (
-						<div
-							onClick={() =>
-								(
-									document.getElementById(
-										'show-qrcode'
-									) as HTMLDialogElement | null
-								)?.showModal()
-							}
-						>
-							{users && <AvatarGroup users={users} />}
+					</h2>
+					{households && users && (
+						<div className='dropdown dropdown-end dropdown-hover'>
+							<div tabIndex={0} role='button'>
+								<AvatarGroup users={users} />
+							</div>
+							<ul
+								tabIndex={0}
+								className='dropdown-content z-[1] menu p-2 shadow bg-[#f9fcf4] rounded-box w-40'
+							>
+								<li
+									onClick={() =>
+										(
+											document.getElementById(
+												'show-qrcode'
+											) as HTMLDialogElement | null
+										)?.showModal()
+									}
+								>
+									<a>Invite user</a>
+								</li>
+								<li
+									onClick={() =>
+										(
+											document.getElementById(
+												'leave-household'
+											) as HTMLDialogElement | null
+										)?.showModal()
+									}
+								>
+									<a>Leave household</a>
+								</li>
+							</ul>
 						</div>
 					)}
 				</div>
@@ -213,9 +280,9 @@ const PlantsPage = () => {
 				{plants.length === 0 && !isLoading && !error && (
 					<div className='flex flex-col items-center justify-center h-[calc(100vh-220px)] gap-6'>
 						<FaPlantWilt className='text-warning text-[120px]' />
-						<h1 className='card-title text-neutral mb-12 text-center'>
+						<h2 className='card-title text-neutral mb-12 text-center'>
 							This household has no plants.
-						</h1>
+						</h2>
 						<Link to={`/${householdId}/plants/edit-plant`}>
 							<button className='btn btn-neutral'>Add a plant</button>
 						</Link>

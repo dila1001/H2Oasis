@@ -31,7 +31,7 @@ const Navbar = () => {
 			</div>
 			<div className='navbar-end'>
 				<Link to='/'>
-					<p className='btn btn-ghost text-xl'>H2Oasis</p>
+					<h1 className='btn btn-ghost text-xl'>H2Oasis</h1>
 				</Link>
 			</div>
 		</div>

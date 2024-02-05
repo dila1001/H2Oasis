@@ -40,9 +40,7 @@ export const updateHousehold = async (
 	return response.data;
 };
 
-export const deleteHousehold = async (
-	householdId: string
-): Promise<void> => {
+export const deleteHousehold = async (householdId: string): Promise<void> => {
 	const response = await api.delete(`${householdsUrlEndpoint}/${householdId}`);
 	return response.data;
 };
@@ -63,6 +61,16 @@ export const AddUserToHousehold = async (
 	userId: string
 ): Promise<Household> => {
 	const response = await api.post(
+		`${householdsUrlEndpoint}/${householdId}/users/${userId}`
+	);
+	return response.data;
+};
+
+export const DeleteUserFromHousehold = async (
+	householdId: string,
+	userId: string
+): Promise<void> => {
+	const response = await api.delete(
 		`${householdsUrlEndpoint}/${householdId}/users/${userId}`
 	);
 	return response.data;
