@@ -196,7 +196,7 @@ const HouseholdsPage = () => {
 			<dialog id='delete-household' className='modal'>
 				<div className='modal-box'>
 					<h3 className='font-bold text-lg py-4'>
-						Would you like to delete {selectedHousehold?.name}?
+						Are you sure you want to delete {selectedHousehold?.name}?
 					</h3>
 					<form method='dialog' className='w-full flex gap-2 justify-end'>
 						<button
