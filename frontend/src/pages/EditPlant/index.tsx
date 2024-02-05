@@ -4,11 +4,12 @@ import {
 	NewPlant,
 	Plant,
 	addPlant,
+	deletePlant,
 	getPlantById,
 	updatePlant,
 } from '../../services/plantsService';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { FaSeedling } from 'react-icons/fa6';
+import { FaSeedling, FaTrash } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
 import { formatDate } from '../../utils/dateUtils';
 import SubmitButton from '../../components/UI/SubmitButton';
@@ -24,6 +25,7 @@ const EditPlant = () => {
 	const { user } = useAuth();
 	const { setHouseholds } = useHouseholds();
 
+	const plantBeingEdited = searchParams.get('plant');
 	const {
 		register,
 		handleSubmit,
@@ -33,7 +35,6 @@ const EditPlant = () => {
 
 	useEffect(() => {
 		const fetchPlant = async () => {
-			const plantBeingEdited = searchParams.get('plant');
 			if (plantBeingEdited) {
 				const plant = await getPlantById(plantBeingEdited);
 				setPlant(plant);
@@ -59,7 +60,6 @@ const EditPlant = () => {
 		if (user) {
 			let response;
 			const updatedData = { ...data, lastWateredBy: user.firstName };
-			console.log(updatedData);
 			if (plant) {
 				response = await updatePlant(plant.id, householdId!, updatedData);
 				navigate(`/${householdId}/plants/${response?.id}?saved=true`);
@@ -73,6 +73,17 @@ const EditPlant = () => {
 		}
 	};
 
+	const deletePlantFromHousehold = async () => {
+		if (plantBeingEdited) {
+			await deletePlant(plantBeingEdited);
+			navigate(`/${householdId}/plants/?deletedPlant=${plant?.name}`);
+		}
+	};
+
+	const closeModal = (id: string) => {
+		(document.getElementById(id) as HTMLDialogElement | null)?.close();
+	};
+
 	return (
 		<div className='mx-5 my-2 flex flex-col gap-4'>
 			<Toaster
@@ -84,9 +95,49 @@ const EditPlant = () => {
 					},
 				}}
 			/>
-			<h2 className='card-title text-3xl mb-4'>
-				{plant ? plant.name : 'Add New Plant'}
-			</h2>
+
+			{/* Delete plant modal */}
+			<dialog id='delete-plant' className='modal'>
+				<div className='modal-box'>
+					<h3 className='font-bold text-lg py-4'>
+						Would you like to delete {plant?.name}?
+					</h3>
+					<form method='dialog' className='w-full flex gap-2 justify-end'>
+						<button
+							className='btn bg-accent text-white'
+							onClick={() => deletePlantFromHousehold()}
+						>
+							Yes
+						</button>
+						<button className='btn' onClick={() => closeModal('delete-plant')}>
+							No
+						</button>
+					</form>
+				</div>
+			</dialog>
+
+			<div className='flex align-start justify-between'>
+				{plant ? (
+					<h2 className='card-title text-3xl mb-4'>{plant.name}</h2>
+				) : (
+					<>
+						<h2 className='card-title text-3xl mb-4'>Add New Plant</h2>
+						<button
+							onClick={() =>
+								(
+									document.getElementById(
+										'delete-plant'
+									) as HTMLDialogElement | null
+								)?.showModal()
+							}
+							className='mb-3 pl-4 text-base-300'
+						>
+							<FaTrash />
+						</button>
+					</>
+				)}
+			</div>
+
 			<form className='flex flex-col gap-3' onSubmit={handleSubmit(onSubmit)}>
 				<input
 					type='text'
