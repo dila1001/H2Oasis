@@ -28,7 +28,7 @@ const HouseholdsPage = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { isSubmitting },
+		formState: { errors, isSubmitting },
 		reset,
 	} = useForm<{ householdName: string }>();
 	const [inviteHousehold, setInviteHousehold] = useState<Household | null>(
@@ -152,12 +152,21 @@ const HouseholdsPage = () => {
 						<input
 							type='text'
 							placeholder='Name'
-							className='input input-bordered input-success w-full'
+							className={`input input-bordered input-success w-full ${
+								errors.householdName && 'input-error'
+							}`}
 							{...register('householdName', {
 								required: 'Household name is required',
+								maxLength: {
+									value: 20,
+									message: 'Name must not exceed 20 characters',
+								},
 							})}
 						/>
 						<div className='modal-action'>
+							{errors.householdName && (
+								<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.householdName.message}`}</p>
+							)}
 							<button className='btn' disabled={isSubmitting}>
 								Create
 							</button>

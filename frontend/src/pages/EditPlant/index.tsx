@@ -146,8 +146,16 @@ const EditPlant = () => {
 					}`}
 					{...register('name', {
 						required: 'Name is required',
+						maxLength: {
+							value: 20,
+							message: 'Name must not exceed 20 characters',
+						},
 					})}
 				/>
+				{errors.name && (
+					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.name.message}`}</p>
+				)}
+
 				<input
 					type='text'
 					placeholder='Species'
@@ -156,8 +164,16 @@ const EditPlant = () => {
 					}`}
 					{...register('species', {
 						required: 'Species is required',
+						maxLength: {
+							value: 30,
+							message: 'Species must not exceed 30 characters',
+						},
 					})}
 				/>
+				{errors.species && (
+					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.species.message}`}</p>
+				)}
+
 				<input
 					type='date'
 					className={`input input-bordered input-success w-full ${
@@ -188,8 +204,15 @@ const EditPlant = () => {
 					}`}
 					{...register('location', {
 						required: 'Location is required',
+						maxLength: {
+							value: 20,
+							message: 'Location must not exceed 20 characters',
+						},
 					})}
 				/>
+				{errors.location && (
+					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.location.message}`}</p>
+				)}
 
 				<input
 					type='number'
@@ -199,8 +222,15 @@ const EditPlant = () => {
 					}`}
 					{...register('wateringFrequencyInDays', {
 						required: 'Watering frequency is required',
+						min: {
+							value: 0,
+							message: 'Please enter a valid number',
+						},
 					})}
 				/>
+				{errors.wateringFrequencyInDays && (
+					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.wateringFrequencyInDays.message}`}</p>
+				)}
 
 				<input
 					type='number'
@@ -210,8 +240,15 @@ const EditPlant = () => {
 					}`}
 					{...register('waterAmountInMl', {
 						required: 'Water amount is required',
+						min: {
+							value: 0,
+							message: 'Please enter a valid number',
+						},
 					})}
 				/>
+				{errors.waterAmountInMl && (
+					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.waterAmountInMl.message}`}</p>
+				)}
 
 				{/* upload image */}
 				{/* <input
