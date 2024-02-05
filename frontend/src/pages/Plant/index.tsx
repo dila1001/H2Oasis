@@ -48,9 +48,10 @@ const PlantPage = () => {
 					}
 				}
 			} catch (error) {
-				setError(true)
+				setError(true);
+			} finally {
+				setIsLoading(false);
 			}
-			setIsLoading(false);
 		};
 		fetchData();
 	}, [plantId, searchParams]);
@@ -133,7 +134,7 @@ const PlantPage = () => {
 					</Link>
 				</div>
 			)}
-			
+
 			{plant && (
 				<div className='mx-5 my-2 flex-row'>
 					<img
