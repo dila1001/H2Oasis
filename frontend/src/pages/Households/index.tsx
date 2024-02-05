@@ -3,11 +3,12 @@ import {
 	AddUserToHousehold,
 	Household,
 	createHousehold,
+	deleteHousehold,
 	getHousehold,
 	getHouseholdsForUser,
 } from '../../services/householdsService';
 import { useAuth } from '../../auth/useAuth';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHouseholds } from '../../hooks/useHouseholds';
 import HouseholdCard from './HouseholdCard';
@@ -20,6 +21,10 @@ const HouseholdsPage = () => {
 	const { households, setHouseholds, isLoading, error } = useHouseholds();
 	const { user } = useAuth();
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [selectedHousehold, setSelectedHousehold] = useState<
+		Household | undefined
+	>(undefined);
+	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
@@ -88,6 +93,32 @@ const HouseholdsPage = () => {
 		reset({
 			householdName: '',
 		});
+
+		if (selectedHousehold) {
+			setSelectedHousehold(undefined);
+		}
+	};
+
+	const openDeleteHouseholdModal = (householdId: string) => {
+		const householdToDelete = households?.find((h) => h.id === householdId);
+		setSelectedHousehold(householdToDelete);
+		(
+			document.getElementById('delete-household') as HTMLDialogElement | null
+		)?.showModal();
+	};
+
+	const onDeleteHousehold = async () => {
+		if (selectedHousehold && user) {
+			await deleteHousehold(selectedHousehold.id);
+			setHouseholds((prev) =>
+				prev!.filter((h) => h.id !== selectedHousehold.id)
+			);
+			navigate(`/?deletedHousehold=${selectedHousehold.name}`);
+		}
+
+		toast.success(`${selectedHousehold?.name} has been successfully created`);
+		setSelectedHousehold(undefined);
+		closeModal('delete-household');
 	};
 
 	const joinHousehold = async () => {
@@ -161,6 +192,29 @@ const HouseholdsPage = () => {
 				</div>
 			</dialog>
 
+			{/* Modal for delete household */}
+			<dialog id='delete-household' className='modal'>
+				<div className='modal-box'>
+					<h3 className='font-bold text-lg py-4'>
+						Would you like to delete {selectedHousehold?.name}?
+					</h3>
+					<form method='dialog' className='w-full flex gap-2 justify-end'>
+						<button
+							className='btn bg-accent text-white'
+							onClick={() => onDeleteHousehold()}
+						>
+							Yes
+						</button>
+						<button
+							className='btn'
+							onClick={() => closeModal('delete-household')}
+						>
+							No
+						</button>
+					</form>
+				</div>
+			</dialog>
+
 			{/* <h2 className='card-title my-6'>My Households</h2> */}
 
 			<div className='mb-6'>
@@ -216,6 +270,7 @@ const HouseholdsPage = () => {
 							householdName={h.name}
 							plants={h.plants}
 							users={h.users}
+							onClick={() => openDeleteHouseholdModal(h.id)}
 						/>
 					</Link>
 				))}
