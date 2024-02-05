@@ -129,23 +129,44 @@ const PlantsPage = () => {
 	};
 
 	const waterPlant = async () => {
-		const updatedPlantData: NewPlant = {
-			name: selectedPlant!.name,
-			species: selectedPlant!.species,
-			imageUrl: selectedPlant!.imageUrl,
-			wateringFrequencyInDays: selectedPlant!.wateringFrequencyInDays,
-			lastWatered: getTodaysDate(),
-			waterAmountInMl: selectedPlant!.waterAmountInMl,
-			location: selectedPlant!.location,
-			lastWateredBy: user!.firstName,
-		};
-		await updatePlant(selectedPlant!.id, householdId!, updatedPlantData);
+		if (user && selectedPlant && householdId) {
+			const updatedPlantData: NewPlant = {
+				name: selectedPlant.name,
+				species: selectedPlant.species,
+				imageUrl: selectedPlant.imageUrl,
+				wateringFrequencyInDays: selectedPlant.wateringFrequencyInDays,
+				lastWatered: getTodaysDate(),
+				waterAmountInMl: selectedPlant.waterAmountInMl,
+				location: selectedPlant.location,
+				lastWateredBy: user.firstName,
+			};
+			const updatedPlant = await updatePlant(
+				selectedPlant.id,
+				householdId,
+				updatedPlantData
+			);
 
-		const updatedPlants = await getPlants(householdId!);
-		if (updatedPlants) {
-			setPlants(updatedPlants);
+			if (updatedPlant) {
+				setHouseholds((prevHouseholds) => {
+					if (!prevHouseholds) return prevHouseholds;
+
+					return prevHouseholds.map((household) => {
+						if (
+							household.plants.find((plant) => plant.id === updatedPlant.id)
+						) {
+							const updatedPlants = household.plants.map((plant) =>
+								plant.id === updatedPlant.id ? updatedPlant : plant
+							);
+							return { ...household, plants: updatedPlants };
+						}
+
+						return household;
+					});
+				});
+			}
+
+			toast.success(`${selectedPlant?.name} has been successfully watered`);
 		}
-		toast.success(`${selectedPlant?.name} has been successfully watered`);
 	};
 
 	const leaveHousehold = async () => {
