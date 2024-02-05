@@ -27,7 +27,7 @@ const EditPlant = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { isSubmitting },
+		formState: { errors, isSubmitting },
 		reset,
 	} = useForm<NewPlant>();
 
@@ -91,7 +91,9 @@ const EditPlant = () => {
 				<input
 					type='text'
 					placeholder='Name'
-					className='input input-bordered input-success w-full'
+					className={`input input-bordered input-success w-full ${
+						errors.name && 'input-error'
+					}`}
 					{...register('name', {
 						required: 'Name is required',
 					})}
@@ -99,19 +101,29 @@ const EditPlant = () => {
 				<input
 					type='text'
 					placeholder='Species'
-					className='input input-bordered input-success w-full'
+					className={`input input-bordered input-success w-full ${
+						errors.species && 'input-error'
+					}`}
 					{...register('species', {
 						required: 'Species is required',
 					})}
 				/>
 				<input
 					type='date'
-					className='input input-bordered input-success w-full'
+					className={`input input-bordered input-success w-full ${
+						errors.lastWatered && 'input-error'
+					}`}
 					{...register('lastWatered', {
 						required: 'Date is required',
-						max: new Date().toISOString().split('T')[0],
+						max: {
+							value: new Date().toISOString().split('T')[0],
+							message: 'Choose today or before.',
+						},
 					})}
 				/>
+				{errors.lastWatered && (
+					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.lastWatered.message}`}</p>
+				)}
 				<input
 					type='text'
 					placeholder='Image URL'
@@ -121,14 +133,20 @@ const EditPlant = () => {
 				<input
 					type='text'
 					placeholder='Location'
-					className='input input-bordered input-success w-full'
-					{...register('location')}
+					className={`input input-bordered input-success w-full ${
+						errors.location && 'input-error'
+					}`}
+					{...register('location', {
+						required: 'Location is required',
+					})}
 				/>
 
 				<input
 					type='number'
 					placeholder='Watering frequency in days'
-					className='input input-bordered input-success w-full'
+					className={`input input-bordered input-success w-full ${
+						errors.wateringFrequencyInDays && 'input-error'
+					}`}
 					{...register('wateringFrequencyInDays', {
 						required: 'Watering frequency is required',
 					})}
@@ -137,7 +155,9 @@ const EditPlant = () => {
 				<input
 					type='number'
 					placeholder='Amount of water in ml'
-					className='input input-bordered input-success w-full mb-8'
+					className={`input input-bordered input-success w-full ${
+						errors.waterAmountInMl && 'input-error'
+					}`}
 					{...register('waterAmountInMl', {
 						required: 'Water amount is required',
 					})}
