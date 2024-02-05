@@ -8,7 +8,7 @@ import {
 	updatePlant,
 } from '../../services/plantsService';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { FaSeedling } from 'react-icons/fa6';
+import { FaSeedling, FaTrash } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
 import { formatDate } from '../../utils/dateUtils';
 import SubmitButton from '../../components/UI/SubmitButton';
@@ -86,9 +86,18 @@ const EditPlant = () => {
 					},
 				}}
 			/>
-			<h2 className='card-title text-3xl mb-4'>
-				{plant ? plant.name : 'Add New Plant'}
-			</h2>
+			<div className='flex '>
+				<h2 className='card-title text-3xl mb-4'>
+					{plant ? plant.name : 'Add New Plant'}
+				</h2>
+
+				{plant && (
+					<button>
+						<FaTrash />
+					</button>
+				)}
+			</div>
+
 			<form className='flex flex-col gap-3' onSubmit={handleSubmit(onSubmit)}>
 				<input
 					type='text'
