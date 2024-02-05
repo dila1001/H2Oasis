@@ -4,6 +4,7 @@ import {
 	NewPlant,
 	Plant,
 	addPlant,
+	deletePlant,
 	getPlantById,
 	updatePlant,
 } from '../../services/plantsService';
@@ -18,7 +19,7 @@ import { useHouseholds } from '../../hooks/useHouseholds';
 
 const EditPlant = () => {
 	const [searchParams] = useSearchParams();
-	const { householdId } = useParams();
+	const { householdId, plantId } = useParams();
 	const [plant, setPlant] = useState<Plant | null>(null);
 	const navigate = useNavigate();
 	const { user } = useAuth();
@@ -73,6 +74,16 @@ const EditPlant = () => {
 		}
 	};
 
+	// const deletePlant = async
+	const deletePlantById = async () => {
+		if (plantId) {
+			await deletePlant(plantId);
+			const response = await getHouseholdsForUser(user.id);
+			setHouseholds(response);
+			navigate(`/?deletedHousehold=${householdName}`);
+		}
+	};
+
 	return (
 		<div className='mx-5 my-2 flex flex-col gap-4'>
 			<Toaster
@@ -84,16 +95,19 @@ const EditPlant = () => {
 					},
 				}}
 			/>
-			<div className='flex '>
+			<div className='flex align-start'>
 				<h2 className='card-title text-3xl mb-4'>
 					{plant ? plant.name : 'Add New Plant'}
 				</h2>
 
-				{plant && (
+				{/* {plant && (
 					<button>
 						<FaTrash />
 					</button>
-				)}
+				)} */}
+				<button className='mb-3 pl-4 text-base-300'>
+					<FaTrash />
+				</button>
 			</div>
 
 			<form className='flex flex-col gap-3' onSubmit={handleSubmit(onSubmit)}>
