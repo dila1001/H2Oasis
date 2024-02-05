@@ -3,20 +3,28 @@ import { User } from '../../services/usersService';
 import { Plant } from '../../services/plantsService';
 import AvatarGroup from '../../components/UI/AvatarGroup';
 import { getDaysLeft } from '../../utils/dateUtils';
-import { FaDroplet, FaLeaf, FaTrash } from 'react-icons/fa6';
+import {
+	FaDroplet,
+	FaEllipsisVertical,
+	FaLeaf,
+	FaPen,
+	FaTrash,
+} from 'react-icons/fa6';
 
 type HouseholdCardProps = {
 	householdName: string;
 	plants: Plant[];
 	users: User[];
-	onClick: () => void;
+	onEdit: () => void;
+	onDelete: () => void;
 };
 
 const HouseholdCard: FC<HouseholdCardProps> = ({
 	householdName,
 	plants,
 	users,
-	onClick,
+	onEdit,
+	onDelete,
 }) => {
 	const amountToWater = plants.filter((plant) => {
 		const daysLeft = getDaysLeft(
@@ -26,20 +34,39 @@ const HouseholdCard: FC<HouseholdCardProps> = ({
 		return daysLeft <= 0;
 	});
 
-	const handleClick = (e: React.MouseEvent) => {
-		e.preventDefault();
-		e.stopPropagation();
-		if (onClick) {
-			onClick();
-		}
-	};
-
 	return (
 		<div className='card bg-[#f9fcf4] shadow-md mb-6 h-32 flex flex-col p-4'>
 			<div className='flex items-center justify-between'>
 				<h3 className='card-title'>{householdName}</h3>
-				<FaTrash className='text-xs text-base-300'
-				onClick={handleClick}/>
+
+				<div
+					className='dropdown dropdown-end dropdown-hover'
+					onClick={(e) => {
+						e.stopPropagation();
+						e.preventDefault();
+					}}
+				>
+					<div tabIndex={0} role='button'>
+						<FaEllipsisVertical className='text-xl text-base-300' />
+					</div>
+					<ul
+						tabIndex={0}
+						className='dropdown-content z-[1] menu p-2 shadow bg-[#f9fcf4] rounded-box max-w-max'
+					>
+						<li onClick={() => onEdit()}>
+							<a>
+								<FaPen className='text-base-300 mr-2' />
+								Edit
+							</a>
+						</li>
+						<li onClick={() => onDelete()}>
+							<a>
+								<FaTrash className='text-base-300 mr-2' />
+								Delete
+							</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 			<div className='flex flex-row grow'>
 				<div className='flex flex-col mt-auto gap-2'>

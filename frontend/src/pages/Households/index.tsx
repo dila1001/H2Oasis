@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import {
 	AddUserToHousehold,
 	Household,
+	NewHousehold,
 	createHousehold,
 	deleteHousehold,
 	getHousehold,
 	getHouseholdsForUser,
+	updateHousehold,
 } from '../../services/householdsService';
 import { useAuth } from '../../auth/useAuth';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -24,13 +26,14 @@ const HouseholdsPage = () => {
 	const [selectedHousehold, setSelectedHousehold] = useState<
 		Household | undefined
 	>(undefined);
+	const [isEditingHousehold, setIsEditingHousehold] = useState(false);
 	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
 		reset,
-	} = useForm<{ householdName: string }>();
+	} = useForm<{ name: string }>();
 	const [inviteHousehold, setInviteHousehold] = useState<Household | null>(
 		null
 	);
@@ -76,23 +79,27 @@ const HouseholdsPage = () => {
 	}, [searchParams, reset]);
 
 	const onCreateHouseholdSubmit: SubmitHandler<{
-		householdName: string;
+		name: string;
 	}> = async (data) => {
 		if (user) {
-			const response = await createHousehold(data.householdName, user.id);
+			const response = await createHousehold(data.name, user.id);
 			// TODO: check if successfull. if successfull, set households. otherwise, show error
 			setHouseholds((prev) => [...(prev || []), response]);
 		}
 		closeModal('create-household');
-		toast.success(`${data.householdName} has been successfully created`);
+		toast.success(`${data.name} has been successfully created`);
 	};
 
 	const closeModal = (id: string) => {
 		(document.getElementById(id) as HTMLDialogElement | null)?.close();
 		setSearchParams('');
 		reset({
-			householdName: '',
+			name: '',
 		});
+
+		if (isEditingHousehold) {
+			setIsEditingHousehold(false);
+		}
 
 		if (selectedHousehold) {
 			setSelectedHousehold(undefined);
@@ -105,6 +112,36 @@ const HouseholdsPage = () => {
 		(
 			document.getElementById('delete-household') as HTMLDialogElement | null
 		)?.showModal();
+	};
+
+	const openEditHouseholdModal = (householdId: string) => {
+		const householdToEdit = households?.find((h) => h.id === householdId);
+		setSelectedHousehold(householdToEdit);
+		setIsEditingHousehold(true);
+		(
+			document.getElementById('create-household') as HTMLDialogElement | null
+		)?.showModal();
+	};
+
+	const onEditHouseholdSubmit: SubmitHandler<NewHousehold> = async (data) => {
+		if (selectedHousehold) {
+			await updateHousehold(selectedHousehold.id, data);
+			// TODO: check if successful. if successful, set households. otherwise, show error
+			setHouseholds((prev) => {
+				if (!prev) {
+					return prev;
+				}
+				return prev.map((household) => {
+					if (household.id === selectedHousehold.id) {
+						return { ...household, name: data.name };
+					}
+					return household;
+				});
+			});
+		}
+		closeModal('create-household');
+		toast.success(`${data.name} has been successfully saved`);
+		setIsEditingHousehold(false);
 	};
 
 	const onDeleteHousehold = async () => {
@@ -143,19 +180,29 @@ const HouseholdsPage = () => {
 					>
 						✕
 					</button>
-					<h3 className='font-bold text-lg py-4'>Create Household</h3>
+					{isEditingHousehold ? (
+						<h3 className='font-bold text-lg py-4'>
+							Edit {selectedHousehold?.name}
+						</h3>
+					) : (
+						<h3 className='font-bold text-lg py-4'>Create Household</h3>
+					)}
 					<form
 						method='dialog'
 						className='flex flex-col gap-3'
-						onSubmit={handleSubmit(onCreateHouseholdSubmit)}
+						onSubmit={
+							isEditingHousehold
+								? handleSubmit(onEditHouseholdSubmit)
+								: handleSubmit(onCreateHouseholdSubmit)
+						}
 					>
 						<input
 							type='text'
-							placeholder='Name'
+							placeholder={isEditingHousehold ? 'New name' : 'Name'}
 							className={`input input-bordered input-success w-full ${
-								errors.householdName && 'input-error'
+								errors.name && 'input-error'
 							}`}
-							{...register('householdName', {
+							{...register('name', {
 								required: 'Household name is required',
 								maxLength: {
 									value: 20,
@@ -164,11 +211,11 @@ const HouseholdsPage = () => {
 							})}
 						/>
 						<div className='modal-action'>
-							{errors.householdName && (
-								<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.householdName.message}`}</p>
+							{errors.name && (
+								<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.name.message}`}</p>
 							)}
 							<button className='btn' disabled={isSubmitting}>
-								Create
+								{isEditingHousehold ? 'Submit' : 'Create'}
 							</button>
 						</div>
 					</form>
@@ -281,7 +328,8 @@ const HouseholdsPage = () => {
 							householdName={h.name}
 							plants={h.plants}
 							users={h.users}
-							onClick={() => openDeleteHouseholdModal(h.id)}
+							onDelete={() => openDeleteHouseholdModal(h.id)}
+							onEdit={() => openEditHouseholdModal(h.id)}
 						/>
 					</Link>
 				))}
