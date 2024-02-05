@@ -17,31 +17,38 @@ import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
 import toast, { Toaster } from 'react-hot-toast';
 import SubmitButton from '../../components/UI/SubmitButton';
 import { useAuth } from '../../auth/useAuth';
+import { FaHeartBroken } from 'react-icons/fa';
 
 const PlantPage = () => {
 	const { householdId, plantId } = useParams();
 	const [searchParams] = useSearchParams();
 	const [plant, setPlant] = useState<Plant | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState(false);
 	const { user } = useAuth();
 
 	useEffect(() => {
 		const fetchData = async () => {
 			const saved = searchParams.get('saved');
 			const created = searchParams.get('created');
-			if (plantId) {
-				const plant = await getPlantById(plantId);
-				setPlant(plant);
-				if (saved === 'true') {
-					toast.success(`${plant!.name} has been successfully saved`, {
-						id: 'save',
-					});
+
+			try {
+				if (plantId) {
+					const plant = await getPlantById(plantId);
+					setPlant(plant);
+					if (saved === 'true') {
+						toast.success(`${plant!.name} has been successfully saved`, {
+							id: 'save',
+						});
+					}
+					if (created === 'true') {
+						toast.success(`${plant!.name} has been successfully created`, {
+							id: 'created',
+						});
+					}
 				}
-				if (created === 'true') {
-					toast.success(`${plant!.name} has been successfully created`, {
-						id: 'created',
-					});
-				}
+			} catch (error) {
+				setError(true)
 			}
 			setIsLoading(false);
 		};
@@ -112,9 +119,21 @@ const PlantPage = () => {
 					</div>
 				</div>
 			</dialog>
-
 			{isLoading && viewLoadingSkeleton()}
 
+			{/* Check for error state */}
+			{error && (
+				<div className='flex flex-col items-center justify-center h-[calc(100vh-220px)] gap-6'>
+					<FaHeartBroken className='text-warning text-[120px]' />
+					<h1 className='card-title text-neutral mb-12 text-center'>
+						An error occured while fetching plant
+					</h1>
+					<Link to={`/`}>
+						<button className='btn btn-neutral'>Go home</button>
+					</Link>
+				</div>
+			)}
+			
 			{plant && (
 				<div className='mx-5 my-2 flex-row'>
 					<img

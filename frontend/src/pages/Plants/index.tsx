@@ -64,8 +64,6 @@ const PlantsPage = () => {
 			}
 		};
 		fetchData();
-
-		// const
 	}, [householdId, households]);
 
 	const sortedPlants = [...plants].sort((a, b) => {
