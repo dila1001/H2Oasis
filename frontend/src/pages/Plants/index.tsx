@@ -40,8 +40,12 @@ const PlantsPage = () => {
 		const fetchData = async () => {
 			try {
 				if (householdId) {
+					if (isLoading) {
+						setIsLoading(true);
+					}
 					const fetchedPlants = await getPlants(householdId);
 					setPlants(fetchedPlants || []);
+					setError(false);
 				}
 			} catch (error) {
 				setError(true);
@@ -86,6 +90,8 @@ const PlantsPage = () => {
 	const viewLoadingSkeleton = () => {
 		return (
 			<div>
+				<div className='skeleton w-full h-20 my-6 bg-base-200'></div>
+				<div className='skeleton w-full h-12 my-6 bg-base-200'></div>
 				{[1, 2, 3, 4].map((item) => (
 					<div
 						key={item}
@@ -216,56 +222,60 @@ const PlantsPage = () => {
 						</div>
 					</div>
 				</dialog>
-				<div className='flex items-center'>
-					<h2 className='card-title my-6 text-center w-full'>
-						{householdName}
-					</h2>
-					{households && users && (
-						<div className='dropdown dropdown-end dropdown-hover'>
-							<div tabIndex={0} role='button'>
-								<AvatarGroup users={users} />
-							</div>
-							<ul
-								tabIndex={0}
-								className='dropdown-content z-[1] menu p-2 shadow bg-[#f9fcf4] rounded-box w-40'
-							>
-								<li
-									onClick={() =>
-										(
-											document.getElementById(
-												'show-qrcode'
-											) as HTMLDialogElement | null
-										)?.showModal()
-									}
-								>
-									<a>Invite user</a>
-								</li>
-								<li
-									onClick={() =>
-										(
-											document.getElementById(
-												'leave-household'
-											) as HTMLDialogElement | null
-										)?.showModal()
-									}
-								>
-									<a>Leave household</a>
-								</li>
-							</ul>
-						</div>
-					)}
-				</div>
 
-				<div className='mb-6'>
-					<SearchBar />
-				</div>
+				{!error && !isLoading && (
+					<>
+						<div className='flex items-center'>
+							<h2 className='card-title my-6 text-center w-full'>
+								{householdName}
+							</h2>
+							{users && (
+								<div className='dropdown dropdown-end dropdown-hover'>
+									<div tabIndex={0} role='button'>
+										<AvatarGroup users={users} />
+									</div>
+									<ul
+										tabIndex={0}
+										className='dropdown-content z-[1] menu p-2 shadow bg-[#f9fcf4] rounded-box w-40'
+									>
+										<li
+											onClick={() =>
+												(
+													document.getElementById(
+														'show-qrcode'
+													) as HTMLDialogElement | null
+												)?.showModal()
+											}
+										>
+											<a>Invite user</a>
+										</li>
+										<li
+											onClick={() =>
+												(
+													document.getElementById(
+														'leave-household'
+													) as HTMLDialogElement | null
+												)?.showModal()
+											}
+										>
+											<a>Leave household</a>
+										</li>
+									</ul>
+								</div>
+							)}
+						</div>
+						<div className='mb-6'>
+							<SearchBar />
+						</div>
+					</>
+				)}
 
 				{/* Check for loading state */}
 				{isLoading && viewLoadingSkeleton()}
 
 				{/* Check for error state */}
 				{error && (
-					<div className='flex flex-col items-center justify-center h-[calc(100vh-220px)] gap-6'>
+					<div className='flex flex-col items-center justify-center h-[calc(100vh-64px)] gap-6'>
 						<FaHeartBroken className='text-warning text-[120px]' />
 						<h1 className='card-title text-neutral mb-12 text-center'>
 							An error occured while fetching plants

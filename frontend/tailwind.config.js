@@ -14,6 +14,7 @@ export default {
 				light: {
 					...daisyuiThemes['lemonade'],
 					primary: '#7E9674',
+					error: 'dd7373',
 					// accent: '#eac95b',
 					// success: '#C5D2CE',
 					// secondary: '# add1B966',

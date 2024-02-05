@@ -41,6 +41,7 @@ function HouseholdsProvider({ children }: { children: ReactNode }) {
 			if (user) {
 				try {
 					setIsLoading(true);
+					setError(false);
 					const data = await getHouseholdsForUser(user.id);
 					setHouseholds(data);
 				} catch (error) {

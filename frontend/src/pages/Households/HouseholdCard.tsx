@@ -32,8 +32,7 @@ const HouseholdCard: FC<HouseholdCardProps> = ({
 					<div className='badge badge-ghost text-xs'>
 						<FaLeaf className='mr-2' />
 						<p>
-							{plants.length} plant
-							{plants.length === 0 || (plants.length > 1 && 's')}
+							{plants.length} plant{plants.length !== 1 ? 's' : ''}
 						</p>
 					</div>
 
