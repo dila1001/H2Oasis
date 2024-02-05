@@ -61,7 +61,6 @@ const EditPlant = () => {
 		if (user) {
 			let response;
 			const updatedData = { ...data, lastWateredBy: user.firstName };
-			console.log(updatedData);
 			if (plant) {
 				response = await updatePlant(plant.id, householdId!, updatedData);
 				navigate(`/${householdId}/plants/${response?.id}?saved=true`);
@@ -75,13 +74,10 @@ const EditPlant = () => {
 		}
 	};
 
-	//wip
-
 	const handleClick = async () => {
 		if (plantBeingEdited && user) {
 			await deletePlant(plantBeingEdited);
-			navigate(`/${householdId}/plants/?deleted=true`);
-			console.log('deleted', plantBeingEdited)
+			navigate(`/${householdId}/plants/?deletedPlant=${plant?.name}`);
 		}
 	};
 
@@ -101,12 +97,6 @@ const EditPlant = () => {
 					{plant ? plant.name : 'Add New Plant'}
 				</h2>
 
-				{/* delete button */}
-				{/* {plant && (
-					<button>
-						<FaTrash />
-					</button>
-				)} */}
 				<button onClick={handleClick} className='mb-3 pl-4 text-base-300'>
 					<FaTrash />
 				</button>
