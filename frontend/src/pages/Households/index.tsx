@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import {
 	AddUserToHousehold,
 	Household,
+	NewHousehold,
 	createHousehold,
 	deleteHousehold,
 	getHousehold,
 	getHouseholdsForUser,
+	updateHousehold,
 } from '../../services/householdsService';
 import { useAuth } from '../../auth/useAuth';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -78,6 +80,7 @@ const HouseholdsPage = () => {
 	const onCreateHouseholdSubmit: SubmitHandler<{
 		householdName: string;
 	}> = async (data) => {
+		// handleOnClick();
 		if (user) {
 			const response = await createHousehold(data.householdName, user.id);
 			// TODO: check if successfull. if successfull, set households. otherwise, show error
@@ -85,6 +88,25 @@ const HouseholdsPage = () => {
 		}
 		closeModal('create-household');
 		toast.success(`${data.householdName} has been successfully created`);
+	};
+
+	const onEditHousehold: SubmitHandler<{
+		newHouseholdName: string;
+	}> = async (data) => {
+		if (selectedHousehold && user) {
+			const newHousehold: NewHousehold = {
+				name:data.newHouseholdName
+			}
+			await updateHousehold(selectedHousehold.id, newHousehold);
+			setHouseholds((prev) =>
+				prev!.filter((h) => h.id !== selectedHousehold.id)
+			);
+			navigate(`/?deletedHousehold=${selectedHousehold.name}`);
+		}
+
+		toast.success(`${selectedHousehold?.name} has been successfully modified`);
+		setSelectedHousehold(undefined);
+		closeModal('modify-household');
 	};
 
 	const closeModal = (id: string) => {
@@ -99,12 +121,12 @@ const HouseholdsPage = () => {
 		}
 	};
 
-	const openDeleteHouseholdModal = (householdId: string) => {
-		const householdToDelete = households?.find((h) => h.id === householdId);
-		setSelectedHousehold(householdToDelete);
-		(
-			document.getElementById('delete-household') as HTMLDialogElement | null
-		)?.showModal();
+	const handleOnClick = (householdId: string) => {
+		const activeHousehold = households?.find((h) => h.id === householdId);
+		setSelectedHousehold(activeHousehold);
+		// (
+		// 	document.getElementById('delete-household') as HTMLDialogElement | null
+		// )?.showModal();
 	};
 
 	const onDeleteHousehold = async () => {
@@ -224,6 +246,47 @@ const HouseholdsPage = () => {
 				</div>
 			</dialog>
 
+			{/* Modal for modify household name */}
+			<dialog id='modify-household' className='modal'>
+				<div className='modal-box'>
+					<button
+						className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2'
+						onClick={() => closeModal('modify-household')}
+					>
+						✕
+					</button>
+					<h3 className='font-bold text-lg py-4'>Edit Household</h3>
+					<form
+						method='dialog'
+						className='flex flex-col gap-3'
+						onSubmit={handleSubmit(onEditHousehold)}
+					>
+						<input
+							type='text'
+							placeholder='New Name'
+							className={`input input-bordered input-success w-full ${
+								errors.householdName && 'input-error'
+							}`}
+							{...register('householdName', {
+								required: 'Household name is required',
+								maxLength: {
+									value: 20,
+									message: 'Name must not exceed 20 characters',
+								},
+							})}
+						/>
+						<div className='modal-action'>
+							{errors.householdName && (
+								<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.householdName.message}`}</p>
+							)}
+							<button className='btn' disabled={isSubmitting}>
+								Confirm
+							</button>
+						</div>
+					</form>
+				</div>
+			</dialog>
+
 			{/* <h2 className='card-title my-6'>My Households</h2> */}
 
 			{!error && (
@@ -281,7 +344,21 @@ const HouseholdsPage = () => {
 							householdName={h.name}
 							plants={h.plants}
 							users={h.users}
-							onClick={() => openDeleteHouseholdModal(h.id)}
+							onClick={() => handleOnClick(h.id)}
+							onEditName={() =>
+								(
+									document.getElementById(
+										'modify-household'
+									) as HTMLDialogElement | null
+								)?.showModal()
+							}
+							onDelete={() =>
+								(
+									document.getElementById(
+										'delete-household'
+									) as HTMLDialogElement | null
+								)?.showModal()
+							}
 						/>
 					</Link>
 				))}
