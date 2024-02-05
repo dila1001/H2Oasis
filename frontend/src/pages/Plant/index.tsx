@@ -19,6 +19,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import SubmitButton from '../../components/UI/SubmitButton';
 import { useAuth } from '../../auth/useAuth';
 import { FaHeartBroken } from 'react-icons/fa';
+import { useHouseholds } from '../../hooks/useHouseholds';
 
 const PlantPage = () => {
 	const { householdId, plantId } = useParams();
@@ -27,6 +28,7 @@ const PlantPage = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(false);
 	const { user } = useAuth();
+	const { households, setHouseholds } = useHouseholds();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -55,27 +57,48 @@ const PlantPage = () => {
 			}
 		};
 		fetchData();
-	}, [plantId, searchParams]);
+	}, [plantId, searchParams, households]);
 
 	const waterPlant = async () => {
-		const updatedPlantData: NewPlant = {
-			name: plant!.name,
-			species: plant!.species,
-			imageUrl: plant!.imageUrl,
-			// uploadedImage: plant!.uploadedImage,
-			wateringFrequencyInDays: plant!.wateringFrequencyInDays,
-			lastWatered: getTodaysDate(),
-			waterAmountInMl: plant!.waterAmountInMl,
-			location: plant!.location,
-			lastWateredBy: user!.firstName,
-		};
-		const response = await updatePlant(
-			plant!.id,
-			householdId!,
-			updatedPlantData
-		);
-		toast.success(`${plant?.name} has been successfully watered`);
-		setPlant(response);
+		if (plant && user && householdId) {
+			const updatedPlantData: NewPlant = {
+				name: plant!.name,
+				species: plant!.species,
+				imageUrl: plant!.imageUrl,
+				// uploadedImage: plant!.uploadedImage,
+				wateringFrequencyInDays: plant!.wateringFrequencyInDays,
+				lastWatered: getTodaysDate(),
+				waterAmountInMl: plant!.waterAmountInMl,
+				location: plant!.location,
+				lastWateredBy: user!.firstName,
+			};
+			const updatedPlant = await updatePlant(
+				plant.id,
+				householdId,
+				updatedPlantData
+			);
+
+			if (updatedPlant) {
+				setHouseholds((prevHouseholds) => {
+					if (!prevHouseholds) return prevHouseholds;
+
+					return prevHouseholds.map((household) => {
+						if (
+							household.plants.find((plant) => plant.id === updatedPlant.id)
+						) {
+							const updatedPlants = household.plants.map((plant) =>
+								plant.id === updatedPlant.id ? updatedPlant : plant
+							);
+							return { ...household, plants: updatedPlants };
+						}
+
+						return household;
+					});
+				});
+			}
+
+			toast.success(`${plant?.name} has been successfully watered`);
+		}
 	};
 
 	const viewLoadingSkeleton = () => {
@@ -92,11 +115,15 @@ const PlantPage = () => {
 
 	const wateringInfo = (lastWatered: string, waterFreq: string) => {
 		const daysLeft = getDaysLeft(lastWatered, waterFreq);
-		return daysLeft < 0
-			? `late by ${Math.abs(daysLeft)} day${Math.abs(daysLeft) > 1 ? 's' : ''}`
-			: daysLeft === 0
-			? `water today`
-			: `in ${daysLeft} day${daysLeft > 1 ? 's' : ''}`;
+		if (daysLeft < 0) {
+			return `late by ${Math.abs(daysLeft)} day${
+				Math.abs(daysLeft) !== 1 ? 's' : ''
+			}`;
+		} else if (daysLeft === 0) {
+			return `water today`;
+		} else {
+			return `in ${daysLeft} day${daysLeft !== 1 ? 's' : ''}`;
+		}
 	};
 
 	return (
@@ -179,7 +206,10 @@ const PlantPage = () => {
 									)}
 								</p>
 								<p className='text-gray-500'>
-									water every {plant?.wateringFrequencyInDays} days
+									water every {plant?.wateringFrequencyInDays} day
+									{parseInt(plant?.wateringFrequencyInDays, 10) !== 1
+										? 's'
+										: ''}
 								</p>
 							</div>
 						</div>
