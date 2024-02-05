@@ -2,6 +2,8 @@ using H2Oasis.Api.Persistence;
 using H2Oasis.Api.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
+using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -54,7 +56,14 @@ var configuration = builder.Configuration;
 var app = builder.Build();
 
 {
-
+    app.Use(async (context, next) =>
+    {
+        context.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue
+        {
+            NoCache = true
+        };
+        await next();
+    });
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseHttpsRedirection();
