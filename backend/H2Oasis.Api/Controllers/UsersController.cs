@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace H2Oasis.Api.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -25,14 +24,13 @@ namespace H2Oasis.Api.Controllers
         public async Task<IActionResult> GetUser()
         {
             var nameIdentifierClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-            
-            var id = nameIdentifierClaim.Value;
-            
+
             if (nameIdentifierClaim is null)
             {
                 return NotFound("Nameidentifier not found in claims");
             }
-            
+
+            var id = nameIdentifierClaim.Value;
             var user = await _userService.GetUserInfo(id);
 
             if (user is null)
@@ -45,6 +43,7 @@ namespace H2Oasis.Api.Controllers
         }
         
         [HttpGet("households/{householdId:guid}")]
+        [Authorize]
         public async Task<IActionResult> GetUsersForHousehold(Guid householdId)
         {
             var users = await _userService.GetUsersForHousehold(householdId);
