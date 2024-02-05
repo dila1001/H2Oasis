@@ -3,18 +3,20 @@ import { User } from '../../services/usersService';
 import { Plant } from '../../services/plantsService';
 import AvatarGroup from '../../components/UI/AvatarGroup';
 import { getDaysLeft } from '../../utils/dateUtils';
-import { FaDroplet, FaLeaf } from 'react-icons/fa6';
+import { FaDroplet, FaLeaf, FaTrash } from 'react-icons/fa6';
 
 type HouseholdCardProps = {
 	householdName: string;
 	plants: Plant[];
 	users: User[];
+	onClick: () => void;
 };
 
 const HouseholdCard: FC<HouseholdCardProps> = ({
 	householdName,
 	plants,
 	users,
+	onClick,
 }) => {
 	const amountToWater = plants.filter((plant) => {
 		const daysLeft = getDaysLeft(
@@ -24,9 +26,21 @@ const HouseholdCard: FC<HouseholdCardProps> = ({
 		return daysLeft <= 0;
 	});
 
+	const handleClick = (e: React.MouseEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+		if (onClick) {
+			onClick();
+		}
+	};
+
 	return (
 		<div className='card bg-[#f9fcf4] shadow-md mb-6 h-32 flex flex-col p-4'>
-			<h3 className='card-title'>{householdName}</h3>
+			<div className='flex items-center justify-between'>
+				<h3 className='card-title'>{householdName}</h3>
+				<FaTrash className='text-xs text-base-300'
+				onClick={handleClick}/>
+			</div>
 			<div className='flex flex-row grow'>
 				<div className='flex flex-col mt-auto gap-2'>
 					<div className='badge badge-ghost text-xs'>
