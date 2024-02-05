@@ -37,7 +37,7 @@ const PlantCard: FC<PlantCardProps> = ({
 	return (
 		<div className='card bg-[#f9fcf4] shadow-md mb-6 flex-row h-32'>
 			<div className='max-h-48 w-1/4 overflow-hidden rounded-tl-2xl rounded-bl-2xl bg-base-200 flex items-center justify-center'>
-				<FaLeaf className='text-white text-2xl' />
+				<FaLeaf className='text-base-100 text-2xl' />
 				{imageUrl && (
 					<img
 						className='w-full h-full object-cover'

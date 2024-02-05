@@ -10,6 +10,7 @@ import {
 	FaCalendar,
 	FaDroplet,
 	FaHandHoldingDroplet,
+	FaLeaf,
 	FaLocationDot,
 	FaPen,
 } from 'react-icons/fa6';
@@ -137,11 +138,17 @@ const PlantPage = () => {
 
 			{plant && (
 				<div className='mx-5 my-2 flex-row'>
-					<img
-						src={plant?.imageUrl}
-						alt='Image Description'
-						className='object-cover rounded-2xl w-full h-80 shadow-md'
-					/>
+					{plant.imageUrl ? (
+						<img
+							src={plant?.imageUrl}
+							alt='Image Description'
+							className='object-cover rounded-2xl w-full h-80 shadow-md'
+						/>
+					) : (
+						<div className='rounded-2xl w-full h-80 shadow-md bg-base-200 flex items-center justify-center'>
+							<FaLeaf className='text-base-100 text-7xl' />
+						</div>
+					)}
 					<div className='p-4 my-4'>
 						<div className='flex items-center gap-3'>
 							<h2 className='card-title text-3xl mb-1'>{plant?.name}</h2>
