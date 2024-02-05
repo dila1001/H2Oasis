@@ -116,23 +116,26 @@ const EditPlant = () => {
 				</div>
 			</dialog>
 
-			<div className='flex align-start'>
-				<h2 className='card-title text-3xl mb-4'>
-					{plant ? plant.name : 'Add New Plant'}
-				</h2>
-
-				<button
-					onClick={() =>
-						(
-							document.getElementById(
-								'delete-plant'
-							) as HTMLDialogElement | null
-						)?.showModal()
-					}
-					className='mb-3 pl-4 text-base-300'
-				>
-					<FaTrash />
-				</button>
+			<div className='flex align-start justify-between'>
+				{plant ? (
+					<h2 className='card-title text-3xl mb-4'>{plant.name}</h2>
+				) : (
+					<>
+						<h2 className='card-title text-3xl mb-4'>Add New Plant</h2>
+						<button
+							onClick={() =>
+								(
+									document.getElementById(
+										'delete-plant'
+									) as HTMLDialogElement | null
+								)?.showModal()
+							}
+							className='mb-3 pl-4 text-base-300'
+						>
+							<FaTrash />
+						</button>
+					</>
+				)}
 			</div>
 
 			<form className='flex flex-col gap-3' onSubmit={handleSubmit(onSubmit)}>
