@@ -24,7 +24,7 @@ const Login = () => {
 			}}
 		>
 			<div className='flex flex-col justify-center items-center gap-y-4 pr-10'>
-				<h2 className='card-title text-2xl pt-24'>H2Oasis</h2>
+				<h2 className='card-title text-2xl pt-24'>Share Leaf</h2>
 				<button
 					className='btn btn-outline btn-secondary w-40'
 					onClick={handleLoginClick}
