@@ -25,7 +25,7 @@ import {
 	DeleteUserFromHousehold,
 	getHouseholdsForUser,
 } from '../../services/householdsService';
-import Avatar from '../../components/UI/Avatar';
+import UserInfo from '../../components/UI/UserInfo';
 
 const PlantsPage = () => {
 	const [plants, setPlants] = useState<Plant[]>([]);
@@ -214,29 +214,7 @@ const PlantsPage = () => {
 						</form>
 						<div className='max-h-[400px] overflow-y-scroll px-4'>
 							{household?.users.map((user) => (
-								<div key={user.id} className='flex gap-4 py-5'>
-									{user && <Avatar user={user} size='xl' />}
-
-									<div className='flex flex-col justify-center'>
-										{user && (
-											<>
-												<p className='card-title text-lg'>
-													{user.firstName} {user.lastName}
-												</p>
-												<p className='max-w-52 break-words text-xs'>
-													{user.email.length > 25 ? (
-														<>
-															{user.email.substring(0, user.email.indexOf('@'))}
-															<br />@{user.email.split('@')[1]}
-														</>
-													) : (
-														user.email
-													)}
-												</p>
-											</>
-										)}
-									</div>
-								</div>
+								<UserInfo user={user} />
 							))}
 						</div>
 					</div>
