@@ -8,7 +8,7 @@ import {
 	getPlantById,
 	updatePlant,
 } from '../../services/plantsService';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { FaSeedling, FaTrash } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
 import { formatDate } from '../../utils/dateUtils';
@@ -16,6 +16,8 @@ import SubmitButton from '../../components/UI/SubmitButton';
 import { useAuth } from '../../auth/useAuth';
 import { getHouseholdsForUser } from '../../services/householdsService';
 import { useHouseholds } from '../../hooks/useHouseholds';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const EditPlant = () => {
 	const [searchParams] = useSearchParams();
@@ -31,6 +33,7 @@ const EditPlant = () => {
 		handleSubmit,
 		formState: { errors, isSubmitting },
 		reset,
+		control,
 	} = useForm<NewPlant>();
 
 	useEffect(() => {
@@ -174,7 +177,8 @@ const EditPlant = () => {
 					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.species.message}`}</p>
 				)}
 
-				<input
+				{/* working code */}
+				{/* <input
 					type='date'
 					className={`input input-bordered input-success w-full ${
 						errors.lastWatered && 'input-error'
@@ -186,7 +190,40 @@ const EditPlant = () => {
 							message: 'Choose today or before.',
 						},
 					})}
+				/> */}
+
+				{/* TODO: required isnt working, db is registering the day before when saving */}
+				<Controller
+					name='lastWatered'
+					control={control}
+					rules={{ required: 'Last watered date is required' }}
+					render={({ field }) => {
+						return (
+							<div className='flex items-center'>
+								<DatePicker
+									{...field}
+									className='input input-bordered input-success '
+									selected={field.value ? new Date(field.value) : null}
+									onChange={(date) => {
+										field.onChange(date);
+									}}
+									dateFormat='dd-MMM-yyyy'
+									placeholderText='Last watered date'
+								/>
+								<div className='pl-3'>
+									<svg
+										xmlns='http://www.w3.org/2000/svg'
+										viewBox='0 0 448 512'
+										className='w-5 h-5'
+									>
+										<path d='M96 32V64H48C21.5 64 0 85.5 0 112v48H448V112c0-26.5-21.5-48-48-48H352V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V64H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192H0V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V192z' />
+									</svg>
+								</div>
+							</div>
+						);
+					}}
 				/>
+
 				{errors.lastWatered && (
 					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.lastWatered.message}`}</p>
 				)}

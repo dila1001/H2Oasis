@@ -30,6 +30,6 @@ export const getTodaysDate = (): string => {
 
 export const formatDate = (date: string): string => {
 	const originalDate = parseISO(date);
-	const formattedDate = format(originalDate, 'yyyy-MM-dd');
+	const formattedDate = format(originalDate, 'dd-MMM-yy');
 	return formattedDate;
 };
