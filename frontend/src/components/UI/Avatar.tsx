@@ -29,10 +29,10 @@ const Avatar: FC<AvatarProps> = ({ user, size, remainingUsers }) => {
 	};
 
 	return (
-		<div className='avatar placeholder'>
+		<div className='avatar placeholder flex items-center'>
 			<div
-				className={`${avatarBg()} text-neutral-content rounded-full ${
-					size === 'xl' ? 'w-16' : 'w-8'
+				className={`${avatarBg()} marker:text-neutral-content rounded-full ${
+					size === 'xl' ? 'w-16 h-16' : 'w-8 h-8'
 				}`}
 			>
 				<span
