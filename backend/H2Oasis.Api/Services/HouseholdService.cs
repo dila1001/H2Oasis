@@ -71,16 +71,6 @@ public class HouseholdService : IHouseholdService
         _dbContext.Entry(existingHousehold).CurrentValues.SetValues(updatedHousehold);
         await _dbContext.SaveChangesAsync();
         return existingHousehold;
-        
-       
-        // var updatedHouseholdWithDetails = await _dbContext.Households
-        //     .Where(h => h.HouseholdId == updatedHousehold.HouseholdId)
-        //     .Include(h => h.UserHouseholds)
-        //     .ThenInclude(uh => uh.User)
-        //     .Include(h => h.Plants)
-        //     .FirstOrDefaultAsync();
-        //
-        // return (updatedHouseholdWithDetails);
     }
 
     public async Task<bool> DeleteHousehold(Guid householdId)
