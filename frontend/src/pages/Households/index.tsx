@@ -27,6 +27,7 @@ const HouseholdsPage = () => {
 		Household | undefined
 	>(undefined);
 	const [isEditingHousehold, setIsEditingHousehold] = useState(false);
+	const [query, setQuery] = useState('');
 	const navigate = useNavigate();
 	const {
 		register,
@@ -168,6 +169,10 @@ const HouseholdsPage = () => {
 		}
 	};
 
+	const handleSearch = (searchQuery: string) => {
+		setQuery(searchQuery);
+	};
+
 	return (
 		<div className='mx-5'>
 			<Toaster position='top-center' reverseOrder={false} />
@@ -275,7 +280,7 @@ const HouseholdsPage = () => {
 
 			{!error && (
 				<div className='mb-6'>
-					<SearchBar />
+					<SearchBar onSearch={handleSearch} />
 				</div>
 			)}
 
@@ -322,17 +327,19 @@ const HouseholdsPage = () => {
 			{households &&
 				!isLoading &&
 				!error &&
-				households.map((h) => (
-					<Link to={`/${h.id}/plants`} key={h.id}>
-						<HouseholdCard
-							householdName={h.name}
-							plants={h.plants}
-							users={h.users}
-							onDelete={() => openDeleteHouseholdModal(h.id)}
-							onEdit={() => openEditHouseholdModal(h.id)}
-						/>
-					</Link>
-				))}
+				households
+					.filter((h) => h.name.toLowerCase().includes(query.toLowerCase()))
+					.map((h) => (
+						<Link to={`/${h.id}/plants`} key={h.id}>
+							<HouseholdCard
+								householdName={h.name}
+								plants={h.plants}
+								users={h.users}
+								onDelete={() => openDeleteHouseholdModal(h.id)}
+								onEdit={() => openEditHouseholdModal(h.id)}
+							/>
+						</Link>
+					))}
 			{households && !isLoading && !error && households.length !== 0 && (
 				<div className='my-12'>
 					<button
