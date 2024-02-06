@@ -327,7 +327,7 @@ const HouseholdsPage = () => {
 			{households &&
 				!isLoading &&
 				!error &&
-				households.filter((h) => h.name.includes(query)).map((h) =>(
+				households.filter((h) => h.name.toLowerCase().includes(query.toLowerCase())).map((h) =>(
 					<Link to={`/${h.id}/plants`} key={h.id}>
 						<HouseholdCard
 							householdName={h.name}
