@@ -11,13 +11,13 @@ const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
 		const searchQuery = event.target.value;
 		event.preventDefault();
 		setSearchTerm(searchQuery);
-    onSearch(searchQuery);
+		onSearch(searchQuery);
 	};
 
 	return (
 		<div className='my-2'>
 			<input
-				type='text'
+				type='search'
 				placeholder='Search'
 				value={searchTerm}
 				onChange={handleChange}
