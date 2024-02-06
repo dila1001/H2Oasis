@@ -1,18 +1,26 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
-const SearchBar = () => {
+type SearchBarProps = {
+	onSearch: (searchQuery: string) => void;
+};
+
+const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
 	const [searchTerm, setSearchTerm] = useState('');
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setSearchTerm(event.target.value);
+		const searchQuery = event.target.value;
+		event.preventDefault();
+		setSearchTerm(searchQuery);
+    onSearch(searchQuery);
 	};
 
 	return (
 		<div className='my-2'>
 			<input
 				type='text'
-        placeholder='Search'
-        onChange={handleChange}
+				placeholder='Search'
+				value={searchTerm}
+				onChange={handleChange}
 				className='input input-bordered input-warning w-full'
 			/>
 		</div>
