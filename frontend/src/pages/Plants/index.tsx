@@ -33,6 +33,7 @@ const PlantsPage = () => {
 		undefined
 	);
 	const [error, setError] = useState(false);
+	const [query, setQuery] = useState('');
 	const { households, setHouseholds } = useHouseholds();
 	const { user } = useAuth();
 	const { householdId } = useParams();
@@ -70,12 +71,17 @@ const PlantsPage = () => {
 		fetchData();
 	}, [householdId, households]);
 
-	const sortedPlants = [...plants].sort((a, b) => {
-		const daysLeftA = getDaysLeft(a.lastWatered, a.wateringFrequencyInDays);
-		const daysLeftB = getDaysLeft(b.lastWatered, b.wateringFrequencyInDays);
+	const sortedPlants = [...plants]
+		.sort((a, b) => {
+			const daysLeftA = getDaysLeft(a.lastWatered, a.wateringFrequencyInDays);
+			const daysLeftB = getDaysLeft(b.lastWatered, b.wateringFrequencyInDays);
 
-		return daysLeftA - daysLeftB;
-	});
+			return daysLeftA - daysLeftB;
+		})
+		.filter((p) =>
+			p.name.toLocaleLowerCase().includes(query.toLocaleLowerCase())
+			//TODO: filter by species
+		);
 
 	const overduePlants = sortedPlants.filter((plant) => {
 		const daysLeft = getDaysLeft(
@@ -176,6 +182,10 @@ const PlantsPage = () => {
 			setHouseholds(response);
 			navigate(`/?leftHousehold=${householdName}`);
 		}
+	};
+
+	const handleSearch = (searchQuery: string) => {
+		setQuery(searchQuery);
 	};
 
 	return (
@@ -300,7 +310,7 @@ const PlantsPage = () => {
 							)}
 						</div>
 						<div className='mb-6'>
-							<SearchBar />
+							<SearchBar onSearch={handleSearch} />
 						</div>
 					</>
 				)}
