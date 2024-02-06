@@ -1,13 +1,22 @@
+import { useState } from 'react';
+
 const SearchBar = () => {
-  return (
-    <div className='my-2'>
-      <input
-        type='text'
+	const [searchTerm, setSearchTerm] = useState('');
+
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchTerm(event.target.value);
+	};
+
+	return (
+		<div className='my-2'>
+			<input
+				type='text'
         placeholder='Search'
-        className='input input-bordered input-warning w-full'
-      />
-    </div>
-  );
+        onChange={handleChange}
+				className='input input-bordered input-warning w-full'
+			/>
+		</div>
+	);
 };
 
 export default SearchBar;
