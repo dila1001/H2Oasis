@@ -214,7 +214,7 @@ const PlantsPage = () => {
 						</form>
 						<div className='max-h-[400px] overflow-y-scroll px-4'>
 							{household?.users.map((user) => (
-								<UserInfo user={user} />
+								<UserInfo key={user.id} user={user} />
 							))}
 						</div>
 					</div>
