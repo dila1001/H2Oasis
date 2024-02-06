@@ -5,7 +5,7 @@ import { baseURL } from '../api/api';
 import { useAuth } from '../auth/useAuth';
 import { useHouseholds } from '../hooks/useHouseholds';
 import { Link } from 'react-router-dom';
-import Avatar from './UI/Avatar';
+import UserInfo from './UI/UserInfo';
 
 type DrawerProps = {
 	children: ReactNode;
@@ -38,29 +38,7 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 				></label>
 				<ul className='menu p-4 w-80 min-h-full bg-base-200 text-base-content rounded-tr-3xl'>
 					<Link to='/' onClick={toggleDrawer}>
-						<div className='flex gap-4 py-5'>
-							{user && <Avatar user={user} size='xl' />}
-
-							<div className='flex flex-col justify-center'>
-								{user && (
-									<>
-										<p className='card-title text-lg'>
-											{user.firstName} {user.lastName}
-										</p>
-										<p className='max-w-52 break-words text-xs'>
-											{user.email.length > 25 ? (
-												<>
-													{user.email.substring(0, user.email.indexOf('@'))}
-													<br />@{user.email.split('@')[1]}
-												</>
-											) : (
-												user.email
-											)}
-										</p>
-									</>
-								)}
-							</div>
-						</div>
+						{user && <UserInfo user={user} />}
 					</Link>
 					<div className='border-l h-[1px] bg-base-300 mb-5'></div>
 					{!households?.length ? (

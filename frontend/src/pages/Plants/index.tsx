@@ -25,6 +25,7 @@ import {
 	DeleteUserFromHousehold,
 	getHouseholdsForUser,
 } from '../../services/householdsService';
+import UserInfo from '../../components/UI/UserInfo';
 
 const PlantsPage = () => {
 	const [plants, setPlants] = useState<Plant[]>([]);
@@ -37,11 +38,9 @@ const PlantsPage = () => {
 	const { user } = useAuth();
 	const { householdId } = useParams();
 	const [searchParams] = useSearchParams();
-
 	const navigate = useNavigate();
 
-	const users = households?.find((h) => h.id === householdId)?.users;
-	const householdName = households?.find((h) => h.id === householdId)?.name;
+	const household = households?.find((h) => h.id === householdId);
 
 	useEffect(() => {
 		const deletedPlant = searchParams.get('deletedPlant');
@@ -174,7 +173,7 @@ const PlantsPage = () => {
 			await DeleteUserFromHousehold(householdId, user.id);
 			const response = await getHouseholdsForUser(user.id);
 			setHouseholds(response);
-			navigate(`/?leftHousehold=${householdName}`);
+			navigate(`/?leftHousehold=${household?.name}`);
 		}
 	};
 
@@ -193,7 +192,7 @@ const PlantsPage = () => {
 						</form>
 
 						<h3 className='font-bold text-lg text-center mt-4 mb-1 text-neutral'>
-							Invite to {householdName}
+							Invite to {household?.name}
 						</h3>
 						<p className='text-center text-sm mb-4'>
 							Share this QR code with your friend/family <br />
@@ -205,11 +204,27 @@ const PlantsPage = () => {
 					</div>
 				</dialog>
 
+				{/* View users modal */}
+				<dialog id='view-users' className='modal'>
+					<div className='modal-box flex flex-col items-center justify-center'>
+						<form method='dialog'>
+							<button className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2'>
+								✕
+							</button>
+						</form>
+						<div className='max-h-[400px] overflow-y-scroll px-4'>
+							{household?.users.map((user) => (
+								<UserInfo key={user.id} user={user} />
+							))}
+						</div>
+					</div>
+				</dialog>
+
 				{/* Modal for leave household */}
 				<dialog id='leave-household' className='modal'>
 					<div className='modal-box'>
 						<h3 className='font-bold text-lg'>
-							Are you sure you want to leave {householdName}?
+							Are you sure you want to leave {household?.name}?
 						</h3>
 						<p className='py-4'>Click yes to leave and no to abort.</p>
 						<div className='modal-action'>
@@ -262,17 +277,28 @@ const PlantsPage = () => {
 					<>
 						<div className='flex items-center'>
 							<h2 className='card-title my-6 text-center w-full'>
-								{householdName}
+								{household?.name}
 							</h2>
-							{users && (
+							{household?.users && (
 								<div className='dropdown dropdown-end dropdown-hover'>
 									<div tabIndex={0} role='button'>
-										<AvatarGroup users={users} />
+										<AvatarGroup users={household?.users} />
 									</div>
 									<ul
 										tabIndex={0}
 										className='dropdown-content z-[1] menu p-2 shadow bg-[#f9fcf4] rounded-box w-40'
 									>
+										<li
+											onClick={() =>
+												(
+													document.getElementById(
+														'view-users'
+													) as HTMLDialogElement | null
+												)?.showModal()
+											}
+										>
+											<a>View users</a>
+										</li>
 										<li
 											onClick={() =>
 												(

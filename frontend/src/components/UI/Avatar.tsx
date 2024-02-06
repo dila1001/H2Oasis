@@ -35,7 +35,11 @@ const Avatar: FC<AvatarProps> = ({ user, size, remainingUsers }) => {
 					size === 'xl' ? 'w-16' : 'w-8'
 				}`}
 			>
-				<span className={`text-${size}`}>
+				<span
+					className={`text-${size} ${
+						avatarBg() === 'bg-accent' ? 'text-base-100' : 'text-[#ddddd4]'
+					}`}
+				>
 					{remainingUsers ? `+${remainingUsers}` : generateInitials(user!)}
 				</span>
 			</div>

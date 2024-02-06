@@ -54,16 +54,16 @@ const HouseholdCard: FC<HouseholdCardProps> = ({
 						className='dropdown-content z-[1] menu p-2 shadow bg-[#f9fcf4] rounded-box max-w-max'
 					>
 						<li onClick={() => onEdit()}>
-							<a>
+							<div>
 								<FaPen className='text-base-300 mr-2' />
 								Edit
-							</a>
+							</div>
 						</li>
 						<li onClick={() => onDelete()}>
-							<a>
+							<div>
 								<FaTrash className='text-base-300 mr-2' />
 								Delete
-							</a>
+							</div>
 						</li>
 					</ul>
 				</div>
