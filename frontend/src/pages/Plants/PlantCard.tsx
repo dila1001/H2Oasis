@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { getDaysLeft, getPercentage } from '../../utils/dateUtils';
-import { FaDroplet } from 'react-icons/fa6';
+import { FaDroplet, FaLeaf } from 'react-icons/fa6';
 
 type PlantCardProps = {
 	name: string;
@@ -36,8 +36,15 @@ const PlantCard: FC<PlantCardProps> = ({
 
 	return (
 		<div className='card bg-[#f9fcf4] shadow-md mb-6 flex-row h-32'>
-			<div className='max-h-48 w-1/4 overflow-hidden rounded-tl-2xl rounded-bl-2xl'>
-				<img className='w-full h-full object-cover' src={imageUrl} alt={name} />
+			<div className='max-h-48 w-1/4 overflow-hidden rounded-tl-2xl rounded-bl-2xl bg-base-200 flex items-center justify-center'>
+				<FaLeaf className='text-base-100 text-2xl' />
+				{imageUrl && (
+					<img
+						className='w-full h-full object-cover'
+						src={imageUrl}
+						alt={name}
+					/>
+				)}
 			</div>
 			<div className='card-body p-4 flex-1 flex-row'>
 				<div>
