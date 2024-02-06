@@ -78,9 +78,10 @@ const PlantsPage = () => {
 
 			return daysLeftA - daysLeftB;
 		})
-		.filter((p) =>
-			p.name.toLocaleLowerCase().includes(query.toLocaleLowerCase())
-			//TODO: filter by species
+		.filter(
+			(p) =>
+				p.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) ||
+				p.species.toLocaleLowerCase().includes(query.toLocaleLowerCase())
 		);
 
 	const overduePlants = sortedPlants.filter((plant) => {
