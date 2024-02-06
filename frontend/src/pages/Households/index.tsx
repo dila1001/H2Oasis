@@ -327,17 +327,19 @@ const HouseholdsPage = () => {
 			{households &&
 				!isLoading &&
 				!error &&
-				households.filter((h) => h.name.toLowerCase().includes(query.toLowerCase())).map((h) =>(
-					<Link to={`/${h.id}/plants`} key={h.id}>
-						<HouseholdCard
-							householdName={h.name}
-							plants={h.plants}
-							users={h.users}
-							onDelete={() => openDeleteHouseholdModal(h.id)}
-							onEdit={() => openEditHouseholdModal(h.id)}
-						/>
-					</Link>
-				))}
+				households
+					.filter((h) => h.name.toLowerCase().includes(query.toLowerCase()))
+					.map((h) => (
+						<Link to={`/${h.id}/plants`} key={h.id}>
+							<HouseholdCard
+								householdName={h.name}
+								plants={h.plants}
+								users={h.users}
+								onDelete={() => openDeleteHouseholdModal(h.id)}
+								onEdit={() => openEditHouseholdModal(h.id)}
+							/>
+						</Link>
+					))}
 			{households && !isLoading && !error && households.length !== 0 && (
 				<div className='my-12'>
 					<button
