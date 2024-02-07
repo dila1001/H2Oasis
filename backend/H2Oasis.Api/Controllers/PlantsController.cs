@@ -4,6 +4,7 @@ using H2Oasis.Api.Models;
 using H2Oasis.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
 
 
 namespace H2Oasis.Api.Controllers
@@ -64,8 +65,10 @@ namespace H2Oasis.Api.Controllers
                 return NotFound($"No plant with the id: {id}");
             }
 
-            var image = await _mappeBlobStorageService.GetBlob(plant.PlantId.ToString());
-            return File(image, "image/jpeg");
+            var imageData = await _mappeBlobStorageService.GetBlob(plant.PlantId.ToString());
+            
+            var image = Image.Load(imageData);
+            return File(imageData, image.Metadata.DecodedImageFormat?.DefaultMimeType);
         }
         
         [HttpPost("households/{householdId:guid}")]

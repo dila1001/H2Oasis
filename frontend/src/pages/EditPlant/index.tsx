@@ -212,12 +212,6 @@ const EditPlant = () => {
 						<span className='label-text'>Image</span>
 						<span className='label-text-alt'>Optional</span>
 					</div>
-					{/* <input
-						type='text'
-						placeholder='Image URL (optional)'
-						className='input input-bordered input-success w-full'
-						{...register('imageUrl')}
-					/> */}
 					<input
 						type='file'
 						{...register('image')}
@@ -300,32 +294,6 @@ const EditPlant = () => {
 						)}
 					</div>
 				</div>
-
-				{/* upload image */}
-				{/* <input
-					id='plantImage'
-					type='file'
-					className='block w-full text-sm text-slate-500
-        file:mr-4 file:py-2 file:px-4 file:rounded-md
-        file:border-none file:text-sm
-        file:bg-warning
-        file:h-12'
-					accept='image/png, image/jpeg'
-					{...register('uploadedImage', {
-						required: 'Image is required',
-					})}
-				/> */}
-
-				{/* Previous working code */}
-				{/* <div className='p-4 my-4'>
-          <button
-            className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'
-            type='submit'
-            disabled={isSubmitting}
-          >
-            <FaSeedling className='text-white text-2xl' />
-          </button>
-        </div> */}
 				<div className='mt-8'>
 					<SubmitButton
 						iconName={FaSeedling}
