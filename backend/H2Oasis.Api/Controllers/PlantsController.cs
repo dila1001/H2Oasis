@@ -73,9 +73,9 @@ namespace H2Oasis.Api.Controllers
         {
             var newPlant = Plant.From(plantRequest);
 
-            if (plantRequest.ImageUrl is { Length: > 0 })
+            if (plantRequest.Image is { Length: > 0 })
             {
-                newPlant.ImageUrl = await SaveImage(newPlant.PlantId, plantRequest.ImageUrl);
+                newPlant.ImageUrl = await SaveImage(newPlant.PlantId, plantRequest.Image);
             }
             newPlant.HouseholdId = householdId;
             var plant = await _plantService.CreatePlantForHousehold(newPlant);
@@ -85,34 +85,19 @@ namespace H2Oasis.Api.Controllers
                 nameof(GetPlantById),
                 new { id = plantResponse.Id },
                 plantResponse);
-            
-            
-            // Plant newPlant = Plant.From(plantRequest);
-            //
-            // newPlant.HouseholdId = householdId;
-            //
-            // var plant = await _plantService.CreatePlantForHousehold(newPlant);
-            //
-            // var plantResponse = _mapper.Map<PlantResponse>(plant);
-            //
-            // return CreatedAtAction(
-            //     nameof(GetPlantById),
-            //     new { id = plantResponse.Id },
-            //     plantResponse);
         }
         
         [HttpPut("{plantId:guid}/households/{householdId:guid}")]
         public  async Task<IActionResult> UpdatePlant(Guid plantId, Guid householdId, [FromForm] UpdatePlantRequest request)
         {
-            var imageUrl = string.Empty;
-            if (request.ImageUrl is { Length: > 0 })
+            var updatePlant = Plant.From(plantId, householdId, request);
+   
+            if (request.Image is not null)
             {
-                imageUrl = await SaveImage(plantId, request.ImageUrl);
+                updatePlant.ImageUrl = await SaveImage(plantId, request.Image);
             }
             
-            Plant updatedPlant = Plant.From(plantId, householdId, request, imageUrl);
-            
-            var plant = await _plantService.UpdatePlant(updatedPlant);
+            var plant = await _plantService.UpdatePlant(updatePlant);
             
             if (plant is null)
             {
@@ -124,7 +109,6 @@ namespace H2Oasis.Api.Controllers
             return Ok(plantResponse);
 
         }
-
         private async Task<string> SaveImage(Guid plantId, IFormFile formFile)
         {
             using var stream = new MemoryStream();

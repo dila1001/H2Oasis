@@ -62,15 +62,14 @@ const PlantPage = () => {
 	const waterPlant = async () => {
 		if (plant && user && householdId) {
 			const updatedPlantData: NewPlant = {
-				name: plant!.name,
-				species: plant!.species,
-				imageUrl: plant!.imageUrl,
-				// uploadedImage: plant!.uploadedImage,
-				wateringFrequencyInDays: plant!.wateringFrequencyInDays,
+				name: plant.name,
+				species: plant.species,
+				imageUrl: plant.imageUrl,
+				wateringFrequencyInDays: plant.wateringFrequencyInDays,
 				lastWatered: getTodaysDate(),
-				waterAmountInMl: plant!.waterAmountInMl,
-				location: plant!.location,
-				lastWateredBy: user!.firstName,
+				waterAmountInMl: plant.waterAmountInMl,
+				location: plant.location,
+				lastWateredBy: user.firstName,
 			};
 			const updatedPlant = await updatePlant(
 				plant.id,

@@ -8,7 +8,7 @@ import {
 	getPlantById,
 	updatePlant,
 } from '../../services/plantsService';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaSeedling, FaTrash } from 'react-icons/fa6';
 import { Toaster } from 'react-hot-toast';
 import { formatDate } from '../../utils/dateUtils';
@@ -31,7 +31,6 @@ const EditPlant = () => {
 		handleSubmit,
 		formState: { errors, isSubmitting },
 		reset,
-		control,
 	} = useForm<NewPlant>();
 
 	useEffect(() => {
@@ -43,9 +42,7 @@ const EditPlant = () => {
 					reset({
 						name: plant.name,
 						species: plant.species,
-						imageUrl: plant.imageUrl,
 						location: plant.location,
-						// uploadedImage: plant?.uploadedImage,
 						wateringFrequencyInDays: plant.wateringFrequencyInDays.toString(),
 						lastWatered: formatDate(plant.lastWatered),
 						waterAmountInMl: plant.waterAmountInMl,
@@ -59,36 +56,19 @@ const EditPlant = () => {
 
 	const onSubmit: SubmitHandler<NewPlant> = async (data: NewPlant) => {
 		if (user) {
-			const formData = new FormData();
-
-			formData.append('name', data.name);
-			formData.append('species', data.species);
-			//formData.append('imageUrl', data.imageUrl);
-			formData.append('location', data.location);
-			formData.append('wateringFrequencyInDays', data.wateringFrequencyInDays);
-			formData.append('lastWatered', data.lastWatered);
-			formData.append('lastWateredBy', user.firstName);
-			formData.append('waterAmountInMl', data.waterAmountInMl);
-
-			if (typeof data.imageUrl === 'object') {
-				formData.append('imageUrl', data.imageUrl[0]);
-			}
-
 			let response;
 			if (plant) {
-				response = await updatePlant(plant.id, householdId!, formData);
+				const updatedData = { ...data, imageUrl: plant.imageUrl };
+				response = await updatePlant(plant.id, householdId!, updatedData, user);
 				navigate(`/${householdId}/plants/${response?.id}?saved=true`);
 			} else {
-				response = await addPlant(householdId!, formData);
+				response = await addPlant(householdId!, data, user);
 				navigate(`/${householdId}/plants/${response?.id}?created=true`);
 			}
 
 			const households = await getHouseholdsForUser(user.id);
 			setHouseholds(households);
 		}
-
-		// const response = await addPlant(householdId!, formData);
-		// navigate(`/${householdId}/plants/${response?.id}?created=true`);
 	};
 
 	const deletePlantFromHousehold = async () => {
@@ -240,7 +220,7 @@ const EditPlant = () => {
 					/> */}
 					<input
 						type='file'
-						{...register('imageUrl')}
+						{...register('image')}
 						className='file-input file-input-bordered file-input-sm file-input-success w-full'
 					/>
 				</label>

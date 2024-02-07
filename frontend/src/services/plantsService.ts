@@ -1,4 +1,5 @@
 import api from '../api/api';
+import { User } from './usersService';
 
 export type Plant = {
 	id: string;
@@ -6,7 +7,6 @@ export type Plant = {
 	species: string;
 	imageUrl: string;
 	location: string;
-	// uploadedImage?: File;
 	wateringFrequencyInDays: string;
 	lastWatered: string;
 	lastWateredBy: string;
@@ -16,9 +16,9 @@ export type Plant = {
 export type NewPlant = {
 	name: string;
 	species: string;
-	imageUrl: File;
+	image?: FileList;
 	location: string;
-	uploadedImage?: File;
+	imageUrl?: string;
 	wateringFrequencyInDays: string;
 	lastWatered: string;
 	lastWateredBy: string;
@@ -43,11 +43,28 @@ export const getPlantById = async (plantId: string): Promise<Plant | null> => {
 
 export const addPlant = async (
 	householdId: string,
-	form: FormData
+	plant: NewPlant,
+	user: User
 ): Promise<Plant> => {
+	const formData = new FormData();
+
+	formData.append('name', plant.name);
+	formData.append('species', plant.species);
+	formData.append('location', plant.location);
+	formData.append('wateringFrequencyInDays', plant.wateringFrequencyInDays);
+	formData.append('lastWatered', plant.lastWatered);
+	formData.append('lastWateredBy', user.firstName);
+	formData.append('waterAmountInMl', plant.waterAmountInMl);
+	if (plant.imageUrl) {
+		formData.append('imageUrl', plant.imageUrl);
+	}
+	if (typeof plant.image === 'object') {
+		formData.append('image', plant.image[0]);
+	}
+
 	const response = await api.postForm(
 		`${plantsUrlEndpoint}/households/${householdId}`,
-		form
+		formData
 	);
 	return response.data;
 };
@@ -55,11 +72,32 @@ export const addPlant = async (
 export const updatePlant = async (
 	plantId: string,
 	householdId: string,
-	form: FormData
+	plant: NewPlant,
+	user?: User
 ): Promise<Plant | null> => {
+	const formData = new FormData();
+
+	formData.append('name', plant.name);
+	formData.append('species', plant.species);
+	formData.append('location', plant.location);
+	formData.append('wateringFrequencyInDays', plant.wateringFrequencyInDays);
+	formData.append('lastWatered', plant.lastWatered);
+	formData.append('waterAmountInMl', plant.waterAmountInMl);
+	if (user) {
+		formData.append('lastWateredBy', user.firstName);
+	} else {
+		formData.append('lastWateredBy', plant.lastWateredBy);
+	}
+	if (plant.imageUrl) {
+		formData.append('imageUrl', plant.imageUrl);
+	}
+	if (typeof plant.image === 'object') {
+		formData.append('image', plant.image[0]);
+	}
+
 	const response = await api.put(
 		`${plantsUrlEndpoint}/${plantId}/households/${householdId}`,
-		form
+		formData
 	);
 	return response.data;
 };
