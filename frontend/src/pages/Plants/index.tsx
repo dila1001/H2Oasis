@@ -440,9 +440,10 @@ const PlantsPage = () => {
 								))}
 							</div>
 						)}
-						<div className='my-12'>
+						
+						<div className='fixed bottom-4 right-0 left-0 flex w-full'>
 							<Link to={`/${householdId}/plants/edit-plant`}>
-								<button className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'>
+								<button className='bg-secondary rounded-full p-2 flex justify-center w-full mx-5 shadow-md'>
 									<FaPlus className='text-white text-2xl' />
 								</button>
 							</Link>
