@@ -72,9 +72,11 @@ const EditPlant = () => {
 	};
 
 	const deletePlantFromHousehold = async () => {
-		if (plantBeingEdited) {
+		if (plantBeingEdited && user) {
 			await deletePlant(plantBeingEdited);
 			navigate(`/${householdId}/plants/?deletedPlant=${plant?.name}`);
+			const households = await getHouseholdsForUser(user.id);
+			setHouseholds(households);
 		}
 	};
 
