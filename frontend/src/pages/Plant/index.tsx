@@ -233,20 +233,6 @@ const PlantPage = () => {
 					</div>
 
 					<div className='p-4 my-4'>
-						{/* Previous working code */}
-						{/* <button
-							className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'
-							onClick={() =>
-								(
-									document.getElementById(
-										'water-modal'
-									) as HTMLDialogElement | null
-								)?.showModal()
-							}
-						>
-							<FaDroplet className='text-white text-2xl' />
-						</button> */}
-
 						<SubmitButton
 							iconName={FaDroplet}
 							buttonType='button'
@@ -259,12 +245,6 @@ const PlantPage = () => {
 							}
 						/>
 					</div>
-					{/* <Link to='/plants'>
-        <div className='p-4 my-4 flex items-center gap-2 text-base-300 '>
-          <FaArrowAltCircleLeft />
-          <span>Back</span>
-        </div>
-      </Link> */}
 				</div>
 			)}
 		</>
