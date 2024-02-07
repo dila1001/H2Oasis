@@ -103,14 +103,14 @@ const EditPlant = () => {
 						Are you sure you want to delete {plant?.name}?
 					</h3>
 					<form method='dialog' className='w-full flex gap-2 justify-end'>
+						<button className='btn' onClick={() => closeModal('delete-plant')}>
+							No
+						</button>
 						<button
 							className='btn bg-accent text-white'
 							onClick={() => deletePlantFromHousehold()}
 						>
 							Yes
-						</button>
-						<button className='btn' onClick={() => closeModal('delete-plant')}>
-							No
 						</button>
 					</form>
 				</div>

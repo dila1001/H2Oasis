@@ -137,13 +137,13 @@ const PlantPage = () => {
 					<p className='py-4'>Press yes to water or no to close</p>
 					<div className='modal-action'>
 						<form method='dialog' className='w-full flex gap-2 justify-end'>
+							<button className='btn'>No</button>
 							<button
 								className='btn bg-accent text-white'
 								onClick={() => waterPlant()}
 							>
 								Yes
 							</button>
-							<button className='btn'>No</button>
 						</form>
 					</div>
 				</div>

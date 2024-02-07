@@ -237,16 +237,16 @@ const HouseholdsPage = () => {
 					<div className='modal-action'>
 						<form method='dialog' className='w-full flex gap-2 justify-end'>
 							<button
-								className='btn bg-accent text-white'
-								onClick={() => joinHousehold()}
-							>
-								Yes
-							</button>
-							<button
 								onClick={() => closeModal('join-household')}
 								className='btn'
 							>
 								No
+							</button>
+							<button
+								className='btn bg-accent text-white'
+								onClick={() => joinHousehold()}
+							>
+								Yes
 							</button>
 						</form>
 					</div>
@@ -261,16 +261,16 @@ const HouseholdsPage = () => {
 					</h3>
 					<form method='dialog' className='w-full flex gap-2 justify-end'>
 						<button
-							className='btn bg-accent text-white'
-							onClick={() => onDeleteHousehold()}
-						>
-							Yes
-						</button>
-						<button
 							className='btn'
 							onClick={() => closeModal('delete-household')}
 						>
 							No
+						</button>
+						<button
+							className='btn bg-accent text-white'
+							onClick={() => onDeleteHousehold()}
+						>
+							Yes
 						</button>
 					</form>
 				</div>
