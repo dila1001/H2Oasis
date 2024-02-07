@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import {
 	NewPlant,
@@ -29,6 +29,8 @@ const PlantPage = () => {
 	const [error, setError] = useState(false);
 	const { user } = useAuth();
 	const { households, setHouseholds } = useHouseholds();
+	const isCreatedToastTriggered = useRef(false);
+	const isSavedToastTriggered = useRef(false);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -39,15 +41,17 @@ const PlantPage = () => {
 				if (plantId) {
 					const plant = await getPlantById(plantId);
 					setPlant(plant);
-					if (saved === 'true') {
+					if (saved === 'true' && !isSavedToastTriggered.current) {
 						toast.success(`${plant!.name} has been successfully saved`, {
 							id: 'save',
 						});
+						isSavedToastTriggered.current = true;
 					}
-					if (created === 'true') {
+					if (created === 'true' && !isCreatedToastTriggered.current) {
 						toast.success(`${plant!.name} has been successfully created`, {
 							id: 'created',
 						});
+						isCreatedToastTriggered.current = true;
 					}
 				}
 			} catch (error) {
