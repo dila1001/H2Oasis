@@ -320,26 +320,29 @@ const HouseholdsPage = () => {
 			)}
 
 			{/* Render households */}
-			{households &&
-				!isLoading &&
-				!error &&
-				households
-					.filter((h) => h.name.toLowerCase().includes(query.toLowerCase()))
-					.map((h) => (
-						<Link to={`/${h.id}/plants`} key={h.id}>
-							<HouseholdCard
-								householdName={h.name}
-								plants={h.plants}
-								users={h.users}
-								onDelete={() => openDeleteHouseholdModal(h.id)}
-								onEdit={() => openEditHouseholdModal(h.id)}
-							/>
-						</Link>
-					))}
+			<div className='mb-24'>
+				{households &&
+					!isLoading &&
+					!error &&
+					households
+						.filter((h) => h.name.toLowerCase().includes(query.toLowerCase()))
+						.map((h) => (
+							<Link to={`/${h.id}/plants`} key={h.id}>
+								<HouseholdCard
+									householdName={h.name}
+									plants={h.plants}
+									users={h.users}
+									onDelete={() => openDeleteHouseholdModal(h.id)}
+									onEdit={() => openEditHouseholdModal(h.id)}
+								/>
+							</Link>
+						))}
+			</div>
+
 			{households && !isLoading && !error && households.length !== 0 && (
-				<div className='my-12'>
+				<div className='fixed bottom-4 right-0 left-0 flex'>
 					<button
-						className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'
+						className='bg-secondary rounded-full p-2 flex justify-center w-full mx-5 shadow-md'
 						onClick={() =>
 							(
 								document.getElementById(
