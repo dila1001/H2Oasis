@@ -6,7 +6,7 @@ export type Plant = {
 	species: string;
 	imageUrl: string;
 	location: string;
-	uploadedImage?: File;
+	// uploadedImage?: File;
 	wateringFrequencyInDays: string;
 	lastWatered: string;
 	lastWateredBy: string;
@@ -16,7 +16,7 @@ export type Plant = {
 export type NewPlant = {
 	name: string;
 	species: string;
-	imageUrl: string;
+	imageUrl: File;
 	location: string;
 	uploadedImage?: File;
 	wateringFrequencyInDays: string;
@@ -43,31 +43,11 @@ export const getPlantById = async (plantId: string): Promise<Plant | null> => {
 
 export const addPlant = async (
 	householdId: string,
-	{
-		name,
-		species,
-		imageUrl,
-		location,
-		uploadedImage,
-		wateringFrequencyInDays,
-		lastWatered,
-		lastWateredBy,
-		waterAmountInMl,
-	}: NewPlant
+	form: FormData
 ): Promise<Plant> => {
-	const response = await api.post(
+	const response = await api.postForm(
 		`${plantsUrlEndpoint}/households/${householdId}`,
-		{
-			name,
-			species,
-			imageUrl,
-			location,
-			uploadedImage,
-			wateringFrequencyInDays,
-			lastWatered,
-			lastWateredBy,
-			waterAmountInMl,
-		}
+		form
 	);
 	return response.data;
 };
@@ -75,11 +55,11 @@ export const addPlant = async (
 export const updatePlant = async (
 	plantId: string,
 	householdId: string,
-	updatedPlant: NewPlant
+	form: FormData
 ): Promise<Plant | null> => {
 	const response = await api.put(
 		`${plantsUrlEndpoint}/${plantId}/households/${householdId}`,
-		updatedPlant
+		form
 	);
 	return response.data;
 };
