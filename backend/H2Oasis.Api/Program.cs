@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using H2Oasis.Api.Persistence;
 using H2Oasis.Api.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -48,10 +49,10 @@ var configuration = builder.Configuration;
     builder.Services.AddScoped<IHouseholdService, HouseholdService>();
     var connection = builder.Environment.IsDevelopment() ? configuration["ConnectionStrings:AZURE_SQL_CONNECTIONSTRING"] : Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
     builder.Services.AddDbContext<PlantDbContext>(options => 
-        options.UseSqlServer(connection, sqlServerOptionsAction: sqlOptions =>
-        {
-            sqlOptions.EnableRetryOnFailure();
-        }));
+        options.UseSqlServer(connection));
+    var blobConnection = builder.Environment.IsDevelopment() ? configuration["Azure:BlobConnString"] : Environment.GetEnvironmentVariable("Azure_Blob_ConnectionString");
+    builder.Services.AddScoped<BlobServiceClient>(x => new BlobServiceClient(blobConnection));
+    builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 }

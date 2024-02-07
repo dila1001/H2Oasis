@@ -15,11 +15,13 @@ namespace H2Oasis.Api.Controllers
     {
         private readonly IPlantService _plantService;
         private readonly IMapper _mapper;
+        private readonly IBlobStorageService _mappeBlobStorageService;
         
-        public PlantsController(IPlantService plantService, IMapper mapper)
+        public PlantsController(IPlantService plantService, IMapper mapper, IBlobStorageService mappeBlobStorageService)
         {
             _plantService = plantService;
             _mapper = mapper;
+            _mappeBlobStorageService = mappeBlobStorageService;
         }
         
         [HttpGet("households/{householdId:guid}")]
@@ -52,41 +54,86 @@ namespace H2Oasis.Api.Controllers
             return Ok(plantResponse);
         }
         
-        [HttpPost("households/{householdId:guid}")]
-        public async Task<IActionResult> PostPlant(Guid householdId, [FromBody] CreatePlantRequest plantRequest)
+        [HttpGet("{id:guid}/image")]
+        public async Task<IActionResult> GetPlantImage(Guid id)
         {
-            Plant newPlant = Plant.From(plantRequest);
+            var plant = await _plantService.GetPlantById(id);
 
+            if (plant is null)
+            {
+                return NotFound($"No plant with the id: {id}");
+            }
+
+            var image = await _mappeBlobStorageService.GetBlob(plant.PlantId.ToString());
+            return File(image, "image/jpeg");
+        }
+        
+        [HttpPost("households/{householdId:guid}")]
+        public async Task<IActionResult> PostPlant(Guid householdId, [FromForm] CreatePlantRequest plantRequest)
+        {
+            var newPlant = Plant.From(plantRequest);
+
+            if (plantRequest.ImageUrl is { Length: > 0 })
+            {
+                newPlant.ImageUrl = await SaveImage(newPlant.PlantId, plantRequest.ImageUrl);
+            }
             newPlant.HouseholdId = householdId;
-            
             var plant = await _plantService.CreatePlantForHousehold(newPlant);
-            
             var plantResponse = _mapper.Map<PlantResponse>(plant);
             
             return CreatedAtAction(
                 nameof(GetPlantById),
                 new { id = plantResponse.Id },
                 plantResponse);
+            
+            
+            // Plant newPlant = Plant.From(plantRequest);
+            //
+            // newPlant.HouseholdId = householdId;
+            //
+            // var plant = await _plantService.CreatePlantForHousehold(newPlant);
+            //
+            // var plantResponse = _mapper.Map<PlantResponse>(plant);
+            //
+            // return CreatedAtAction(
+            //     nameof(GetPlantById),
+            //     new { id = plantResponse.Id },
+            //     plantResponse);
         }
         
         [HttpPut("{plantId:guid}/households/{householdId:guid}")]
-        public  async Task<IActionResult> UpdatePlant(Guid plantId, Guid householdId, [FromBody] UpdatePlantRequest request)
+        public  async Task<IActionResult> UpdatePlant(Guid plantId, Guid householdId, [FromForm] UpdatePlantRequest request)
         {
-            Plant updatedPlant = Plant.From(plantId, householdId, request);
+            var imageUrl = string.Empty;
+            if (request.ImageUrl is { Length: > 0 })
+            {
+                imageUrl = await SaveImage(plantId, request.ImageUrl);
+            }
+            
+            Plant updatedPlant = Plant.From(plantId, householdId, request, imageUrl);
             
             var plant = await _plantService.UpdatePlant(updatedPlant);
-
+            
             if (plant is null)
             {
                 return NotFound($"No plant with the id: {plantId}");
             }
             
             var plantResponse = _mapper.Map<PlantResponse>(plant);
-
+            
             return Ok(plantResponse);
 
         }
-        
+
+        private async Task<string> SaveImage(Guid plantId, IFormFile formFile)
+        {
+            using var stream = new MemoryStream();
+            await formFile.CopyToAsync(stream);
+            stream.Position = 0;
+            await _mappeBlobStorageService.UploadToBlobStorage(stream, plantId.ToString());
+            return $"{HttpContext.Request.Scheme}:{HttpContext.Request.Host}/api/plants/{plantId}/image";
+        }
+
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {

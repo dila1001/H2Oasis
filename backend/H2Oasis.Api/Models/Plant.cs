@@ -46,7 +46,7 @@ public class Plant
         return new Plant(
             request.Name,
             request.Species,
-            request.ImageUrl,
+            string.Empty,
             request.Location,
             request.WateringFrequencyInDays,
             request.LastWatered,
@@ -55,12 +55,12 @@ public class Plant
             );
     }
     
-    public static Plant From(Guid plantId, Guid householdId, UpdatePlantRequest request)
+    public static Plant From(Guid plantId, Guid householdId, UpdatePlantRequest request, string imageUrl)
     {
         return new Plant(
             request.Name,
             request.Species,
-            request.ImageUrl,
+            imageUrl,
             request.Location,
             request.WateringFrequencyInDays,
             request.LastWatered,
