@@ -222,6 +222,7 @@ const EditPlant = () => {
 						type='file'
 						{...register('image')}
 						className='file-input file-input-bordered file-input-sm file-input-success w-full'
+						accept='image/jpeg, image/png'
 					/>
 				</label>
 
