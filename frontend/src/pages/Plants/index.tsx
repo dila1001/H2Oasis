@@ -241,12 +241,6 @@ const PlantsPage = () => {
 						<div className='modal-action'>
 							<form method='dialog' className='w-full flex gap-2 justify-end'>
 								<button
-									className='btn bg-accent text-white'
-									onClick={() => leaveHousehold()}
-								>
-									Yes
-								</button>
-								<button
 									onClick={() =>
 										(
 											document.getElementById(
@@ -257,6 +251,12 @@ const PlantsPage = () => {
 									className='btn'
 								>
 									No
+								</button>
+								<button
+									className='btn bg-accent text-white'
+									onClick={() => leaveHousehold()}
+								>
+									Yes
 								</button>
 							</form>
 						</div>
@@ -272,13 +272,13 @@ const PlantsPage = () => {
 						<p className='py-4'>Press yes to water or no to close</p>
 						<div className='modal-action'>
 							<form method='dialog' className='w-full flex gap-2 justify-end'>
+								<button className='btn'>No</button>
 								<button
 									className='btn bg-accent text-white'
 									onClick={() => waterPlant()}
 								>
 									Yes
 								</button>
-								<button className='btn'>No</button>
 							</form>
 						</div>
 					</div>
@@ -420,7 +420,7 @@ const PlantsPage = () => {
 
 						{/* Upcoming Plants */}
 						{upcomingPlants.length > 0 && (
-							<div className='mb-8'>
+							<div className='mb-24'>
 								<h4 className='font-bold text-sm text-neutral mb-3'>
 									Upcoming
 								</h4>
@@ -440,9 +440,10 @@ const PlantsPage = () => {
 								))}
 							</div>
 						)}
-						<div className='my-12'>
-							<Link to={`/${householdId}/plants/edit-plant`}>
-								<button className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'>
+
+						<div className='fixed bottom-4 right-0 left-0 flex'>
+							<Link to={`/${householdId}/plants/edit-plant`} className='w-full mx-5'>
+								<button className='bg-secondary rounded-full p-2 flex justify-center w-full shadow-md'>
 									<FaPlus className='text-white text-2xl' />
 								</button>
 							</Link>
