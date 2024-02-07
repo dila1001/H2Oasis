@@ -420,7 +420,7 @@ const PlantsPage = () => {
 
 						{/* Upcoming Plants */}
 						{upcomingPlants.length > 0 && (
-							<div className='mb-8'>
+							<div className='mb-24'>
 								<h4 className='font-bold text-sm text-neutral mb-3'>
 									Upcoming
 								</h4>
@@ -440,10 +440,10 @@ const PlantsPage = () => {
 								))}
 							</div>
 						)}
-						
-						<div className='fixed bottom-4 right-0 left-0 flex w-full'>
-							<Link to={`/${householdId}/plants/edit-plant`}>
-								<button className='bg-secondary rounded-full p-2 flex justify-center w-full mx-5 shadow-md'>
+
+						<div className='fixed bottom-4 right-0 left-0 flex'>
+							<Link to={`/${householdId}/plants/edit-plant`} className='w-full mx-5'>
+								<button className='bg-secondary rounded-full p-2 flex justify-center w-full shadow-md'>
 									<FaPlus className='text-white text-2xl' />
 								</button>
 							</Link>
