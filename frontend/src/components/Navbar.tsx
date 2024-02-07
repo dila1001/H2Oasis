@@ -31,10 +31,10 @@ const Navbar = () => {
 				</div>
 			</div>
 			<div className='navbar-end'>
-					<Link to='/' className='flex items-center'>
-						<img src={Logo} alt='Logo' className='size-5' />
-						<h1 className='btn btn-ghost pl-1 text-xl'>Share Leaf</h1>
-					</Link>
+				<Link to='/' className='flex items-center'>
+					<img src={Logo} alt='Logo' className='size-5' />
+					<h1 className='btn btn-ghost pl-1 text-xl'>Share Leaf</h1>
+				</Link>
 			</div>
 		</div>
 	);
