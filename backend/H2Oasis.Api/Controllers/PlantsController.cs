@@ -118,7 +118,7 @@ namespace H2Oasis.Api.Controllers
             await formFile.CopyToAsync(stream);
             stream.Position = 0;
             await _mappeBlobStorageService.UploadToBlobStorage(stream, plantId.ToString());
-            return $"{HttpContext.Request.Scheme}:{HttpContext.Request.Host}/api/plants/{plantId}/image";
+            return $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/api/plants/{plantId}/image";
         }
 
         [HttpDelete("{id:guid}")]
