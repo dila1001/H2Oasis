@@ -1,6 +1,7 @@
 import plantImage from '../../assets/5.png';
 import { baseURL } from '../../api/api';
 import { useSearchParams } from 'react-router-dom';
+import Logo from '../../assets/Logo.png';
 
 const Login = () => {
 	const [searchParams] = useSearchParams();
@@ -24,7 +25,10 @@ const Login = () => {
 			}}
 		>
 			<div className='flex flex-col justify-center items-center gap-y-4 pr-10'>
-				<h2 className='card-title text-2xl pt-24'>Share Leaf</h2>
+				<div className='pt-24 flex items-center gap-1'>
+					<img src={Logo} alt='Logo' className='size-5 ' />
+					<h2 className='card-title text-2xl'>Share Leaf</h2>
+				</div>
 				<button
 					className='btn btn-outline btn-secondary w-40'
 					onClick={handleLoginClick}

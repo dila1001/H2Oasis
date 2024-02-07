@@ -276,8 +276,6 @@ const HouseholdsPage = () => {
 				</div>
 			</dialog>
 
-			{/* <h2 className='card-title my-6'>My Households</h2> */}
-
 			{!error && (
 				<div className='mb-6'>
 					<SearchBar onSearch={handleSearch} />
@@ -291,13 +289,11 @@ const HouseholdsPage = () => {
 			{error && (
 				<div className='flex flex-col items-center justify-center h-[calc(100vh-64px)] gap-6'>
 					<FaHeartBroken className='text-warning text-[120px]' />
-					<h1 className='card-title text-neutral mb-12 text-center'>
+					<h1 className='card-title text-neutral text-center'>
 						An error occured while fetching households.
 						<br />
 					</h1>
-					{/* <Link to={`/`}>
-						<button className='btn btn-neutral'>Try again later</button>
-					</Link> */}
+					<p className='mb-12'>Please try again later.</p>
 				</div>
 			)}
 
