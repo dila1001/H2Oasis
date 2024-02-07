@@ -3,7 +3,8 @@ namespace H2Oasis.Api.Contracts.Plant;
 public record UpdatePlantRequest(
     string Name,
     string Species,
-    string ImageUrl,
+    IFormFile? Image,
+    string? ImageUrl,
     string Location,
     int WateringFrequencyInDays,
     DateTime LastWatered,

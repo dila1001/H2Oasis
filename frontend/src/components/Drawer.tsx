@@ -1,10 +1,10 @@
-import { FC, ReactNode, useState } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { FaHouse } from 'react-icons/fa6';
 import { baseURL } from '../api/api';
 import { useAuth } from '../auth/useAuth';
 import { useHouseholds } from '../hooks/useHouseholds';
-import { Link } from 'react-router-dom';
+import { Link, useMatch } from 'react-router-dom';
 import UserInfo from './UI/UserInfo';
 
 type DrawerProps = {
@@ -15,6 +15,19 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 	const { user } = useAuth();
 	const { households } = useHouseholds();
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+	const match = useMatch('/:householdId/*');
+	const [id, setId] = useState('');
+
+	useEffect(() => {
+		if (match) {
+			const { householdId } = match.params;
+			if (householdId) {
+				setId(householdId);
+			}
+		} else {
+			setId('');
+		}
+	}, [match]);
 
 	const toggleDrawer = () => {
 		setIsDrawerOpen(!isDrawerOpen);
@@ -45,9 +58,16 @@ const Drawer: FC<DrawerProps> = ({ children }) => {
 						<li>You have no households</li>
 					) : (
 						households.map((household) => (
-							<li key={household.id}>
+							<li
+								key={household.id}
+								className={`${
+									id === household.id
+										? 'bg-neutral rounded-md text-neutral-content'
+										: ''
+								}`}
+							>
 								<Link to={`/${household.id}/plants`} onClick={toggleDrawer}>
-									<FaHouse className='text-xl text-secondary mr-3' />
+									<FaHouse className='text-xl mr-3 text-secondary' />
 									{household.name}
 								</Link>
 							</li>

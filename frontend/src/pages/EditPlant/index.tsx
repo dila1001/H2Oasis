@@ -42,9 +42,7 @@ const EditPlant = () => {
 					reset({
 						name: plant.name,
 						species: plant.species,
-						imageUrl: plant.imageUrl,
 						location: plant.location,
-						// uploadedImage: plant?.uploadedImage,
 						wateringFrequencyInDays: plant.wateringFrequencyInDays.toString(),
 						lastWatered: formatDate(plant.lastWatered),
 						waterAmountInMl: plant.waterAmountInMl,
@@ -56,15 +54,15 @@ const EditPlant = () => {
 		fetchPlant();
 	}, [reset, user, searchParams]);
 
-	const onSubmit: SubmitHandler<NewPlant> = async (data) => {
+	const onSubmit: SubmitHandler<NewPlant> = async (data: NewPlant) => {
 		if (user) {
 			let response;
-			const updatedData = { ...data, lastWateredBy: user.firstName };
 			if (plant) {
-				response = await updatePlant(plant.id, householdId!, updatedData);
+				const updatedData = { ...data, imageUrl: plant.imageUrl };
+				response = await updatePlant(plant.id, householdId!, updatedData, user);
 				navigate(`/${householdId}/plants/${response?.id}?saved=true`);
 			} else {
-				response = await addPlant(householdId!, updatedData);
+				response = await addPlant(householdId!, data, user);
 				navigate(`/${householdId}/plants/${response?.id}?created=true`);
 			}
 
@@ -116,7 +114,7 @@ const EditPlant = () => {
 				</div>
 			</dialog>
 
-			<div className='flex items-center gap-3 mb-4'>
+			<div className='flex items-center gap-3'>
 				{plant ? (
 					<>
 						<h2 className='card-title text-3xl'>{plant.name}</h2>
@@ -137,150 +135,172 @@ const EditPlant = () => {
 				)}
 			</div>
 
-			<form className='flex flex-col gap-3' onSubmit={handleSubmit(onSubmit)}>
-				<input
-					type='text'
-					placeholder='Name'
-					className={`input input-bordered input-success w-full ${
-						errors.name && 'input-error'
-					}`}
-					{...register('name', {
-						required: 'Name is required',
-						maxLength: {
-							value: 20,
-							message: 'Name must not exceed 20 characters',
-						},
-					})}
-				/>
+			<form
+				className='flex flex-col gap-3 w-full'
+				onSubmit={handleSubmit(onSubmit)}
+			>
+				<label className='form-control w-full'>
+					<div className='label'>
+						<span className='label-text'>Name</span>
+					</div>
+					<input
+						type='text'
+						placeholder='Name'
+						className={`input input-bordered input-success w-full ${
+							errors.name && 'input-error'
+						}`}
+						{...register('name', {
+							required: true,
+							maxLength: {
+								value: 20,
+								message: 'Name must not exceed 20 characters',
+							},
+						})}
+					/>
+				</label>
 				{errors.name && (
 					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.name.message}`}</p>
 				)}
 
-				<input
-					type='text'
-					placeholder='Species'
-					className={`input input-bordered input-success w-full ${
-						errors.species && 'input-error'
-					}`}
-					{...register('species', {
-						required: 'Species is required',
-						maxLength: {
-							value: 30,
-							message: 'Species must not exceed 30 characters',
-						},
-					})}
-				/>
+				<label className='form-control w-full'>
+					<div className='label'>
+						<span className='label-text'>Species</span>
+					</div>
+					<input
+						type='text'
+						placeholder='Species'
+						className={`input input-bordered input-success ${
+							errors.species && 'input-error'
+						}`}
+						{...register('species', {
+							required: true,
+							maxLength: {
+								value: 30,
+								message: 'Species must not exceed 30 characters',
+							},
+						})}
+					/>
+				</label>
 				{errors.species && (
 					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.species.message}`}</p>
 				)}
 
-				<input
-					type='date'
-					className={`input input-bordered input-success w-full ${
-						errors.lastWatered && 'input-error'
-					}`}
-					{...register('lastWatered', {
-						required: 'Date is required',
-						max: {
-							value: new Date().toISOString().split('T')[0],
-							message: 'Choose today or before.',
-						},
-					})}
-				/>
+				<label className='form-control w-full'>
+					<div className='label'>
+						<span className='label-text'>Last watered date</span>
+					</div>
+					<input
+						type='date'
+						className={`input input-bordered input-success w-full ${
+							errors.lastWatered && 'input-error'
+						}`}
+						{...register('lastWatered', {
+							required: true,
+							max: {
+								value: new Date().toISOString().split('T')[0],
+								message: 'Choose today or before.',
+							},
+						})}
+					/>
+				</label>
 				{errors.lastWatered && (
 					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.lastWatered.message}`}</p>
 				)}
-				<input
-					type='text'
-					placeholder='Image URL'
-					className='input input-bordered input-success w-full'
-					{...register('imageUrl')}
-				/>
-				<input
-					type='text'
-					placeholder='Location'
-					className={`input input-bordered input-success w-full ${
-						errors.location && 'input-error'
-					}`}
-					{...register('location', {
-						required: 'Location is required',
-						maxLength: {
-							value: 20,
-							message: 'Location must not exceed 20 characters',
-						},
-					})}
-				/>
+
+				<label className='form-control w-full'>
+					<div className='label'>
+						<span className='label-text'>Image</span>
+						<span className='label-text-alt'>Optional</span>
+					</div>
+					<input
+						type='file'
+						{...register('image')}
+						className='file-input file-input-bordered file-input-sm file-input-success w-full'
+						accept='image/jpeg, image/png'
+					/>
+				</label>
+
+				<label className='form-control w-full'>
+					<div className='label'>
+						<span className='label-text'>Location</span>
+					</div>
+					<input
+						type='text'
+						placeholder='Location'
+						className={`input input-bordered input-success w-full ${
+							errors.location && 'input-error'
+						}`}
+						{...register('location', {
+							required: true,
+							maxLength: {
+								value: 20,
+								message: 'Location must not exceed 20 characters',
+							},
+						})}
+					/>
+				</label>
 				{errors.location && (
 					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.location.message}`}</p>
 				)}
 
-				<input
-					type='number'
-					placeholder='Watering frequency in days'
-					className={`input input-bordered input-success w-full ${
-						errors.wateringFrequencyInDays && 'input-error'
-					}`}
-					{...register('wateringFrequencyInDays', {
-						required: 'Watering frequency is required',
-						min: {
-							value: 0,
-							message: 'Please enter a valid number',
-						},
-					})}
-				/>
-				{errors.wateringFrequencyInDays && (
-					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.wateringFrequencyInDays.message}`}</p>
-				)}
+				<div className='flex gap-4 w-full'>
+					<div>
+						<label className='form-control w-full'>
+							<div className='label'>
+								<span className='label-text'>Watering frequency</span>
+							</div>
+							<input
+								type='number'
+								placeholder='In days'
+								className={`input input-bordered input-success w-full ${
+									errors.wateringFrequencyInDays && 'input-error'
+								}`}
+								{...register('wateringFrequencyInDays', {
+									required: true,
+									min: {
+										value: 0,
+										message: 'Please enter a valid number',
+									},
+								})}
+							/>
+						</label>
+						{errors.wateringFrequencyInDays && (
+							<p className='text-error text-sm ml-2'>{`${errors.wateringFrequencyInDays.message}`}</p>
+						)}
+					</div>
 
-				<input
-					type='number'
-					placeholder='Amount of water in ml'
-					className={`input input-bordered input-success w-full mb-8 ${
-						errors.waterAmountInMl && 'input-error'
-					}`}
-					{...register('waterAmountInMl', {
-						required: 'Water amount is required',
-						min: {
-							value: 0,
-							message: 'Please enter a valid number',
-						},
-					})}
-				/>
-				{errors.waterAmountInMl && (
-					<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.waterAmountInMl.message}`}</p>
-				)}
-
-				{/* upload image */}
-				{/* <input
-					id='plantImage'
-					type='file'
-					className='block w-full text-sm text-slate-500
-        file:mr-4 file:py-2 file:px-4 file:rounded-md
-        file:border-none file:text-sm
-        file:bg-warning
-        file:h-12'
-					accept='image/png, image/jpeg'
-					{...register('uploadedImage', {
-						required: 'Image is required',
-					})}
-				/> */}
-
-				{/* Previous working code */}
-				{/* <div className='p-4 my-4'>
-          <button
-            className='bg-secondary rounded-full p-4 flex justify-center w-full shadow-md'
-            type='submit'
-            disabled={isSubmitting}
-          >
-            <FaSeedling className='text-white text-2xl' />
-          </button>
-        </div> */}
-
-				<SubmitButton
-					iconName={FaSeedling}
-					formState={isSubmitting}
-					buttonType='submit'
-				/>
+					<div className='grow-1'>
+						<label className='form-control w-full'>
+							<div className='label'>
+								<span className='label-text'>Amount of water</span>
+							</div>
+							<input
+								type='number'
+								placeholder='In ml'
+								className={`input input-bordered input-success w-full ${
+									errors.waterAmountInMl && 'input-error'
+								}`}
+								{...register('waterAmountInMl', {
+									required: true,
+									min: {
+										value: 0,
+										message: 'Please enter a valid number',
+									},
+								})}
+							/>
+						</label>
+						{errors.waterAmountInMl && (
+							<p className='text-error text-sm ml-2'>{`${errors.waterAmountInMl.message}`}</p>
+						)}
+					</div>
+				</div>
+				<div className='mt-8'>
+					<SubmitButton
+						iconName={FaSeedling}
+						formState={isSubmitting}
+						buttonType='submit'
+					/>
+				</div>
 			</form>
 		</div>
 	);

@@ -46,7 +46,7 @@ public class Plant
         return new Plant(
             request.Name,
             request.Species,
-            request.ImageUrl,
+            string.Empty,
             request.Location,
             request.WateringFrequencyInDays,
             request.LastWatered,
@@ -60,7 +60,7 @@ public class Plant
         return new Plant(
             request.Name,
             request.Species,
-            request.ImageUrl,
+            request.ImageUrl ?? String.Empty,
             request.Location,
             request.WateringFrequencyInDays,
             request.LastWatered,
