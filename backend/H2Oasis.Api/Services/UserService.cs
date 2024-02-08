@@ -1,9 +1,8 @@
 using System.Security.Claims;
-using H2Oasis.Api.Contracts.User;
 using H2Oasis.Api.Models;
 using H2Oasis.Api.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Supabase;
+
 
 namespace H2Oasis.Api.Services;
 
