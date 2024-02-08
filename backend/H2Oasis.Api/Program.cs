@@ -49,7 +49,7 @@ var configuration = builder.Configuration;
     builder.Services.AddScoped<IHouseholdService, HouseholdService>();
     var connection = builder.Environment.IsDevelopment() ? configuration["ConnectionStrings:AZURE_SQL_CONNECTIONSTRING"] : Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
     builder.Services.AddDbContext<PlantDbContext>(options => 
-        options.UseSqlServer(connection));
+        options.UseSqlServer(connection, sqlOptionsBuilder => sqlOptionsBuilder.EnableRetryOnFailure()));
     var blobConnection = builder.Environment.IsDevelopment() ? configuration["Azure:BlobConnString"] : Environment.GetEnvironmentVariable("Azure_Blob_ConnectionString");
     builder.Services.AddScoped<BlobServiceClient>(x => new BlobServiceClient(blobConnection));
     builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
