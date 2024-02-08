@@ -27,6 +27,7 @@ const HouseholdsPage = () => {
 		Household | undefined
 	>(undefined);
 	const [isEditingHousehold, setIsEditingHousehold] = useState(false);
+	const [hasValue, setHasValue] = useState('');
 	const [query, setQuery] = useState('');
 	const navigate = useNavigate();
 	const {
@@ -62,7 +63,6 @@ const HouseholdsPage = () => {
 			});
 		}
 
-		//TODO: need modal, button and form for create household
 		const fetchData = async () => {
 			if (inviteCode) {
 				const response = await getHousehold(inviteCode);
@@ -104,6 +104,10 @@ const HouseholdsPage = () => {
 
 		if (selectedHousehold) {
 			setSelectedHousehold(undefined);
+		}
+
+		if (hasValue) {
+			setHasValue('');
 		}
 	};
 
@@ -173,6 +177,10 @@ const HouseholdsPage = () => {
 		setQuery(searchQuery);
 	};
 
+	const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setHasValue(event.target.value);
+	};
+
 	return (
 		<div className='mx-5'>
 			<Toaster position='top-center' reverseOrder={false} />
@@ -207,6 +215,7 @@ const HouseholdsPage = () => {
 							className={`input input-bordered input-success w-full ${
 								errors.name && 'input-error'
 							}`}
+							value={hasValue}
 							{...register('name', {
 								required: true,
 								maxLength: {
@@ -214,12 +223,13 @@ const HouseholdsPage = () => {
 									message: 'Name must not exceed 20 characters',
 								},
 							})}
+							onChange={handleOnChange}
 						/>
 						<div className='modal-action'>
 							{errors.name && (
 								<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.name.message}`}</p>
 							)}
-							<button className='btn' disabled={isSubmitting}>
+							<button className='btn' disabled={!hasValue || isSubmitting}>
 								{isEditingHousehold ? 'Submit' : 'Create'}
 							</button>
 						</div>
