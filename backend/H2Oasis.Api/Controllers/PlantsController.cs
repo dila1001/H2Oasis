@@ -123,7 +123,7 @@ namespace H2Oasis.Api.Controllers
 
             using Image image = await Image.LoadAsync(stream);
             image.Mutate(x => x.Resize(new ResizeOptions
-                {Mode = ResizeMode.Min, Size = new Size(335, 320), Sampler = new LanczosResampler()}));
+                {Mode = ResizeMode.Min, Size = new Size(335, 320)}));
 
             using var imageStream = new MemoryStream();
             await image.SaveAsync(imageStream, image.Metadata.DecodedImageFormat);
