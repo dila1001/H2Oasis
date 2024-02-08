@@ -296,12 +296,16 @@ const EditPlant = () => {
 						)}
 					</div>
 				</div>
-				<div className='mt-8'>
-					<SubmitButton
-						iconName={FaSeedling}
-						formState={isSubmitting}
-						buttonType='submit'
-					/>
+				<div className='mt-8 flex justify-center items-center h-[56px]'>
+					{!isSubmitting ? (
+						<SubmitButton
+							iconName={FaSeedling}
+							formState={isSubmitting}
+							buttonType='submit'
+						/>
+					) : (
+						<span className='loading loading-dots loading-lg text-secondary'></span>
+					)}
 				</div>
 			</form>
 		</div>
