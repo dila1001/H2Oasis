@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing.Processors.Transforms;
 
 
 namespace H2Oasis.Api.Controllers
@@ -122,7 +123,7 @@ namespace H2Oasis.Api.Controllers
 
             using Image image = await Image.LoadAsync(stream);
             image.Mutate(x => x.Resize(new ResizeOptions
-                {Mode = ResizeMode.Min, Size = new Size(335, 320)}));
+                {Mode = ResizeMode.Min, Size = new Size(335, 320), Sampler = new LanczosResampler()}));
 
             using var imageStream = new MemoryStream();
             await image.SaveAsync(imageStream, image.Metadata.DecodedImageFormat);
