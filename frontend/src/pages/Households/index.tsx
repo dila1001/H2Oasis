@@ -208,7 +208,7 @@ const HouseholdsPage = () => {
 								errors.name && 'input-error'
 							}`}
 							{...register('name', {
-								required: 'Household name is required',
+								required: true,
 								maxLength: {
 									value: 20,
 									message: 'Name must not exceed 20 characters',
