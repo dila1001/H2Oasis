@@ -72,8 +72,7 @@ export const addPlant = async (
 export const updatePlant = async (
 	plantId: string,
 	householdId: string,
-	plant: NewPlant,
-	user?: User
+	plant: NewPlant
 ): Promise<Plant | null> => {
 	const formData = new FormData();
 
@@ -83,11 +82,8 @@ export const updatePlant = async (
 	formData.append('wateringFrequencyInDays', plant.wateringFrequencyInDays);
 	formData.append('lastWatered', plant.lastWatered);
 	formData.append('waterAmountInMl', plant.waterAmountInMl);
-	if (user) {
-		formData.append('lastWateredBy', user.firstName);
-	} else {
-		formData.append('lastWateredBy', plant.lastWateredBy);
-	}
+	formData.append('lastWateredBy', plant.lastWateredBy);
+
 	if (plant.imageUrl) {
 		formData.append('imageUrl', plant.imageUrl);
 	}

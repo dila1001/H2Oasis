@@ -58,8 +58,12 @@ const EditPlant = () => {
 		if (user) {
 			let response;
 			if (plant) {
-				const updatedData = { ...data, imageUrl: plant.imageUrl };
-				response = await updatePlant(plant.id, householdId!, updatedData, user);
+				const updatedData = {
+					...data,
+					imageUrl: plant.imageUrl,
+					lastWateredBy: user.firstName,
+				};
+				response = await updatePlant(plant.id, householdId!, updatedData);
 				navigate(`/${householdId}/plants/${response?.id}?saved=true`);
 			} else {
 				response = await addPlant(householdId!, data, user);
