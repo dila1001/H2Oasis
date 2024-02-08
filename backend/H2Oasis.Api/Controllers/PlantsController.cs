@@ -5,6 +5,7 @@ using H2Oasis.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 
 namespace H2Oasis.Api.Controllers
@@ -112,12 +113,21 @@ namespace H2Oasis.Api.Controllers
             return Ok(plantResponse);
 
         }
+
         private async Task<string> SaveImage(Guid plantId, IFormFile formFile)
         {
             using var stream = new MemoryStream();
             await formFile.CopyToAsync(stream);
             stream.Position = 0;
-            await _mappeBlobStorageService.UploadToBlobStorage(stream, plantId.ToString());
+
+            using Image image = await Image.LoadAsync(stream);
+            image.Mutate(x => x.Resize(new ResizeOptions
+                {Mode = ResizeMode.Min, Size = new Size(335, 320)}));
+
+            using var imageStream = new MemoryStream();
+            await image.SaveAsync(imageStream, image.Metadata.DecodedImageFormat);
+            imageStream.Position = 0;
+            await _mappeBlobStorageService.UploadToBlobStorage(imageStream, plantId.ToString());
             return $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/api/plants/{plantId}/image";
         }
 
