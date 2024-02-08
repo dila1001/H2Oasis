@@ -105,6 +105,10 @@ const HouseholdsPage = () => {
 		if (selectedHousehold) {
 			setSelectedHousehold(undefined);
 		}
+
+		if (hasValue) {
+			setHasValue('');
+		}
 	};
 
 	const openDeleteHouseholdModal = (householdId: string) => {
@@ -225,9 +229,7 @@ const HouseholdsPage = () => {
 							{errors.name && (
 								<p className='text-error text-sm mt-[-10px] ml-2'>{`${errors.name.message}`}</p>
 							)}
-							<button className='btn'
-								disabled={!hasValue || isSubmitting}
-							>
+							<button className='btn' disabled={!hasValue || isSubmitting}>
 								{isEditingHousehold ? 'Submit' : 'Create'}
 							</button>
 						</div>
