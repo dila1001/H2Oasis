@@ -63,7 +63,6 @@ const HouseholdsPage = () => {
 			});
 		}
 
-		//TODO: need modal, button and form for create household
 		const fetchData = async () => {
 			if (inviteCode) {
 				const response = await getHousehold(inviteCode);
