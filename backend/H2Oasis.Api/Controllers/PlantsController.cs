@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Processing.Processors.Transforms;
 
 
 namespace H2Oasis.Api.Controllers
@@ -18,13 +17,13 @@ namespace H2Oasis.Api.Controllers
     {
         private readonly IPlantService _plantService;
         private readonly IMapper _mapper;
-        private readonly IBlobStorageService _mappeBlobStorageService;
+        private readonly IBlobStorageService _blobStorageService;
         
-        public PlantsController(IPlantService plantService, IMapper mapper, IBlobStorageService mappeBlobStorageService)
+        public PlantsController(IPlantService plantService, IMapper mapper, IBlobStorageService blobStorageService)
         {
             _plantService = plantService;
             _mapper = mapper;
-            _mappeBlobStorageService = mappeBlobStorageService;
+            _blobStorageService = blobStorageService;
         }
         
         [HttpGet("households/{householdId:guid}")]
@@ -67,7 +66,7 @@ namespace H2Oasis.Api.Controllers
                 return NotFound($"No plant with the id: {id}");
             }
 
-            var imageData = await _mappeBlobStorageService.GetBlob(plant.PlantId.ToString());
+            var imageData = await _blobStorageService.GetBlob(plant.PlantId.ToString());
             
             var image = Image.Load(imageData);
             return File(imageData, image.Metadata.DecodedImageFormat?.DefaultMimeType);
@@ -128,7 +127,7 @@ namespace H2Oasis.Api.Controllers
             using var imageStream = new MemoryStream();
             await image.SaveAsync(imageStream, image.Metadata.DecodedImageFormat);
             imageStream.Position = 0;
-            await _mappeBlobStorageService.UploadToBlobStorage(imageStream, plantId.ToString());
+            await _blobStorageService.UploadToBlobStorage(imageStream, plantId.ToString());
             return $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/api/plants/{plantId}/image";
         }
 
