@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
+
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { FaSeedling, FaTrash } from 'react-icons/fa6';
+import { Toaster } from 'react-hot-toast';
+
 import {
 	NewPlant,
 	Plant,
@@ -8,9 +13,6 @@ import {
 	getPlantById,
 	updatePlant,
 } from '../../services/plantsService';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { FaSeedling, FaTrash } from 'react-icons/fa6';
-import { Toaster } from 'react-hot-toast';
 import { formatDate } from '../../utils/dateUtils';
 import SubmitButton from '../../components/UI/SubmitButton';
 import { useAuth } from '../../auth/useAuth';

@@ -1,10 +1,12 @@
 import { FC, ReactNode, useEffect, useState } from 'react';
+
+import { Link, useMatch } from 'react-router-dom';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { FaHouse } from 'react-icons/fa6';
+
 import { baseURL } from '../api/api';
 import { useAuth } from '../auth/useAuth';
 import { useHouseholds } from '../hooks/useHouseholds';
-import { Link, useMatch } from 'react-router-dom';
 import UserInfo from './UI/UserInfo';
 
 type DrawerProps = {

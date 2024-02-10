@@ -1,6 +1,8 @@
 import { FC } from 'react';
-import { User } from '../../services/usersService';
+
 import stringHash from 'string-hash';
+
+import { User } from '../../services/usersService';
 import { generateInitials } from '../../utils/avatarUtils';
 
 type AvatarProps = {

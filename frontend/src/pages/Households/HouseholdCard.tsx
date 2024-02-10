@@ -1,8 +1,5 @@
 import { FC } from 'react';
-import { User } from '../../services/usersService';
-import { Plant } from '../../services/plantsService';
-import AvatarGroup from '../../components/UI/AvatarGroup';
-import { getDaysLeft } from '../../utils/dateUtils';
+
 import {
 	FaDroplet,
 	FaEllipsisVertical,
@@ -10,6 +7,11 @@ import {
 	FaPen,
 	FaTrash,
 } from 'react-icons/fa6';
+
+import { User } from '../../services/usersService';
+import { Plant } from '../../services/plantsService';
+import AvatarGroup from '../../components/UI/AvatarGroup';
+import { getDaysLeft } from '../../utils/dateUtils';
 
 type HouseholdCardProps = {
 	householdName: string;

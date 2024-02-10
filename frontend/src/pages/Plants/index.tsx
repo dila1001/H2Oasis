@@ -1,4 +1,16 @@
 import { useEffect, useState } from 'react';
+
+import toast, { Toaster } from 'react-hot-toast';
+import { FaHeartBroken } from 'react-icons/fa';
+import { FaPlantWilt, FaPlus } from 'react-icons/fa6';
+import QRCode from 'react-qr-code';
+import {
+	Link,
+	useNavigate,
+	useParams,
+	useSearchParams,
+} from 'react-router-dom';
+
 import {
 	NewPlant,
 	Plant,
@@ -7,20 +19,10 @@ import {
 } from '../../services/plantsService';
 import SearchBar from './SearchBar';
 import PlantCard from './PlantCard';
-import {
-	Link,
-	useNavigate,
-	useParams,
-	useSearchParams,
-} from 'react-router-dom';
-import { FaPlantWilt, FaPlus } from 'react-icons/fa6';
 import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
-import QRCode from 'react-qr-code';
 import { useHouseholds } from '../../hooks/useHouseholds';
 import AvatarGroup from '../../components/UI/AvatarGroup';
 import { useAuth } from '../../auth/useAuth';
-import toast, { Toaster } from 'react-hot-toast';
-import { FaHeartBroken } from 'react-icons/fa';
 import {
 	DeleteUserFromHousehold,
 	getHouseholdsForUser,

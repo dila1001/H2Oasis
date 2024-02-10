@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import Avatar from './Avatar';
 import { User } from '../../services/usersService';
 

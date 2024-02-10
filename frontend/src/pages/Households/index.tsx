@@ -1,4 +1,11 @@
 import { useEffect, useState } from 'react';
+
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
+import { FaHeartBroken, FaHome } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa6';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
 import {
 	AddUserToHousehold,
 	Household,
@@ -10,13 +17,8 @@ import {
 	updateHousehold,
 } from '../../services/householdsService';
 import { useAuth } from '../../auth/useAuth';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHouseholds } from '../../hooks/useHouseholds';
 import HouseholdCard from './HouseholdCard';
-import toast, { Toaster } from 'react-hot-toast';
-import { FaHeartBroken, FaHome } from 'react-icons/fa';
-import { FaPlus } from 'react-icons/fa6';
 import SearchBar from '../Plants/SearchBar';
 
 const HouseholdsPage = () => {
@@ -29,6 +31,9 @@ const HouseholdsPage = () => {
 	const [isEditingHousehold, setIsEditingHousehold] = useState(false);
 	const [hasValue, setHasValue] = useState('');
 	const [query, setQuery] = useState('');
+	const [inviteHousehold, setInviteHousehold] = useState<Household | null>(
+		null
+	);
 	const navigate = useNavigate();
 	const {
 		register,
@@ -36,9 +41,6 @@ const HouseholdsPage = () => {
 		formState: { errors, isSubmitting },
 		reset,
 	} = useForm<{ name: string }>();
-	const [inviteHousehold, setInviteHousehold] = useState<Household | null>(
-		null
-	);
 
 	const viewLoadingSkeleton = () => {
 		return (

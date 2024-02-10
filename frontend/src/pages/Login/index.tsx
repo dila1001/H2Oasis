@@ -1,6 +1,6 @@
-import plantImage from '../../assets/5.png';
 import { baseURL } from '../../api/api';
 import { useSearchParams } from 'react-router-dom';
+import plantImage from '../../assets/5.png';
 import Logo from '../../assets/Logo.png';
 
 const Login = () => {

@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { getDaysLeft, getPercentage } from '../../utils/dateUtils';
 import { FaDroplet, FaLeaf } from 'react-icons/fa6';
+import { getDaysLeft, getPercentage } from '../../utils/dateUtils';
 
 type PlantCardProps = {
 	name: string;

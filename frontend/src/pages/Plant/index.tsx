@@ -1,11 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import {
-	NewPlant,
-	Plant,
-	getPlantById,
-	updatePlant,
-} from '../../services/plantsService';
 import {
 	FaCalendar,
 	FaDroplet,
@@ -14,11 +9,18 @@ import {
 	FaLocationDot,
 	FaPen,
 } from 'react-icons/fa6';
-import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
+import { FaHeartBroken } from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
+
+import {
+	NewPlant,
+	Plant,
+	getPlantById,
+	updatePlant,
+} from '../../services/plantsService';
+import { getDaysLeft, getTodaysDate } from '../../utils/dateUtils';
 import SubmitButton from '../../components/UI/SubmitButton';
 import { useAuth } from '../../auth/useAuth';
-import { FaHeartBroken } from 'react-icons/fa';
 import { useHouseholds } from '../../hooks/useHouseholds';
 
 const PlantPage = () => {
