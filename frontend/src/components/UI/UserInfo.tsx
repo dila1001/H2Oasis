@@ -5,12 +5,13 @@ import { User } from '../../services/usersService';
 
 type UserInfoProps = {
 	user: User;
+	admin?: boolean;
 };
 
-const UserInfo: FC<UserInfoProps> = ({ user }) => {
+const UserInfo: FC<UserInfoProps> = ({ user, admin }) => {
 	return (
 		<div className='flex gap-4 py-5'>
-			{user && <Avatar user={user} size='xl' />}
+			{user && <Avatar user={user} adminIndicator={admin} size='xl' />}
 
 			<div className='flex flex-col justify-center'>
 				{user && (

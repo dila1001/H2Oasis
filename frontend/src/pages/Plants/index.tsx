@@ -227,7 +227,11 @@ const PlantsPage = () => {
 						</form>
 						<div className='max-h-[400px] overflow-y-scroll px-4'>
 							{household?.users.map((user) => (
-								<UserInfo key={user.id} user={user} />
+								<UserInfo
+									key={user.id}
+									user={user}
+									admin={household.adminId === user?.id}
+								/>
 							))}
 						</div>
 					</div>
@@ -312,17 +316,19 @@ const PlantsPage = () => {
 										>
 											<a>View users</a>
 										</li>
-										<li
-											onClick={() =>
-												(
-													document.getElementById(
-														'show-qrcode'
-													) as HTMLDialogElement | null
-												)?.showModal()
-											}
-										>
-											<a>Invite user</a>
-										</li>
+										{household.adminId === user?.id && (
+											<li
+												onClick={() =>
+													(
+														document.getElementById(
+															'show-qrcode'
+														) as HTMLDialogElement | null
+													)?.showModal()
+												}
+											>
+												<a>Invite user</a>
+											</li>
+										)}
 										<li
 											onClick={() =>
 												(

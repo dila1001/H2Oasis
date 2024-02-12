@@ -341,9 +341,10 @@ const HouseholdsPage = () => {
 						.map((h) => (
 							<Link to={`/${h.id}/plants`} key={h.id}>
 								<HouseholdCard
-									householdName={h.name}
-									plants={h.plants}
-									users={h.users}
+									// householdName={h.name}
+									// plants={h.plants}
+									// users={h.users}
+									household={h}
 									onDelete={() => openDeleteHouseholdModal(h.id)}
 									onEdit={() => openEditHouseholdModal(h.id)}
 								/>

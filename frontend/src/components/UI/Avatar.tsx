@@ -9,9 +9,15 @@ type AvatarProps = {
 	user?: User;
 	size: 'xl' | 'xs';
 	remainingUsers?: number;
+	adminIndicator?: boolean;
 };
 
-const Avatar: FC<AvatarProps> = ({ user, size, remainingUsers }) => {
+const Avatar: FC<AvatarProps> = ({
+	user,
+	size,
+	remainingUsers,
+	adminIndicator,
+}) => {
 	const bgColour = [
 		'bg-primary',
 		'bg-secondary',
@@ -31,19 +37,24 @@ const Avatar: FC<AvatarProps> = ({ user, size, remainingUsers }) => {
 	};
 
 	return (
-		<div className='avatar placeholder flex items-center'>
-			<div
-				className={`${avatarBg()} marker:text-neutral-content rounded-full ${
-					size === 'xl' ? 'w-16 h-16' : 'w-8 h-8'
-				}`}
-			>
-				<span
-					className={`text-${size} ${
-						avatarBg() === 'bg-accent' ? 'text-base-100' : 'text-[#ddddd4]'
-					}`}
+		<div className='relative flex justify-center'>
+			{adminIndicator && (
+				<div className='badge badge-sm absolute z-30 top-[-3px]'>Admin</div>
+			)}
+			<div className='avatar placeholder flex items-center'>
+				<div
+					className={`${avatarBg()} marker:text-neutral-content rounded-full ${
+						size === 'xl' ? 'w-16 h-16' : 'w-8 h-8'
+					} `}
 				>
-					{remainingUsers ? `+${remainingUsers}` : generateInitials(user!)}
-				</span>
+					<span
+						className={`text-${size} ${
+							avatarBg() === 'bg-accent' ? 'text-base-100' : 'text-[#ddddd4]'
+						}`}
+					>
+						{remainingUsers ? `+${remainingUsers}` : generateInitials(user!)}
+					</span>
+				</div>
 			</div>
 		</div>
 	);
