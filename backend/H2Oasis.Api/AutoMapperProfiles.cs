@@ -19,6 +19,7 @@ public class AutoMapperProfiles : Profile
         CreateMap<Household, HouseholdResponse>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.HouseholdId))
             .ForMember(dest => dest.Users, opt => opt.MapFrom(src => src.UserHouseholds.Select(uh => uh.User)))
-            .ConstructUsing(src => new HouseholdResponse(src.HouseholdId, src.Name, null, null));
+            .ForMember(dest => dest.AdminId, opt => opt.MapFrom(src => src.AdminId))  
+            .ConstructUsing(src => new HouseholdResponse(src.HouseholdId, src.Name, src.AdminId,null, null));
     }
 }
