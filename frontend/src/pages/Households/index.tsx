@@ -76,6 +76,10 @@ const HouseholdsPage = () => {
 					joinHouseholdModal.showModal();
 				}
 			}
+			if (user) {
+				const households = await getHouseholdsForUser(user.id);
+				setHouseholds(households);
+			}
 		};
 
 		fetchData();

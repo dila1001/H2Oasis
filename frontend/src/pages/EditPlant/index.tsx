@@ -71,9 +71,6 @@ const EditPlant = () => {
 				response = await addPlant(householdId!, data, user);
 				navigate(`/${householdId}/plants/${response?.id}?created=true`);
 			}
-
-			const households = await getHouseholdsForUser(user.id);
-			setHouseholds(households);
 		}
 	};
 
