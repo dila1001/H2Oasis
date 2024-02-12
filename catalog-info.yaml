@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1
+kind: Component
+metadata:
+  name: share-leaf
+  description: A plant watering app
+  tags:
+    - dotnet
+    - react
+    - typescript
+  links:
+    - url: https://plantapp-salt.azurewebsites.net/
+      title: Share Leaf
+      icon: seedling
+spec:
+  type: website
+  lifecycle: production
+  owner: dila1001
