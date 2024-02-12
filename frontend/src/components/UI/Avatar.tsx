@@ -9,9 +9,15 @@ type AvatarProps = {
 	user?: User;
 	size: 'xl' | 'xs';
 	remainingUsers?: number;
+	adminIndicator?: boolean;
 };
 
-const Avatar: FC<AvatarProps> = ({ user, size, remainingUsers }) => {
+const Avatar: FC<AvatarProps> = ({
+	user,
+	size,
+	remainingUsers,
+	adminIndicator,
+}) => {
 	const bgColour = [
 		'bg-primary',
 		'bg-secondary',
@@ -35,6 +41,10 @@ const Avatar: FC<AvatarProps> = ({ user, size, remainingUsers }) => {
 			<div
 				className={`${avatarBg()} marker:text-neutral-content rounded-full ${
 					size === 'xl' ? 'w-16 h-16' : 'w-8 h-8'
+				} ${
+					adminIndicator
+						? 'ring ring-secondary ring-offset-base-100 ring-offset-2'
+						: ''
 				}`}
 			>
 				<span

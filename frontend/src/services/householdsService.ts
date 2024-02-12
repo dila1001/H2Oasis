@@ -7,6 +7,7 @@ const householdsUrlEndpoint = '/households';
 export type Household = {
 	id: string;
 	name: string;
+	adminId: string;
 	plants: Plant[];
 	users: User[];
 };
