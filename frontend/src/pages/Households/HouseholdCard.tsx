@@ -35,11 +35,6 @@ const HouseholdCard: FC<HouseholdCardProps> = ({
 
 	return (
 		<div className='card bg-[#f9fcf4] shadow-md mb-6 h-32 flex flex-col p-4'>
-			{household.adminId === user?.id && (
-				<div className='badge badge-sm badge-neutral absolute top-[-8px]'>
-					Admin
-				</div>
-			)}
 			<div className='flex items-center justify-between'>
 				<h3 className='card-title'>{household.name} </h3>
 
