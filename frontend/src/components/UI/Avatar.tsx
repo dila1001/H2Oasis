@@ -37,23 +37,24 @@ const Avatar: FC<AvatarProps> = ({
 	};
 
 	return (
-		<div className='avatar placeholder flex items-center'>
-			<div
-				className={`${avatarBg()} marker:text-neutral-content rounded-full ${
-					size === 'xl' ? 'w-16 h-16' : 'w-8 h-8'
-				} ${
-					adminIndicator
-						? 'ring ring-secondary ring-offset-base-100 ring-offset-2'
-						: ''
-				}`}
-			>
-				<span
-					className={`text-${size} ${
-						avatarBg() === 'bg-accent' ? 'text-base-100' : 'text-[#ddddd4]'
-					}`}
+		<div className='relative flex justify-center'>
+			{adminIndicator && (
+				<div className='badge badge-sm absolute z-30 top-[-3px]'>Admin</div>
+			)}
+			<div className='avatar placeholder flex items-center'>
+				<div
+					className={`${avatarBg()} marker:text-neutral-content rounded-full ${
+						size === 'xl' ? 'w-16 h-16' : 'w-8 h-8'
+					} `}
 				>
-					{remainingUsers ? `+${remainingUsers}` : generateInitials(user!)}
-				</span>
+					<span
+						className={`text-${size} ${
+							avatarBg() === 'bg-accent' ? 'text-base-100' : 'text-[#ddddd4]'
+						}`}
+					>
+						{remainingUsers ? `+${remainingUsers}` : generateInitials(user!)}
+					</span>
+				</div>
 			</div>
 		</div>
 	);
