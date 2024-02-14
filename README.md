@@ -12,6 +12,18 @@ Share Leaf is a plant watering app focused on encouraging collaborative care for
 
 - **Household Collaboration:** Share your plants with your family members so everyone in the house is involved in their care and can contribute to creating a green and vibrant home environment.
 
+## Who we are
+
+We are the perfect duo with different nationalities and career backgrouds. Our shared love of houseplants made us create Share Leaf, which we couldn't be more proud of.
+
+**Adila Razmi**
+- <a href="https://github.com/dila1001">Github</a>
+- <a href="https://www.linkedin.com/in/adila-razmi-878a01177/">LinkedIn</a>
+
+**Silvia Dominguez**
+- <a href="https://github.com/silviadmgz">Github</a>
+- <a href="https://www.linkedin.com/in/silviadmgz/">LinkedIn</a>
+
 ## Tech Stack
 
 - .NET Web API
