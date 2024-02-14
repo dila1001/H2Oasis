@@ -11,3 +11,16 @@ Share Leaf is a plant watering app focused on encouraging collaborative care for
 - **Care Reminders:** Set up customizable reminders for watering. Never forget to nurture your plants again!
 
 - **Household Collaboration:** Share your plants with your family members so everyone in the house is involved in their care and can contribute to creating a green and vibrant home environment.
+
+## Tech Stack
+
+- .NET Web API
+- Entity Framework
+- Azure: Azure SQL, App Service, Blob Storage
+- React + Vite
+- Tailwind
+- DaisyUI
+
+
+https://github.com/dila1001/H2Oasis/assets/53225094/8c29cd3d-51f6-45e3-acd5-a7bc23d275f3
+
