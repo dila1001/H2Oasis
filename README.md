@@ -1,14 +1,12 @@
-# Plant Care App
+# Share Leaf
 
-![Plant App Logo](link_to_logo_image.png)
+![Plant App Logo](https://i.ibb.co/ftL1BFb/Vector.png)
 
 ## Overview
 
-The Plant Care App is a web application designed to help users care for their plants more effectively. Whether you're a seasoned plant enthusiast or a beginner with a green thumb, this app provides essential features to keep your plants healthy and thriving.
+Share Leaf is a plant watering app focused on encouraging collaborative care for plants. Whether you're a seasoned plant enthusiast or a beginner with a green thumb, this app provides essential features to keep your plants healthy and thriving, together!
 
 ## Features
-
-- **Plant Care Tips:** Access a comprehensive database of various plants with detailed information on care requirements, watering schedules, sunlight preferences, and more.
 
 - **Custom Plant Profiles:** Create personalized profiles for each of your plants and receive timely care reminders.
 
