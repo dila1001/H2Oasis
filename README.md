@@ -1,6 +1,4 @@
-# Share Leaf
-
-![Plant App Logo](https://i.ibb.co/ftL1BFb/Vector.png)
+# <img src="https://i.ibb.co/ftL1BFb/Vector.png" alt="Share Leaf Logo" width="40" /> Share Leaf
 
 ## Overview
 
