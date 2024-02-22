@@ -316,7 +316,7 @@ const PlantsPage = () => {
 										>
 											<a>View users</a>
 										</li>
-										{household.adminId === user?.id && (
+										{household.adminId === user?.id ? (
 											<li
 												onClick={() =>
 													(
@@ -324,22 +324,21 @@ const PlantsPage = () => {
 															'show-qrcode'
 														) as HTMLDialogElement | null
 													)?.showModal()
-												}
-											>
+												}>
 												<a>Invite user</a>
 											</li>
+										) : (
+											<li
+												onClick={() =>
+													(
+														document.getElementById(
+															'leave-household'
+														) as HTMLDialogElement | null
+													)?.showModal()
+												}>
+												<a>Leave household</a>
+											</li>
 										)}
-										<li
-											onClick={() =>
-												(
-													document.getElementById(
-														'leave-household'
-													) as HTMLDialogElement | null
-												)?.showModal()
-											}
-										>
-											<a>Leave household</a>
-										</li>
 									</ul>
 								</div>
 							)}
