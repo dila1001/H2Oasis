@@ -35,8 +35,8 @@ function App() {
 				<div className='modal-box'>
 					<h3 className='font-bold text-lg'>Hey there!</h3>
 					<p className='py-4'>
-						This app is optimized for mobile view only. For the best experience,
-						please switch to a mobile device or resize your browser window.
+						This app is optimized for mobile view only. Please switch to a
+						mobile device or resize your browser window & refresh the page.
 					</p>
 				</div>
 				{/* <form method='dialog' className='modal-backdrop'>
