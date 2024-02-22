@@ -2,7 +2,7 @@
 
 ## Overview
 
-Share Leaf is a plant watering app focused on encouraging collaborative care for plants. Whether you're a seasoned plant enthusiast or a beginner with a green thumb, this app provides essential features to keep your plants healthy and thriving, together!
+Share Leaf (previously called H2Oasis) is a plant watering app focused on encouraging collaborative care for plants. Whether you're a seasoned plant enthusiast or a beginner with a green thumb, this app provides essential features to keep your plants healthy and thriving, together!
 
 ## Features
 
