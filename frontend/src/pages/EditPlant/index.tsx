@@ -54,7 +54,7 @@ const EditPlant = () => {
 		};
 
 		fetchPlant();
-	}, [reset, user, searchParams]);
+	}, [reset, user, searchParams, plantBeingEdited]);
 
 	const onSubmit: SubmitHandler<NewPlant> = async (data: NewPlant) => {
 		if (user) {
