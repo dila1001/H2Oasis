@@ -1,4 +1,5 @@
 import { Route, Routes, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import './App.css';
 import Navbar from './components/Navbar';
@@ -12,20 +13,27 @@ import HouseholdsPage from './pages/Households';
 import Drawer from './components/Drawer';
 import { HouseholdsProvider } from './context/HouseholdsContext';
 import NotFound from './pages/404';
-import { useEffect } from 'react';
 
 function App() {
 	const location = useLocation();
 
 	useEffect(() => {
-		const desktopWarningDialog = document.getElementById(
-			'desktop-warning'
-		) as HTMLDialogElement | null;
+		const isWarningClosed = sessionStorage.getItem('closeWarning');
 
-		if (desktopWarningDialog && window.innerWidth >= 450) {
-			desktopWarningDialog.showModal();
+		if (!isWarningClosed) {
+			const desktopWarningDialog = document.getElementById(
+				'desktop-warning'
+			) as HTMLDialogElement | null;
+
+			if (desktopWarningDialog && window.innerWidth >= 450) {
+				desktopWarningDialog.showModal();
+			}
 		}
 	}, []);
+
+	const exitWarning = () => {
+		sessionStorage.setItem('closeWarning', 'true');
+	};
 
 	const isLoginPage = location.pathname === '/login';
 
@@ -39,9 +47,9 @@ function App() {
 						mobile device or resize your browser window & refresh the page.
 					</p>
 				</div>
-				{/* <form method='dialog' className='modal-backdrop'>
-						<button>close</button>
-					</form> */}
+				<form method='dialog' className='modal-backdrop'>
+					<button onClick={() => exitWarning()}>close</button>
+				</form>
 			</dialog>
 			<AuthProvider>
 				<HouseholdsProvider>
