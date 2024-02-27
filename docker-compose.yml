@@ -1,0 +1,10 @@
+version: '3.2'
+services:
+  sql-server-db:
+    container_name: sql-server-db-h2oasis
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    ports:
+      - '1433:1433'
+    environment:
+      SA_PASSWORD: 'Password_2_Change_&'
+      ACCEPT_EULA: 'Y'
